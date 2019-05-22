@@ -1,6 +1,6 @@
 from sklearn.feature_extraction.text import CountVectorizer
 
-class TermDocumentMatrix():
+class TermDocumentMatrixCreator():
     """
     Fits a text corpus then can be called to create term document matrices.
     """
@@ -14,5 +14,12 @@ class TermDocumentMatrix():
         # Assume words already lower case
         self.vectoriser = CountVectorizer(lowercase = False, binary = binary, ngram_range = ngram_range)
         self.vectoriser.fit(documents)
+        
+    def create_term_document_matrix(self, documents):
+        """
+        :param documents: list of text strings to transform.
+        :returns: a document term matrix.
+        """
+        return self.vectoriser.transform(documents)
     
     
