@@ -31,12 +31,10 @@ def load_data(tweet_limit, directory):
             for line in file:
                 tweet = json.loads(line)
                 
-                # Accept only english language tweets and non retweets
-                if tweet['lang'] == 'en' and not 'retweeted_status' in tweet:
-                    tweets.append(tweet['full_text'])
-                    count += 1
-                    if count == tweet_limit:
-                        break
+                tweets.append(tweet['full_text'])
+                count += 1
+                if count == tweet_limit:
+                    break
         
         # Add tweets to dictionary
         tweets_keyed_by_topic[topic_name] = tweets
