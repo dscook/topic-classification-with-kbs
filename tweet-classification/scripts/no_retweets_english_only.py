@@ -15,6 +15,7 @@ from __future__ import print_function
 import json
 import fileinput
 import uuid
+import re
 
 namespace = uuid.uuid4()
 seen_so_far = set()
@@ -22,7 +23,10 @@ seen_so_far = set()
 for line in fileinput.input():
     tweet = json.loads(line)
     
-    tweet_id = uuid.uuid3(namespace, tweet['full_text'])
+    # Remove URLs for creating the UUID as sometimes duplicate tweets appear
+    # but with different shortened URLs in them
+    url_matcher = re.compile(r'(www|http:|https:)[^\s]+')
+    tweet_id = uuid.uuid3(namespace, url_matcher.sub('', tweet['full_text']))
     
     if tweet_id not in seen_so_far:
         seen_so_far.add(tweet_id)

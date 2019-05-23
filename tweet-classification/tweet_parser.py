@@ -43,9 +43,12 @@ def load_data(tweet_limit, directory):
     return tweets_keyed_by_topic
 
 
-tweets_keyed_by_topic = load_data(10, 'data/')
+tweets_keyed_by_topic = load_data(100, 'data/')
 
 for topic, tweets in tweets_keyed_by_topic.items():
     print('Topic: {}'.format(topic))
-    print('Tweets: {}'.format(tweets))
+    print('')
+    for tweet in tweets:
+        print('{}'.format(tweet))
+        print('-----------------------')
     print('-----------------------')
