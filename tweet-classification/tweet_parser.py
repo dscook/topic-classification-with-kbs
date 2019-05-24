@@ -31,7 +31,25 @@ def load_data(tweet_limit, directory):
             for line in file:
                 tweet = json.loads(line)
                 
-                tweets.append(tweet['full_text'])
+                # Extract the tweet
+                tweet_text = tweet['full_text']
+                
+                print(tweet_text)
+                print('----')
+                
+                # Replace mentions with names of people/organisations
+                prev_upper_index = 0
+                expanded_tweet_text = ''
+                
+                for user_mention in tweet['entities']['user_mentions']:
+                    lower_index = user_mention['indices'][0] + 1
+                    expanded_tweet_text += tweet_text[prev_upper_index:lower_index]
+                    expanded_tweet_text += user_mention['name']
+                    prev_upper_index = user_mention['indices'][1] + 1
+                
+                expanded_tweet_text += tweet_text[prev_upper_index:]
+                
+                tweets.append(expanded_tweet_text)
                 count += 1
                 if count == tweet_limit:
                     break
@@ -43,7 +61,7 @@ def load_data(tweet_limit, directory):
     return tweets_keyed_by_topic
 
 
-tweets_keyed_by_topic = load_data(100, 'data/')
+tweets_keyed_by_topic = load_data(10, 'data/')
 
 for topic, tweets in tweets_keyed_by_topic.items():
     print('Topic: {}'.format(topic))
