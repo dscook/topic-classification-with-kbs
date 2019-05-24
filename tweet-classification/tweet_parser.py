@@ -5,6 +5,26 @@ import os
 import json
 import re
 
+def remove_matching_pattern_from_string(pattern, string):
+    """
+    Remove all instances of a pattern from a string.
+    
+    :param pattern: the pattern to remove (compiled regex).
+    :param string: the string to remove the pattern from.
+    :returns: updated string with all instances of the pattern removed.
+    """
+    updated_string = ''
+    prev_upper_index = 0
+    
+    for match in pattern.finditer(string):
+        lower_index = match.start()
+        updated_string += string[prev_upper_index:lower_index]
+        prev_upper_index = match.end()
+    
+    updated_string += string[prev_upper_index:]
+    
+    return updated_string
+
 
 def load_data(tweet_limit, directory):
     """
@@ -77,7 +97,7 @@ def create_topic_hashtags_dict(directory):
         with open(hashtag_list_path) as file:
             hashtags = []
             for line in file:
-                hashtags.append(line.strip())
+                hashtags.append(line.strip().lower())
         topic_hashtags_dict[hashtag_list] = hashtags
     
     return topic_hashtags_dict
@@ -106,18 +126,22 @@ def cleanup_tweets(tweets_keyed_by_topic, topic_hashtags_dict):
     
     for topic, tweets in tweets_keyed_by_topic.items():
         
+        # To remove hashtags used to find tweets, these are topic indicators
+        hashtags_to_remove = []
+        for hashtag in topic_hashtags_dict[topic]:
+            hashtags_to_remove.append(re.compile(r'{}'.format(hashtag), re.IGNORECASE))
+        
         # Process each tweet separately
         processed_tweets = []
         for tweet in tweets:
             
             # Remove hashtags used to find tweets, these are topic indicators
-            hashtags_to_remove = topic_hashtags_dict[topic]
-            for hashtag in hashtags_to_remove:
-                tweet = tweet.replace(hashtag, '')
-            
+            for hashtag_re in hashtags_to_remove:
+                tweet = remove_matching_pattern_from_string(hashtag_re, tweet)
+                
             # Remove URLs present in the tweet
-            tweet = url_matcher.sub('', tweet)
-            
+            tweet = remove_matching_pattern_from_string(url_matcher, tweet)
+                                
             # Remove hashtags at end of the tweet as these are effectively topic tags
             tweet_split = tweet.split()
             keep_until = len(tweet_split)
@@ -130,20 +154,21 @@ def cleanup_tweets(tweets_keyed_by_topic, topic_hashtags_dict):
             
             # For remaining hashtags, remove hash and split into words when camel case
             # or separated by underscores.
+            updated_tweet_split = []
             for i in range(len(tweet_split)):
                 if tweet_split[i].startswith('#'):
                     tweet_split[i] = tweet_split[i][1:]
                     
                     # Check for snake case
-                    if len(tweet_split[i].split('_')) > 1:
-                        tweet_split = tweet_split[:i] + tweet_split[i].split('_') + tweet_split[i+1:]
+                    if len(tweet_split[i].split('_')) > 1:                        
+                        updated_tweet_split.extend(tweet_split[i].split('_'))
                     else:    # Check for camel case
-                        tweet_split = (tweet_split[:i] + 
-                                       camel_matcher.sub(r' \1', tweet_split[i]).split() + 
-                                       tweet_split[i+1:])
+                        updated_tweet_split.extend(camel_matcher.sub(r' \1', tweet_split[i]).split())
+                else:
+                    updated_tweet_split.append(tweet_split[i])
             
             # Reform tweet string now processing is complete
-            tweet = ' '.join(tweet_split)
+            tweet = ' '.join(updated_tweet_split)
             processed_tweets.append(tweet)
         
         cleaned_tweets_keyed_by_topic[topic] = processed_tweets
