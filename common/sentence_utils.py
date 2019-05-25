@@ -12,7 +12,7 @@ import nltk
 
 punctuation = ['!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/',
                '\\', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '_', '`', '{', '|',
-               '}', '~', '``', '\'\'', '’', '...', '--', 'gt', 'lt', 'amp']
+               '}', '~', '``', '\'\'', '’', '...', '--', 'gt', 'lt', 'amp', '”', '“']
 
 contractions = {
     'ca': { "n't": 'not' },
@@ -39,6 +39,11 @@ contractions = {
 }
 
 english_stopwords = stopwords.words('english')
+english_stopwords.append('u')    # Add additional stopword that is common for 'you' in tweets
+english_stopwords.append('would')
+english_stopwords.append('could')
+english_stopwords.append('you')
+english_stopwords.append('us')
 lemmatizer = WordNetLemmatizer()
 
 def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True):
@@ -105,7 +110,8 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True):
 
         # Add the updated token
         if word.lower() not in english_stopwords and word.lower() != '\'s':
-            if lemmatize:
+            # Additional check to ensure U.S. is not lemmatised to U
+            if lemmatize and word != 'US':
                 word = lemmatizer.lemmatize(word)
             updated_tokens.append(word)
         prev_word = word.lower()
