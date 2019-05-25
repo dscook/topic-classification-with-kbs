@@ -12,7 +12,7 @@ import nltk
 
 punctuation = ['!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/',
                '\\', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '_', '`', '{', '|',
-               '}', '~', '``', '\'\'', '’', '...', '--']
+               '}', '~', '``', '\'\'', '’', '...', '--', 'gt', 'lt', 'amp']
 
 contractions = {
     'ca': { "n't": 'not' },
@@ -45,7 +45,9 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True):
     """
     Given a string, tokenises the string based on punctuation and whitespace, lowercases
     all tokens if lowercase is True and lemmatizes if lemmatize is True.
-    Stopwords are also removed and phrases split with a slash expanded.
+    Stopwords and punctuation are also removed as well as phrases split with a slash expanded.
+        
+    :returns: a string with the separate tokens joined back up with a space between them.
     """
     tokens = [word for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent)]
     updated_tokens = []
@@ -56,17 +58,18 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True):
         # Remove case
         if lowercase:
             word = word.lower()
-
+        
         # To remove punctuation
         if word in punctuation:
-            prev_word = word
+            prev_word = word.lower()
             continue
             
         # Expand contractions
-        if word == 'wo' or word == 'ca':
-            prev_word = word
+        word_to_test = word.lower()
+        if word_to_test == 'wo' or word_to_test == 'ca':
+            prev_word = word_to_test
             continue
-        if prev_word in contractions and word in contractions[prev_word]:
+        if prev_word in contractions and word_to_test in contractions[prev_word]:
             if prev_word == 'wo':
                 updated_tokens.append('will')
             elif prev_word == 'ca':
@@ -95,16 +98,19 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True):
             
             if perform_split:
                 for found_word in words:
-                    if found_word not in english_stopwords and found_word != '\'s':
+                    if found_word.lower() not in english_stopwords and found_word.lower() != '\'s':
                         updated_tokens.append(lemmatizer.lemmatize(found_word))
                 prev_word = None
                 continue
 
         # Add the updated token
-        if word not in english_stopwords and word != '\'s':
+        if word.lower() not in english_stopwords and word.lower() != '\'s':
             if lemmatize:
                 word = lemmatizer.lemmatize(word)
             updated_tokens.append(word)
-        prev_word = word
-                
+        prev_word = word.lower()
+                     
     return ' '.join(updated_tokens)
+
+#string = "I spy, with &lt;GOES-16&gt; eye, an eye wall beginning to form. TS #Harvey rapidly intensifying this morning. Possible #hurricane today"
+#print(remove_stop_words_and_lemmatize(string))
