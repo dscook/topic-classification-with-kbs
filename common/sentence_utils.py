@@ -41,7 +41,12 @@ contractions = {
 english_stopwords = stopwords.words('english')
 lemmatizer = WordNetLemmatizer()
 
-def remove_stop_words_and_lemmatize(text):
+def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True):
+    """
+    Given a string, tokenises the string based on punctuation and whitespace, lowercases
+    all tokens if lowercase is True and lemmatizes if lemmatize is True.
+    Stopwords are also removed and phrases split with a slash expanded.
+    """
     tokens = [word for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent)]
     updated_tokens = []
     
@@ -49,7 +54,8 @@ def remove_stop_words_and_lemmatize(text):
     
     for word in tokens:
         # Remove case
-        word = word.lower()
+        if lowercase:
+            word = word.lower()
 
         # To remove punctuation
         if word in punctuation:
@@ -96,7 +102,9 @@ def remove_stop_words_and_lemmatize(text):
 
         # Add the updated token
         if word not in english_stopwords and word != '\'s':
-            updated_tokens.append(lemmatizer.lemmatize(word))
+            if lemmatize:
+                word = lemmatizer.lemmatize(word)
+            updated_tokens.append(word)
         prev_word = word
                 
     return ' '.join(updated_tokens)
