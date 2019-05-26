@@ -127,7 +127,7 @@ def lowercase_all_capital_words(text):
     :returns: converted string.
     """
     # Set of words that should remain uppercase
-    words_to_ignore = set(['UK', 'GB', 'EU', 'USA', 'POTUS'])
+    words_to_ignore = set(['UK', 'GB', 'EU', 'USA', 'POTUS', 'BBC', 'ISIS', 'UKMO', 'GEFS', 'EXO'])
     
     tokens = text.split()
     updated_tokens = [token.lower() if (token.isupper() and len(token) > 1 and token not in words_to_ignore) 

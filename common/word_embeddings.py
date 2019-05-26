@@ -35,3 +35,10 @@ class DocToIntSequenceConverter():
         sequences = self.tokenizer.texts_to_sequences(corpus)
         padded_data = pad_sequences(sequences, maxlen=self.max_sequence_length, padding=padding)
         return padded_data
+
+
+    def get_word_index(self):
+        """
+        :returns: a mapping of words in the vocabularly to integer IDs.
+        """
+        return self.tokenizer.word_index
