@@ -79,7 +79,7 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True):
                 updated_tokens.append('will')
             elif prev_word == 'ca':
                 updated_tokens.append('can')
-            word = contractions[prev_word][word]
+            word = contractions[prev_word][word.lower()]
 
         # NLTK does not appear to remove leading single quotes so manually do this
         # unless indicating pluralisation
@@ -118,5 +118,19 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True):
                      
     return ' '.join(updated_tokens)
 
-#string = "I spy, with &lt;GOES-16&gt; eye, an eye wall beginning to form. TS #Harvey rapidly intensifying this morning. Possible #hurricane today"
-#print(remove_stop_words_and_lemmatize(string))
+
+def lowercase_all_capital_words(text):
+    """
+    Lowercase words in all caps only with length >1 character.  All uppercase words in tweets are common.
+    
+    :param text: string to convert.
+    :returns: converted string.
+    """
+    # Set of words that should remain uppercase
+    words_to_ignore = set(['UK', 'GB', 'EU', 'USA', 'POTUS'])
+    
+    tokens = text.split()
+    updated_tokens = [token.lower() if (token.isupper() and len(token) > 1 and token not in words_to_ignore) 
+                                    else token for token in tokens]
+    
+    return ' '.join(updated_tokens)
