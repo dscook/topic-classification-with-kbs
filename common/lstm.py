@@ -15,13 +15,15 @@ class LstmPredictor():
                  word_embedding_dim,
                  max_words_in_document,
                  word_embedding_model,
-                 num_topics):
+                 num_topics,
+                 use_saved_weights=False):
         """
         :param word_index: a mapping of words in the vocabularly to integer IDs.
         :param word_embedding_dim: the length of a word embedding vector.
         :param max_words_in_document: the maximum number of words in a document.
         :param word_embedding_model: a Gensim KeyedVectors word embedding model.
         :param num_topics: the number of topics to predict.
+        :param use_saved_weights: if True will load saved weights from a previous training run.
         """
         self.model = self.create_lstm(word_index,
                                       word_embedding_dim,
@@ -29,6 +31,13 @@ class LstmPredictor():
                                       word_embedding_model,
                                       num_topics)
         
+        # Path where weights from training should be saved
+        self.weights_path = 'models/lstm_tweets.h5'
+        if use_saved_weights:
+            self.model.load_weights(self.weights_path)
+        
+        self.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
+    
 
     def create_embedding_matrix(self,
                                 word_index,
@@ -49,7 +58,8 @@ class LstmPredictor():
         :param word_embedding_model: a Gensim KeyedVectors word embedding model.
         :returns: a word embedding matrix.
         """
-        num_words_in_vocab = len(word_index)
+        # Addition of 1 to account for special 'word not found' indicator
+        num_words_in_vocab = len(word_index) + 1
         embedding_matrix = np.zeros((num_words_in_vocab, word_embedding_dim))
     
         for word, i in word_index.items():
@@ -82,11 +92,13 @@ class LstmPredictor():
         :param num_topics: the number of topics to predict.
         :returns: the compiled LSTM model.
         """
-        num_words_in_vocab = len(word_index)
+        # Addition of 1 to account for special 'word not found' indicator
+        num_words_in_vocab = len(word_index) + 1
         
         model = Sequential()
         model.add(Embedding(num_words_in_vocab, word_embedding_dim, input_length=max_words_in_document))
-        model.add(LSTM(64))
+        model.add(LSTM(128))
+        model.add(Dense(64, activation='relu'))
         model.add(Dense(32, activation='relu'))
         model.add(Dense(num_topics, activation='softmax'))
             
@@ -96,7 +108,6 @@ class LstmPredictor():
         model.layers[0].set_weights([embedding_matrix])
         model.layers[0].trainable = False
         
-        model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
         return model
     
     
@@ -112,8 +123,18 @@ class LstmPredictor():
         """
         callbacks_list = [
                 EarlyStopping(monitor='acc', patience=3),
-                ModelCheckpoint(filepath='models/lstm_tweets.h5', monitor='acc', save_best_only=True)]
-        self.model.fit(x, y, epochs=10, callbacks=callbacks_list, batch_size=32, validation_data=(x_val, y_val))
+                ModelCheckpoint(filepath=self.weights_path, monitor='acc', save_best_only=True)]
+        self.model.fit(x, y, epochs=20, callbacks=callbacks_list, batch_size=32, validation_data=(x_val, y_val))
     
+    
+    def predict(self, x):
+        """
+        Make predictions on the provided test data.
+        
+        :param x: the documents to make predictions on.  Must be a list of lists of integers.
+                  Each integer representing a word in the vocabularly.
+        :returns: the predictions.
+        """
+        return self.model.predict(x)
     
     
