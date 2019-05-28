@@ -3,6 +3,7 @@
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.layers import Embedding, LSTM, Dense
 from keras.models import Sequential
+from keras.utils import to_categorical
 import numpy as np
 
 class LstmPredictor():
@@ -97,8 +98,7 @@ class LstmPredictor():
         
         model = Sequential()
         model.add(Embedding(num_words_in_vocab, word_embedding_dim, input_length=max_words_in_document))
-        model.add(LSTM(128))
-        model.add(Dense(64, activation='relu'))
+        model.add(LSTM(64))
         model.add(Dense(32, activation='relu'))
         model.add(Dense(num_topics, activation='softmax'))
             
@@ -121,10 +121,15 @@ class LstmPredictor():
         :param x_val: the validation documents, same format as x param.
         :param y_val: the validation document topics, same format as y param.
         """
+        # Convert labels into one hot encoding for use with a neural network
+        y_cat = to_categorical(y)
+        y_val_cat = to_categorical(y_val)
+        
         callbacks_list = [
-                EarlyStopping(monitor='acc', patience=3),
-                ModelCheckpoint(filepath=self.weights_path, monitor='acc', save_best_only=True)]
-        self.model.fit(x, y, epochs=20, callbacks=callbacks_list, batch_size=32, validation_data=(x_val, y_val))
+                EarlyStopping(monitor='val_loss', patience=3),
+                ModelCheckpoint(filepath=self.weights_path, monitor='val_loss', save_best_only=True)]
+        self.model.fit(x, y_cat, epochs=20, callbacks=callbacks_list, 
+                       batch_size=32, validation_data=(x_val, y_val_cat))
     
     
     def predict(self, x):
@@ -135,6 +140,6 @@ class LstmPredictor():
                   Each integer representing a word in the vocabularly.
         :returns: the predictions.
         """
-        return self.model.predict(x)
+        return [np.argmax(to_categorical(y)) for y in self.model.predict(x)]
     
     
