@@ -53,7 +53,7 @@ class TopicHierarchyPruner:
                     topic_dict[child_topic_name] = child_topic
                     
                     # Only get child topic's children if we haven't exceeded the max depth
-                    if child_topic_depth < 5:
+                    if child_topic_depth < self.max_depth:
                         to_process.append(child_topic)
                     
                 else:
