@@ -140,6 +140,6 @@ class LstmPredictor():
                   Each integer representing a word in the vocabularly.
         :returns: the predictions.
         """
-        return [np.argmax(to_categorical(y)) for y in self.model.predict(x)]
+        return np.argmax(self.model.predict(x), axis=1)
     
     
