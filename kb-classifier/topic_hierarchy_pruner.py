@@ -25,6 +25,9 @@ class TopicHierarchyPruner:
         
         :param root_topic_name: the root topic name.
         """
+        print('')
+        print('------------ Pruning Root Topic: {} ------------'.format(root_topic_name))
+        
         # Keep a topic name to topic node mapping table for easy access of topics
         topic_dict = {}
     
@@ -34,9 +37,9 @@ class TopicHierarchyPruner:
         
         to_process = deque([])
         to_process.append(root_topic)
-        
+                
         while to_process:
-                        
+                                    
             # Get all child topics of this topic
             parent_topic = to_process.pop()
             child_topic_names = self.dao.get_child_topics(parent_topic.name)
@@ -69,7 +72,7 @@ class TopicHierarchyPruner:
         # Iterate through reached topics marking as accessible
         for _, topic in topic_dict.items():
             self.dao.mark_as_accessible(topic.name)
-            print('Marked {}'.format(parent_topic.name))
+            print('Marked {}'.format(topic.name))
     
     
         

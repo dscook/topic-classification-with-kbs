@@ -15,6 +15,8 @@ class SparqlDao:
         """
         self.sparql_query = SPARQLWrapper(endpoint_url + 'query')
         self.sparql_query.setReturnFormat(JSON)
+        self.sparql_update = SPARQLWrapper(endpoint_url + 'update')
+        self.sparql_update.setReturnFormat(JSON)
         
         # Namespaces for use in queries
         self.NS_DBPEDIA = 'http://dbpedia.org/resource/'
@@ -43,4 +45,23 @@ class SparqlDao:
             child_topics.append(child_topic)
             
         return child_topics
+    
+    
+    def mark_as_accessible(self, topic):
+        """
+        Given a topic, adds a triple to indicate it is accessible.
         
+        :param topic: the topic to mark as accessible.
+        """
+        self.sparql_update.setQuery(f"""
+            PREFIX dsc38: <http://www.bath.ac.uk/dsc38/ontology#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+
+            INSERT DATA 
+            {{
+	            <http://dbpedia.org/resource/Category:{topic}> dsc38:reachable "true"^^xsd:boolean
+            }}
+            """)
+        result = self.sparql_update.query()
+        if result.response.code != 200:
+            raise Exception('Failed to mark topic as accessible')
