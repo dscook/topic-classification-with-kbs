@@ -9,13 +9,12 @@ class SparqlDao:
     Access layer for DBpedia SPARQL queries.
     """
     
-    def __init__(self, sparql_query_url):
+    def __init__(self, endpoint_url):
         """
-        :param sparqlQueryUrl: The SPARQL query endpoint address.
+        :param endpoint_url: The SPARQL endpoint address.
         """
-        self.sparql_query_url = sparql_query_url
-        self.sparql = SPARQLWrapper("http://localhost:3030/DBpedia/query")
-        self.sparql.setReturnFormat(JSON)
+        self.sparql_query = SPARQLWrapper(endpoint_url + 'query')
+        self.sparql_query.setReturnFormat(JSON)
         
         # Namespaces for use in queries
         self.NS_DBPEDIA = 'http://dbpedia.org/resource/'
@@ -30,12 +29,12 @@ class SparqlDao:
         :param topic: the topic to find the children of.
         :returns: a list of the child topic names.
         """        
-        self.sparql.setQuery(f"""
+        self.sparql_query.setQuery(f"""
             {self.PREFIX_SKOS}
             SELECT ?subject
             WHERE {{ ?subject skos:broader <http://dbpedia.org/resource/Category:{topic}> }}
             """)
-        results = self.sparql.query().convert()
+        results = self.sparql_query.query().convert()
         
         child_topics = []
         for result in results['results']['bindings']:
