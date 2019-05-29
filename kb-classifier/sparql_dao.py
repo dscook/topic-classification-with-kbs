@@ -42,8 +42,14 @@ class SparqlDao:
         """
         self.sparql_query.setQuery(f"""
             {self.PREFIX_SKOS}
+            {self.PREFIX_DSC38}
+            {self.PREFIX_XSD}
+            
             SELECT ?object
-            WHERE {{ <http://dbpedia.org/resource/Category:{topic}> skos:broader ?object }}
+            WHERE {{ 
+                <http://dbpedia.org/resource/Category:{topic}> skos:broader ?object .
+                ?object dsc38:reachable "true"^^xsd:boolean
+            }}
             """)
         results = self.sparql_query.query().convert()
         parent_topics = self.extract_topics_from_results(results, 'object')

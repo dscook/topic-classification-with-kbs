@@ -52,7 +52,8 @@ class TopicHierarchyPruner:
                 # Check if child topic has already been discovered
                 if child_topic_name not in topic_dict:
                     child_topic_depth = parent_topic.depth+1
-                    child_topic = TopicNode(child_topic_name, child_topic_depth, set([parent_topic]))
+                    child_topic = TopicNode(child_topic_name, child_topic_depth)
+                    child_topic.add_parent_topic(parent_topic)
                     topic_dict[child_topic_name] = child_topic
                     
                     # Only get child topic's children if we haven't exceeded the max depth

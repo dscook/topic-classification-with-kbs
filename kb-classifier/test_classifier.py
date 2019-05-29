@@ -22,7 +22,19 @@ class ClassifierTestCase(unittest.TestCase):
     
 
     def setUp(self):
-        self.classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/')
+        self.classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
+                                     root_topic_names=set(['Crime',
+                                                           'Law',
+                                                           'Business',
+                                                           'Economics',
+                                                           'Elections', 
+                                                           'Politics',
+                                                           'Health',
+                                                           'Medicine',
+                                                           'Religion',
+                                                           'Theology',
+                                                           'Sports']),
+                                    max_depth=5)
         self.doc_to_test = remove_stop_words_and_lemmatize(doc_to_test, lowercase=False, lemmatize=False)
         self.shorter_doc_to_test = remove_stop_words_and_lemmatize(shorter_doc_to_test, lowercase=False, lemmatize=False)
 
@@ -51,10 +63,18 @@ class ClassifierTestCase(unittest.TestCase):
         self.assertIn('Football_clubs_in_England', phrase_to_topic_dict['Chelsea'])
         self.assertIn('Association_football_penalty_shootouts', phrase_to_topic_dict['Europa League final'])
         
-    
+        
+    def test_populate_topic_name_to_node(self):
+        #topic_name_to_node = {}
+        #self.classifier.populate_topic_name_to_node(topic_name_to_node, 'English_footballers')
+        #print(topic_name_to_node)
+        pass
+
+        
     def test_identify_topic_probabilities(self):
-        topic_to_prob = self.classifier.identify_topic_probabilities(self.shorter_doc_to_test)
+        topic_to_prob = self.classifier.identify_topic_probabilities(self.doc_to_test)
         print(topic_to_prob)
+        pass
 
 
 if __name__ == '__main__':
