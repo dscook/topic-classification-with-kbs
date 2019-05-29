@@ -20,8 +20,17 @@ class SparqlDao:
         
         # Namespaces for use in queries
         self.NS_DBPEDIA = 'http://dbpedia.org/resource/'
+        self.PREFIX_DBPEDIA = 'PREFIX dbpedia: <{}>'.format(self.NS_DBPEDIA)
         self.NS_SKOS = 'http://www.w3.org/2004/02/skos/core#'
         self.PREFIX_SKOS = 'PREFIX skos: <{}>'.format(self.NS_SKOS)
+        self.NS_DBPEDIA_OWL = 'http://dbpedia.org/ontology/'
+        self.PREFIX_DBPEDIA_OWL = 'PREFIX dbpediaowl: <{}>'.format(self.NS_DBPEDIA_OWL)
+        self.NS_DUBLIN_CORE = 'http://purl.org/dc/terms/'
+        self.PREFIX_DUBLIN_CORE = 'PREFIX dct: <{}>'.format(self.NS_DUBLIN_CORE)
+        self.NS_XSD = 'http://www.w3.org/2001/XMLSchema#'
+        self.PREFIX_XSD = 'PREFIX xsd: <{}>'.format(self.NS_XSD)
+        self.NS_DSC38 = 'http://www.bath.ac.uk/dsc38/ontology#'
+        self.PREFIX_DSC38 = 'PREFIX dsc38: <{}>'.format(self.NS_DSC38)
 
 
     def get_child_topics(self, topic):
@@ -37,13 +46,8 @@ class SparqlDao:
             WHERE {{ ?subject skos:broader <http://dbpedia.org/resource/Category:{topic}> }}
             """)
         results = self.sparql_query.query().convert()
+        child_topics = self.extract_topics_from_results(results, 'subject')
         
-        child_topics = []
-        for result in results['results']['bindings']:
-            # Strip the namespace from each topic
-            child_topic = result['subject']['value'][len(self.NS_DBPEDIA + 'Category:'):]
-            child_topics.append(child_topic)
-            
         return child_topics
     
     
@@ -65,3 +69,46 @@ class SparqlDao:
         result = self.sparql_update.query()
         if result.response.code != 200:
             raise Exception('Failed to mark topic as accessible')
+
+
+    def get_topics_for_phrase(self, phrase):
+        """
+        Given a phrase, get the list of topics that are associated with that phrase.
+        
+        :param phrase: the phrase to lookup.
+        :returns: the list of topic names associated with the phrase or an empty list if
+                  the phrase couldn't be matched to any topics.
+        """
+        self.sparql_query.setQuery(f"""
+            {self.PREFIX_DBPEDIA_OWL}
+            {self.PREFIX_DUBLIN_CORE}
+            {self.PREFIX_DSC38}
+            {self.PREFIX_XSD}
+            
+            SELECT ?topic
+            WHERE {{ 
+                ?subject dbpediaowl:wikiPageWikiLinkText "{phrase}"@en .
+                ?subject dct:subject ?topic .
+                ?topic dsc38:reachable "true"^^xsd:boolean
+            }}
+            """)
+        results = self.sparql_query.query().convert()
+        topics = self.extract_topics_from_results(results, 'topic')
+            
+        return topics
+    
+    
+    def extract_topics_from_results(self, results, bound_variable):
+        """
+        Given a SPARQL results set extract the topics returned.
+        
+        :param results: the SPARQL results set.
+        :param bound_variable: the variable name the topics are bound to.
+        :returns: a list of the topics found.
+        """
+        topics = []
+        for result in results['results']['bindings']:
+            # Strip the namespace from each topic
+            topic = result[bound_variable]['value'][len(self.NS_DBPEDIA + 'Category:'):]
+            topics.append(topic)
+        return topics
