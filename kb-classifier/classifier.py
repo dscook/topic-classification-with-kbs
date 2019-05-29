@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from collections import deque
-import copy
 
 from sparql_dao import SparqlDao
 from graph_structures import TopicNode
@@ -31,10 +30,8 @@ class Classifier:
         :param text: the text to identify the topic probabilities for.
         :returns: a dict containing topic name to topic probability.
         """
-        topic_to_prob_dict = {}
-        
         phrase_to_topic_dict = self.identify_leaf_topics(text)
-        
+                
         # Materialise the reachable topic hierarchy        
         for phrase, topics in phrase_to_topic_dict.items():
             for topic_name in topics:
@@ -47,8 +44,39 @@ class Classifier:
         # Initialise the votes
         for phrase, topics in phrase_to_topic_dict.items():
             
-            # Split the 
+            # Split the vote for the phrase amongst its topics
+            split_vote = 1 / len(topics)
             
+            # Update each topic with the vote contribution
+            for topic in topics:
+                self.topic_name_to_node[topic].vote += split_vote
+        
+        # Transfer each node's vote evenly across its parents
+        for i in range(self.max_depth):
+            for topic in self.topic_name_to_node.values():
+                # Check we haven't reached a terminal node and if there's vote to transfer
+                if topic.vote > 0 and len(topic.parent_topics) > 0:
+                    vote = topic.vote
+                    topic.vote = 0
+                    split_vote = vote / len(topic.parent_topics)
+                    for parent_topic in topic.parent_topics:
+                        parent_topic.vote += split_vote
+        
+        # Return the root topic probabilities
+        total_votes = 0
+        topic_to_prob_dict = {}
+        
+        for root_topic in self.root_topic_names:
+            if root_topic in self.topic_name_to_node:
+                vote = self.topic_name_to_node[root_topic].vote
+                topic_to_prob_dict[root_topic] = vote
+                total_votes += vote
+            else:
+                topic_to_prob_dict[root_topic] = 0
+            
+        # Normalise the votes to turn into probabilities
+        for root_topic in self.root_topic_names:
+            topic_to_prob_dict[root_topic] /= total_votes
         
         return topic_to_prob_dict
         

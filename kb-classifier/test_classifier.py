@@ -15,7 +15,6 @@ London rivals Chelsea and Arsenal meet in an all-English Europa League final on 
 
 There is speculation that, win or lose in Baku's Olympic Stadium, it could be Blues boss Maurizio Sarri's final game in charge.
 """
-doc_to_test = 'Europa League final'
 
 shorter_doc_to_test = 'London rivals Chelsea and Arsenal meet in an all-English Europa League final'
 
@@ -64,18 +63,10 @@ class ClassifierTestCase(unittest.TestCase):
         self.assertIn('Football_clubs_in_England', phrase_to_topic_dict['Chelsea'])
         self.assertIn('Association_football_penalty_shootouts', phrase_to_topic_dict['Europa League final'])
         
-        
-    def test_populate_topic_name_to_node(self):
-        #topic_name_to_node = {}
-        #self.classifier.populate_topic_name_to_node(topic_name_to_node, 'English_footballers')
-        #print(topic_name_to_node)
-        pass
 
-        
     def test_identify_topic_probabilities(self):
-        topic_to_prob = self.classifier.identify_topic_probabilities(self.shorter_doc_to_test)
+        topic_to_prob = self.classifier.identify_topic_probabilities(self.doc_to_test)
         print(topic_to_prob)
-        pass
 
 
 if __name__ == '__main__':
