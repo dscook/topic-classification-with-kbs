@@ -17,6 +17,7 @@ class TopicNode:
         self.depth = depth
         self.parent_topics = set()
         self.child_topics = set()
+        self.vote = 0
         
         
     def add_parent_topic(self, topic):
@@ -35,3 +36,4 @@ class TopicNode:
         :param topic: the child topic to add.
         """
         self.child_topics.add(topic)
+        

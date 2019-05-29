@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from collections import deque
+import copy
 
 from sparql_dao import SparqlDao
 from graph_structures import TopicNode
@@ -39,7 +40,15 @@ class Classifier:
             for topic_name in topics:
                 self.populate_topic_name_to_node(self.topic_name_to_node, topic_name)
         
-        # Determine the vote for each leaf node
+        # Reset the vote to 0 for each topic node
+        for topic in self.topic_name_to_node.values():
+            topic.vote = 0
+        
+        # Initialise the votes
+        for phrase, topics in phrase_to_topic_dict.items():
+            
+            # Split the 
+            
         
         return topic_to_prob_dict
         
@@ -116,12 +125,19 @@ class Classifier:
         :param topic_name_to_node: the dictionary of topic names to their graph nodes.
         :param topic_name: the topic name to lookup.
         """        
-        # If we have already seen the topic no action is required
-        if topic_name not in topic_name_to_node:
+        # If we have already seen the topic no action is required unless it didn't occur
+        # as a leaf node
+        if topic_name not in topic_name_to_node or topic_name_to_node[topic_name].depth != 0:
             
-            # Haven't seen the topic yet, create it
-            topic_node = TopicNode(topic_name, 0)
-            topic_name_to_node[topic_name] = topic_node
+            topic_node = None
+            
+            if topic_name in topic_name_to_node:
+                topic_node = topic_name_to_node[topic_name]
+                topic_node.depth = 0
+            else:
+                # Haven't seen the topic yet, create it
+                topic_node = TopicNode(topic_name, 0)
+                topic_name_to_node[topic_name] = topic_node
             
             # We need to explore upwards from this topic
             to_process = deque([])
