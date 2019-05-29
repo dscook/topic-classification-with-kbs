@@ -50,6 +50,11 @@ class ClassifierTestCase(unittest.TestCase):
         self.assertIn('Football_in_England', phrase_to_topic_dict['London rivals'])
         self.assertIn('Football_clubs_in_England', phrase_to_topic_dict['Chelsea'])
         self.assertIn('Association_football_penalty_shootouts', phrase_to_topic_dict['Europa League final'])
+        
+    
+    def test_identify_topic_probabilities(self):
+        topic_to_prob = self.classifier.identify_topic_probabilities(self.shorter_doc_to_test)
+        print(topic_to_prob)
 
 
 if __name__ == '__main__':

@@ -32,6 +32,24 @@ class SparqlDao:
         self.NS_DSC38 = 'http://www.bath.ac.uk/dsc38/ontology#'
         self.PREFIX_DSC38 = 'PREFIX dsc38: <{}>'.format(self.NS_DSC38)
 
+    
+    def get_parent_topics(self, topic):
+        """
+        Given a topic name, gets its parent topics.
+        
+        :param topic: the topic to find the parents of.
+        :returns: a list of the parent topic names.
+        """
+        self.sparql_query.setQuery(f"""
+            {self.PREFIX_SKOS}
+            SELECT ?object
+            WHERE {{ <http://dbpedia.org/resource/Category:{topic}> skos:broader ?object }}
+            """)
+        results = self.sparql_query.query().convert()
+        parent_topics = self.extract_topics_from_results(results, 'object')
+        
+        return parent_topics
+
 
     def get_child_topics(self, topic):
         """

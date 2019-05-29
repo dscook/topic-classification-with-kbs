@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from sparql_dao import SparqlDao
+from graph_structures import TopicNode
 
 
 class Classifier:
@@ -13,6 +14,33 @@ class Classifier:
         """
         self.dao = SparqlDao(sparql_endpoint_url)
             
+        
+    def identify_topic_probabilities(self, text):
+        """
+        Given a text identifies the topic probabilities.
+        It is assumed the text has had stopwords removed and can be tokenised by splitting on
+        whitespace.
+        
+        :param text: the text to identify the topic probabilities for.
+        :returns: a dict containing topic name to topic probability.
+        """
+        topic_to_prob_dict = {}
+        
+        phrase_to_topic_dict = self.identify_leaf_topics(text)
+        
+        # Materialise the leaf nodes
+        topic_name_to_node = {}
+        
+        for phrase, topics in phrase_to_topic_dict.items():
+            for topic_name in topics:
+                
+                topic_node = self.get_or_create_topic_node(topic_name_to_node, topic_name)
+        
+        # Determine the vote for each leaf node
+        
+        
+        return topic_to_prob_dict
+        
         
     def identify_leaf_topics(self, text):
         """
@@ -77,3 +105,28 @@ class Classifier:
         """
         # Get the the list of topic names for the phrase
         return self.dao.get_topics_for_phrase(phrase)
+    
+    
+    def get_or_create_topic_node(topic_name_to_node, topic_name):
+        """
+        Gets the topic node from the topic_name_to_node dict if it exists otherwise
+        creates the node and adds it to topic_name_to_node.
+        
+        :param topic_name_to_node: the dictionary of topic names to their graph nodes.
+        :param topic_name: the topic name to lookup.
+        :returns: the created topic node.
+        """
+        topic_node = None
+        
+        # Check if we have already seen the topic
+        if topic_name in topic_name_to_node:
+            topic_node = topic_name_to_node[topic_name]
+        else:
+            # Haven't seen the topic yet, create it
+            topic_node = TopicNode(topic_name)
+            topic_name_to_node[topic_name] = topic_node
+            
+            # Because we are creating the topic node we need to augment it with its parents
+            
+            
+        return topic_node

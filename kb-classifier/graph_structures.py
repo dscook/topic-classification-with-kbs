@@ -6,7 +6,7 @@ class TopicNode:
     Stores details about a topic including its name, parent topic and child topics.
     """
     
-    def __init__(self, name, depth, parent_topics=set(), child_topics=set()):
+    def __init__(self, name, depth=0, parent_topics=set(), child_topics=set()):
         """
         :param name: name of the topic node, must be a unique identifier.
         :param depth: the depth of this node in the tree
@@ -35,7 +35,3 @@ class TopicNode:
         :param topic: the child topic to add.
         """
         self.child_topics.add(topic)
-        
-        
-    
-    
