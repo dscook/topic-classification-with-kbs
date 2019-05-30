@@ -11,7 +11,7 @@ def run_bernoulli_naive_bayes(train_x, train_y, test_x, test_y, topic_labels, ng
     :param train_x: the training data as a list of strings.
     :param train_y: the training labels as ints.
     :param test_x: the test data as a list of strings.
-    :param train_y: the test labels as ints.
+    :param test_y: the test labels as ints.
     :param topic_labels: the full topic labels to label the classification report.
     :param ngram_range: the ngram range to use as a tuple (lower, upper).
     :returns: a classification report that can be printed.
