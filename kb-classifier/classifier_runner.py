@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import numpy as np
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, confusion_matrix
 
 from classifier import Classifier
+from kb_common import convert_topic_probs_wikipedia_to_actual
 
 
 def run_unsupervised_classifier(test_x, test_y, topic_labels, wiki_topics_to_actual_topics):
@@ -16,14 +17,12 @@ def run_unsupervised_classifier(test_x, test_y, topic_labels, wiki_topics_to_act
     :param wiki_topics_to_actual_topics: a map of Wikipedia topics to the actual topics to classify (their indexes).
                                          Note several Wikipedia topics may map to the same topic to classify, in this
                                          case the probabilities will be added together to determine the document class.
-    :returns: a classification report that can be printed.
+    :returns: tuple of (classification report, confusion matrix) that can be printed.
     """
     classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
                             root_topic_names=wiki_topics_to_actual_topics.keys(),
                             max_depth=5)
-    
-    topic_indexes = set([index for index in wiki_topics_to_actual_topics.values()])
-    
+        
     predict = np.zeros(shape=len(test_y))
     
     for i in range(len(test_x)):
@@ -32,15 +31,13 @@ def run_unsupervised_classifier(test_x, test_y, topic_labels, wiki_topics_to_act
         topic_to_prob = classifier.identify_topic_probabilities(doc)
     
         # Convert Wikipedia topic probabilities to actual topic probabilities
-        topic_index_to_prob = np.zeros(shape=len(topic_indexes))
-        for topic in topic_to_prob.keys():
-            topic_index_to_prob[wiki_topics_to_actual_topics[topic]] += topic_to_prob[topic]
+        topic_index_to_prob = convert_topic_probs_wikipedia_to_actual(topic_to_prob)
             
         # Determine the most prominent topic
         prominent_topic = np.argmax(topic_index_to_prob)
         predict[i] = prominent_topic
     
-    return classification_report(test_y,
-                                 predict, 
-                                 digits=6, 
-                                 target_names=topic_labels)
+    clazzification_report = classification_report(test_y, predict, digits=6, target_names=topic_labels)
+    confuzion_matrix = confusion_matrix(test_y, predict)
+    
+    return (clazzification_report, confuzion_matrix)

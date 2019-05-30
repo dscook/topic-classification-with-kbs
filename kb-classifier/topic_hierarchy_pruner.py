@@ -24,6 +24,7 @@ class TopicHierarchyPruner:
         Mark only child topics as accessible from the given root topic.
         
         :param root_topic_name: the root topic name.
+        :returns: the number of topics marked as accessible.
         """
         print('')
         print('------------ Pruning Root Topic: {} ------------'.format(root_topic_name))
@@ -67,13 +68,12 @@ class TopicHierarchyPruner:
                 
                 # Let the parent know it has another child
                 parent_topic.add_child_topic(child_topic)
-            
-            print('Visited {}'.format(parent_topic.name))
-        
+                    
         # Iterate through reached topics marking as accessible
         for _, topic in topic_dict.items():
             self.dao.mark_as_accessible(topic.name)
-            print('Marked {}'.format(topic.name))
+        
+        return len(topic_dict.keys())
     
     
         

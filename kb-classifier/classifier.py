@@ -31,7 +31,7 @@ class Classifier:
         :returns: a dict containing topic name to topic probability.
         """
         phrase_to_topic_dict = self.identify_leaf_topics(text)
-                
+                        
         # Materialise the reachable topic hierarchy        
         for phrase, topics in phrase_to_topic_dict.items():
             for topic_name in topics:

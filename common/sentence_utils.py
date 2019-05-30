@@ -46,7 +46,7 @@ english_stopwords.append('you')
 english_stopwords.append('us')
 lemmatizer = WordNetLemmatizer()
 
-def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True):
+def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True, keep_nouns_only=False):
     """
     Given a string, tokenises the string based on punctuation and whitespace, lowercases
     all tokens if lowercase is True and lemmatizes if lemmatize is True.
@@ -54,7 +54,15 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True):
         
     :returns: a string with the separate tokens joined back up with a space between them.
     """
-    tokens = [word for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent)]
+    tokens = []
+    
+    if keep_nouns_only:
+        pos_tags = nltk.pos_tag_sents(nltk.word_tokenize(sent) for sent in nltk.sent_tokenize(text))
+        # Only keep adjectives and nouns
+        tokens = [word for sent in pos_tags for word, tag in sent if tag in set(['NN', 'NNS', 'NNP', 'NNPS', 'JJ'])]
+    else:
+        tokens = [word for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent)]
+
     updated_tokens = []
     
     prev_word = None

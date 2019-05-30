@@ -8,12 +8,17 @@ import unittest
 
 from classifier import Classifier
 from sentence_utils import remove_stop_words_and_lemmatize
+from kb_common import convert_topic_probs_wikipedia_to_actual, print_topic_probs
 
 
 doc_to_test = """
 London rivals Chelsea and Arsenal meet in an all-English Europa League final on Wednesday, 2,500 miles from home.
 
 There is speculation that, win or lose in Baku's Olympic Stadium, it could be Blues boss Maurizio Sarri's final game in charge.
+"""
+
+doc_to_test = """
+Philip Morris Tuesday Kansas attorney general decision list states lawsuits tobacco firms Medicaid money tobacco-related illnesses Philip Morris Kansas Attorney General Carla Stovall courts public policy tobacco Philip Morris companies lawsuit zealousness bandwagon attorney general fact state viaable legal basis upon cigarette manufacturers Gregory Little lawyer Philip Morris law correct state Kansas process waste millions taxpayer dollars time costs
 """
 
 shorter_doc_to_test = 'London rivals Chelsea and Arsenal meet in an all-English Europa League final'
@@ -66,7 +71,7 @@ class ClassifierTestCase(unittest.TestCase):
 
     def test_identify_topic_probabilities(self):
         topic_to_prob = self.classifier.identify_topic_probabilities(self.doc_to_test)
-        print(topic_to_prob)
+        print_topic_probs(convert_topic_probs_wikipedia_to_actual(topic_to_prob))
 
 
 if __name__ == '__main__':
