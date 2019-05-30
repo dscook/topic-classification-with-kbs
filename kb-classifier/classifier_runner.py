@@ -27,6 +27,7 @@ def run_unsupervised_classifier(test_x, test_y, topic_labels, wiki_topics_to_act
     predict = np.zeros(shape=len(test_y))
     
     for i in range(len(test_x)):
+        print(i)
         doc = test_x[i]
         topic_to_prob = classifier.identify_topic_probabilities(doc)
     
@@ -37,11 +38,7 @@ def run_unsupervised_classifier(test_x, test_y, topic_labels, wiki_topics_to_act
             
         # Determine the most prominent topic
         prominent_topic = np.argmax(topic_index_to_prob)
-        
-        print(topic_to_prob)
-        print(topic_index_to_prob)
-        print(prominent_topic)
-        break
+        predict[i] = prominent_topic
     
     return classification_report(test_y,
                                  predict, 
