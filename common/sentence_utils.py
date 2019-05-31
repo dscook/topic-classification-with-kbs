@@ -6,10 +6,9 @@
 ##     Chastney, J., Cook, D., Ma, J., Melamed, T., 2019. Lab 1: Group Project.
 ##     CM50265: Machine Learning 2. University of Bath. Unpublished.
 ##
-from nltk.corpus import stopwords
+from nltk.corpus import stopwords, wordnet
 from nltk.stem import WordNetLemmatizer
 import nltk
-import wordnet
 
 
 punctuation = ['!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/',
@@ -136,7 +135,7 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True, ke
         if word.lower() not in english_stopwords and word.lower() != '\'s':
             # Additional check to ensure U.S. is not lemmatised to U
             if lemmatize and word != 'US':
-                word = lemmatizer.lemmatize(word)
+                word = lemmatizer.lemmatize(word, pos=wordnet_tag_from_penn_treebank(tag))
             updated_tokens.append(word)
         prev_word = word.lower()
                      
