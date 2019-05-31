@@ -2,6 +2,19 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
+wiki_topics_to_index = {
+    'Crime': 0,
+    'Law': 1,
+    'Business': 2,
+    'Economics': 3,
+    'Elections': 4,
+    'Politics': 5,
+    'Health': 6,
+    'Medicine': 7,
+    'Religion': 8,
+    'Theology': 9,
+    'Sports': 10   
+}
 
 wiki_topics_to_actual_topics = {
     'Crime': 0,
@@ -26,6 +39,15 @@ int_to_topic = {
     5: 'SPORTS'
 }
 
+
+def wikipedia_topic_probs_as_array(topic_to_prob):
+    probs = np.zeros(shape=len(wiki_topics_to_index.keys()))
+    
+    for topic, prob in topic_to_prob.items():
+        probs[wiki_topics_to_index[topic]] = prob
+    
+    return probs
+    
 
 def convert_topic_probs_wikipedia_to_actual(topic_to_prob):
     """

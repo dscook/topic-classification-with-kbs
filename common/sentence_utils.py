@@ -9,6 +9,8 @@
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import nltk
+import wordnet
+
 
 punctuation = ['!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/',
                '\\', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '_', '`', '{', '|',
@@ -46,6 +48,20 @@ english_stopwords.append('you')
 english_stopwords.append('us')
 lemmatizer = WordNetLemmatizer()
 
+
+def wordnet_tag_from_penn_treebank(pos):
+    if pos.startswith('J'):
+        return wordnet.ADJ
+    elif pos.startswith('V'):
+        return wordnet.VERB
+    elif pos.startswith('N'):
+        return wordnet.NOUN
+    elif pos.startswith('R'):
+        return wordnet.ADV
+    else:
+        return wordnet.NOUN
+
+
 def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True, keep_nouns_only=False):
     """
     Given a string, tokenises the string based on punctuation and whitespace, lowercases
@@ -55,19 +71,19 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True, ke
     :returns: a string with the separate tokens joined back up with a space between them.
     """
     tokens = []
+    pos_tags = nltk.pos_tag_sents(nltk.word_tokenize(sent) for sent in nltk.sent_tokenize(text))
     
     if keep_nouns_only:
-        pos_tags = nltk.pos_tag_sents(nltk.word_tokenize(sent) for sent in nltk.sent_tokenize(text))
         # Only keep adjectives and nouns
-        tokens = [word for sent in pos_tags for word, tag in sent if tag in set(['NN', 'NNS', 'NNP', 'NNPS', 'JJ'])]
+        tokens = [(word, tag) for sent in pos_tags for (word, tag) in sent if tag in set(['NN', 'NNS', 'NNP', 'NNPS', 'JJ'])]
     else:
-        tokens = [word for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent)]
+        tokens = [(word, tag) for sent in pos_tags for (word, tag) in sent]
 
     updated_tokens = []
     
     prev_word = None
     
-    for word in tokens:
+    for word, tag in tokens:
         # Remove case
         if lowercase:
             word = word.lower()

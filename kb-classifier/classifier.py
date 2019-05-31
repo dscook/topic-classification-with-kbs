@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+from cachetools import cached, LFUCache
 from collections import deque
 
 from sparql_dao import SparqlDao
 from graph_structures import TopicNode
+
+
+phrase_to_topics_cache = LFUCache(maxsize=100000)
 
 
 class Classifier:
@@ -134,8 +138,9 @@ class Classifier:
             phrase_length = 3
         
         return phrase_to_topic_matches
-                
-            
+
+
+    @cached(phrase_to_topics_cache)
     def identify_topics(self, phrase):
         """
         Given a phrase, looks up the phrase in the ontology to determine its immediate topics.
