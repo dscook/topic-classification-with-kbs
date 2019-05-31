@@ -47,23 +47,6 @@ def wikipedia_topic_probs_as_array(topic_to_prob):
         probs[wiki_topics_to_index[topic]] = prob
     
     return probs
-    
-
-def convert_topic_probs_wikipedia_to_actual(topic_to_prob):
-    """
-    Convert Wikipedia topic probabilities to actual topic probabilities.
-    """
-        
-    topic_indexes = set([index for index in wiki_topics_to_actual_topics.values()])
-    
-    topic_index_to_prob = np.zeros(shape=len(topic_indexes))
-    for topic in topic_to_prob.keys():
-        topic_index_to_prob[wiki_topics_to_actual_topics[topic]] += topic_to_prob[topic]
-        
-    topic_index_to_prob /= np.array([0.5,2,1.75,1,1,1])
-    topic_index_to_prob /= np.sum(topic_index_to_prob)
-    
-    return topic_index_to_prob
 
 
 def print_topic_probs(topic_to_prob):

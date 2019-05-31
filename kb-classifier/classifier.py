@@ -7,7 +7,7 @@ from sparql_dao import SparqlDao
 from graph_structures import TopicNode
 
 
-phrase_to_topics_cache = LFUCache(maxsize=100000)
+phrase_to_topics_cache = LFUCache(maxsize=10000000)
 
 
 class Classifier:
