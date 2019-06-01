@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import copy
 
 class TopicNode:
     """
@@ -18,6 +19,8 @@ class TopicNode:
         self.parent_topics = set()
         self.child_topics = set()
         self.vote = 0
+        self.steps_left = 0
+        self.filtered_parents = {}
         
         
     def add_parent_topic(self, topic):
@@ -36,4 +39,17 @@ class TopicNode:
         :param topic: the child topic to add.
         """
         self.child_topics.add(topic)
+    
+    
+    def __deepcopy__(self, memodict={}):
+        new_instance = TopicNode(self.name, self.depth)
+        new_instance.__dict__.update(self.__dict__)
         
+        new_instance.name = copy.deepcopy(self.name, memodict)
+        new_instance.depth = copy.deepcopy(self.depth, memodict)
+        new_instance.parent_topics = self.parent_topics
+        new_instance.child_topics = self.child_topics
+        new_instance.vote = copy.deepcopy(self.vote, memodict)
+        new_instance.steps_left = copy.deepcopy(self.steps_left, memodict)
+        
+        return new_instance

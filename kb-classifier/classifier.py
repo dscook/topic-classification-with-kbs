@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from cachetools import cached, LFUCache
 from collections import deque
+import copy
 
 from sparql_dao import SparqlDao
 from graph_structures import TopicNode
@@ -58,12 +59,27 @@ class Classifier:
         # Transfer each node's vote evenly across its parents
         for i in range(self.max_depth):
             for topic in self.topic_name_to_node.values():
-                # Check we haven't reached a terminal node and if there's vote to transfer
+                # Check we haven't reached a terminal node and if there is vote to transfer
                 if topic.vote > 0 and len(topic.parent_topics) > 0:
+                    
+                    filtered_parents = []
+                    if i in topic.filtered_parents:
+                        filtered_parents = topic.filtered_parents[i]
+                    else:
+                        # Determine what parent topics are valid.
+                        # A parent topic is not valid if there is no route from that topic to a root node
+                        # within the remaining advances up the topic tree.
+                        filtered_parents = self.remove_parents_where_no_path_to_root(
+                                topic.parent_topics, steps_left=self.max_depth-i)
+                        topic.filtered_parents[i] = filtered_parents
+                    
+                    if len(filtered_parents) == 0:
+                        raise Exception('Implementation error: there should be a valid path to a root topic')
+                    
                     vote = topic.vote
                     topic.vote = 0
-                    split_vote = vote / len(topic.parent_topics)
-                    for parent_topic in topic.parent_topics:
+                    split_vote = vote / len(filtered_parents)
+                    for parent_topic in filtered_parents:
                         parent_topic.vote += split_vote
         
         # Return the root topic probabilities
@@ -216,3 +232,39 @@ class Classifier:
                             
                         # Let the topic know it has another parent
                         topic.add_parent_topic(parent_topic)
+
+
+    def remove_parents_where_no_path_to_root(self, parent_topics, steps_left):
+        
+        filtered_parents = []
+        
+        for parent_topic in parent_topics:
+            
+            # We need to explore upwards from this topic
+            copied_parent_topic = copy.deepcopy(parent_topic)
+            copied_parent_topic.steps_left = steps_left
+            to_process = deque([])
+            to_process.append(copied_parent_topic)
+            
+            while to_process:
+                
+                # Get all parents of the topic at the front of the queue
+                topic = to_process.pop()
+                
+                # if we have found a root topic then the parent_topic is on a valid path
+                if topic.name in self.root_topic_names:
+                    filtered_parents.append(parent_topic)
+                    break
+                            
+                # Process each parent topic
+                for ptopic in topic.parent_topics:
+                    
+                    # If we still have steps left, keep going
+                    copied_ptopic = copy.deepcopy(ptopic)
+                    copied_ptopic.steps_left = topic.steps_left - 1
+                    
+                    if copied_ptopic.steps_left > 0:
+                        to_process.append(copied_ptopic)
+            
+        return filtered_parents
+            

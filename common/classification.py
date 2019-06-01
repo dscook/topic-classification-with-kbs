@@ -3,7 +3,7 @@
 from term_document_matrix import TermDocumentMatrixCreator
 from sklearn.naive_bayes import BernoulliNB
 
-def run_bernoulli_naive_bayes(train_x, train_y, test_x, test_y, topic_labels, ngram_range):
+def run_bernoulli_naive_bayes(train_x, train_y, test_x, test_y, ngram_range):
     """
     Runs Bernoulli Naive Bayes and returns the predictions.
     
@@ -11,7 +11,6 @@ def run_bernoulli_naive_bayes(train_x, train_y, test_x, test_y, topic_labels, ng
     :param train_y: the training labels as ints.
     :param test_x: the test data as a list of strings.
     :param test_y: the test labels as ints.
-    :param topic_labels: the full topic labels to label the classification report.
     :param ngram_range: the ngram range to use as a tuple (lower, upper).
     :returns: predictions
     """
