@@ -26,3 +26,15 @@ def convert_dictionary_to_array(dataset, topic_code_to_int):
     y_data = y_data[indices]
     
     return (x_data, y_data)
+
+
+def convert_array_to_dictionary(x, y, int_to_topic_code):
+    """
+    :returns: a dictionary keyed by topic code with items a list of the articles for that topic.
+    """
+    dictionary = {}
+    
+    for index in int_to_topic_code.keys():
+        dictionary[int_to_topic_code[index]] = x[y == index]
+    
+    return dictionary
