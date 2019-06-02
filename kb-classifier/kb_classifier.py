@@ -16,7 +16,7 @@ class KnowledgeBasePredictor():
 
 
     def train(self, x, y):
-        predict_y = self.make_unsupervised_predictions(x, return_probs=True)
+        predict_y = self.make_unsupervised_predictions(x, return_unweighted_probs=True)
         
         # Figure out how to reweight the probabilities to give us the best possible micro F1 score
         best_micro_f1 = 0
@@ -49,15 +49,12 @@ class KnowledgeBasePredictor():
         return (clazzification_report, confuzion_matrix)
     
     
-    def make_unsupervised_predictions(self, x, return_probs=False):
+    def make_unsupervised_predictions(self, x, return_unweighted_probs=False):
         
+        class_probabilities = np.zeros(shape=(len(x), len(self.topic_labels)))
+        class_probabilities_weighted = np.zeros(shape=(len(x), len(self.topic_labels)))
         predict = np.zeros(shape=len(x))
-        apply_weighting = True
-        
-        if return_probs:
-            predict = np.zeros(shape=(len(x), len(self.topic_labels)))
-            apply_weighting = False
-        
+
         for i in range(len(x)):
             print(i)
             
@@ -67,15 +64,20 @@ class KnowledgeBasePredictor():
             topic_to_prob = r.json()
                 
             # Convert Wikipedia topic probabilities to actual topic probabilities
-            topic_index_to_prob = self.convert_topic_probs_wikipedia_to_actual(topic_to_prob, apply_weighting)
-            
-            # Store prediction
-            if not return_probs:
-                predict[i] = np.argmax(topic_index_to_prob)
-            else:
-                predict[i] = topic_index_to_prob
+            topic_index_to_prob = self.convert_topic_probs_wikipedia_to_actual(topic_to_prob, apply_weighting=False)
+            topic_index_to_prob_weighted = self.convert_topic_probs_wikipedia_to_actual(topic_to_prob, apply_weighting=True)
+            class_probabilities[i] = topic_index_to_prob
+            class_probabilities_weighted[i] = topic_index_to_prob_weighted
+            predict[i] = np.argmax(topic_index_to_prob_weighted)
+        
+        self.last_class_probabilities = class_probabilities
+        self.last_class_probabilities_weighted = class_probabilities_weighted
+        self.last_predict = predict
 
-        return predict
+        if return_unweighted_probs:
+            return class_probabilities
+        else:
+            return predict
 
 
     def convert_topic_probs_wikipedia_to_actual(self, topic_to_prob, apply_weighting):            
