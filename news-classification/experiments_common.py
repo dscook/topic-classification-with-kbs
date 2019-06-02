@@ -76,7 +76,7 @@ def run_proportional_experiments(classifier_runner, training_data_dict, test_x, 
 
 def run_balanced_experiments(classifier_runner, training_data_dict, test_x, test_y, topic_code_to_prior_prob):
     # Test balanced classes
-    for train_size in [12, 120, 1200, 7200]:
+    for train_size in [12, 60, 120, 600, 1200, 7200]:
         
         article_dict = {}
         

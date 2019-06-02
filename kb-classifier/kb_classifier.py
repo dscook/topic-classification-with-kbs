@@ -18,8 +18,8 @@ class KnowledgeBasePredictor():
     def train(self, x, y):
         predict_y = self.make_unsupervised_predictions(x, return_unweighted_probs=True)
         
-        # Figure out how to reweight the probabilities to give us the best possible micro F1 score
-        best_micro_f1 = 0
+        # Figure out how to reweight the probabilities to give us the best possible macro F1 score
+        best_macro_f1 = 0
         
         for i in range(100000):
             weights = np.random.uniform(0.25, 4, 6)
@@ -29,10 +29,10 @@ class KnowledgeBasePredictor():
             new_predict_y /= np.sum(new_predict_y, axis=1)[:, None]
             new_predict_y = np.argmax(new_predict_y, axis=1)
             
-            micro_f1 = f1_score(y, new_predict_y, average='micro')
+            macro_f1 = f1_score(y, new_predict_y, average='macro')
             
-            if micro_f1 > best_micro_f1:
-                best_micro_f1 = micro_f1
+            if macro_f1 > best_macro_f1:
+                best_macro_f1 = macro_f1
                 self.weights = weights
         
         print('Best weights found {}'.format(self.weights))
