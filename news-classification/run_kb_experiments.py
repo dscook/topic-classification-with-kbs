@@ -4,6 +4,7 @@
 # Make common scripts visible
 import sys
 sys.path.append('../common/')
+sys.path.append('../kb-classifier/')
 
 import numpy as np
 
