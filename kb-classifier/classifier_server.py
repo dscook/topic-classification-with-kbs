@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, request, jsonify
 
-from classifier import Classifier
+from classifier_copy import Classifier
 from kb_common import wiki_topics_to_actual_topics
 
 app = Flask(__name__)
@@ -16,6 +16,16 @@ def classify():
     body = request.get_json()
     topic_to_prob = classifier.identify_topic_probabilities(body['text'])
     return jsonify(topic_to_prob)
+
+
+@app.route('/probabilities/<depth>', methods=['GET'])
+def probabilities(depth):
+    """
+    Get the topic probabilities for the last classified example at the specified depth
+    of the topic tree.  0 = root topics, 1 = next level and so on.
+    """
+    probabilities = classifier.get_topic_probabilities(depth)
+    return jsonify(probabilities)
 
 
 if __name__ == '__main__':

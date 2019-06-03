@@ -45,9 +45,15 @@ class Classifier:
         # Reset the vote to 0 for each topic node
         for topic in self.topic_name_to_node.values():
             topic.vote = 0
+            
+        # Maintain graph that was traversed so we can later obtain the probability tree
+        self.traversed_nodes = {}
         
         # Initialise the votes
         for phrase, topics in phrase_to_topic_dict.items():
+            
+            phrase_leaf = self.get_or_add_topic_to_cache('Phrase:' + phrase, self.traversed_nodes, depth=0)
+            phrase_leaf.upwards_vote = 1
             
             # Split the vote for the phrase amongst its topics
             split_vote = 1 / len(topics)
@@ -55,6 +61,10 @@ class Classifier:
             # Update each topic with the vote contribution
             for topic in topics:
                 self.topic_name_to_node[topic].vote += split_vote
+                
+                traversed_topic = self.get_or_add_topic_to_cache(topic, self.traversed_nodes, depth=1)
+                traversed_topic.upwards_vote += split_vote
+                traversed_topic.add_child_topic(phrase_leaf)
         
         # Transfer each node's vote evenly across its parents
         for i in range(self.max_depth):
@@ -81,6 +91,10 @@ class Classifier:
                     split_vote = vote / len(filtered_parents)
                     for parent_topic in filtered_parents:
                         parent_topic.vote += split_vote
+                        traversed_topic = self.get_or_add_topic_to_cache(parent_topic.name, self.traversed_nodes, depth=2+i)
+                        traversed_topic.upwards_vote += split_vote
+                        traversed_topic.add_child_topic(self.traversed_nodes[1+i][topic.name])
+                        
         
         # Return the root topic probabilities
         total_votes = 0
@@ -97,6 +111,9 @@ class Classifier:
         # Normalise the votes to turn into probabilities
         for root_topic in self.root_topic_names:
             topic_to_prob_dict[root_topic] /= total_votes
+            
+        # Store the probabilities in case the user wants a breakdown of how each child topic / phrase contributed
+        self.last_topic_to_prob_dict = topic_to_prob_dict
         
         return topic_to_prob_dict
         
@@ -170,6 +187,34 @@ class Classifier:
         """
         # Get the the list of topic names for the phrase
         return self.dao.get_topics_for_phrase(phrase)
+    
+    
+    def get_topic_probabilities(self, depth):
+        
+        # Assign the probabilities to the root nodes
+        depths = sorted(self.traversed_nodes.keys(), reverse=True)
+        depth_to_return = depths[0] - depth
+        
+        for topic_name, probability in self.last_topic_to_prob_dict.items():
+            self.traversed_nodes[depths[0]][topic_name].vote = probability
+        
+        # Work out the topic probabilities
+        for i in depths:
+            
+            # Return the probabilities if we have reached the requested depth
+            if i == depth_to_return:
+                topic_probabilities = {}
+                for topic_name, topic in self.traversed_nodes[i].items():
+                    topic_probabilities[topic_name] = { 'vote': topic.vote, 'upwards_vote': topic.upwards_vote }
+                return topic_probabilities
+            
+            # Otherwise propogate probabilities to the next level
+            for topic in self.traversed_nodes[i].values():
+                split_vote = 1 / len(topic.child_topics)
+                for child in topic.child_topics:
+                    child.vote += split_vote
+                    
+        raise Exception('Should have returned topic probabilities')
     
     
     def populate_topic_name_to_node(self, topic_name_to_node, topic_name):
@@ -272,4 +317,19 @@ class Classifier:
                         to_process.append(copied_ptopic)
             
         return filtered_parents
+    
+    
+    def get_or_add_topic_to_cache(self, topic_name, cache, depth):
+        
+        if depth not in cache:
+            cache[depth] = {}
+        
+        topic = None
+        if topic_name in cache[depth]:
+            topic = cache[depth][topic_name]
+        else:
+            topic = TopicNode(topic_name, depth=None)
+            topic.upwards_vote = 0
+            cache[depth][topic_name] = topic
+        return topic
             
