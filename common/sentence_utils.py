@@ -74,7 +74,41 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True, ke
     
     if keep_nouns_only:
         # Only keep adjectives and nouns
-        tokens = [(word, tag) for sent in pos_tags for (word, tag) in sent if tag in set(['NN', 'NNS', 'NNP', 'NNPS', 'JJ'])]
+        # Ensure noun phrases are grouped together
+        
+        #print(pos_tags)
+        
+        nouns = set(['NN', 'NNS', 'JJ'])
+        proper_nouns = set(['NNP', 'NNPS'])
+        
+        tokens = []
+        token_so_far = ''
+        
+        for sent in pos_tags:
+            
+            if token_so_far:
+                tokens.append((token_so_far, 'NP'))
+            
+            matching_proper_noun_phrase = False
+            token_so_far = ''
+            
+            for word, tag in sent:
+                if matching_proper_noun_phrase:
+                    if tag in proper_nouns:
+                        token_so_far += '_{}'.format(word)
+                    else:
+                        tokens.append((token_so_far, 'NP'))
+                        token_so_far = ''
+                        matching_proper_noun_phrase = False
+                        
+                        if tag in nouns:
+                            tokens.append((word, tag))
+                else:
+                    if tag in proper_nouns:
+                        token_so_far = word
+                        matching_proper_noun_phrase = True
+                    elif tag in nouns:
+                        tokens.append((word, tag))
     else:
         tokens = [(word, tag) for sent in pos_tags for (word, tag) in sent]
 

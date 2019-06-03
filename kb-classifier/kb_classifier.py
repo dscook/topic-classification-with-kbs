@@ -56,7 +56,6 @@ class KnowledgeBasePredictor():
         predict = np.zeros(shape=len(x))
 
         for i in range(len(x)):
-            print(i)
             
             # Make a REST request to get Wikipedia topic probabilities from the classifier server
             doc = { 'text': x[i] }

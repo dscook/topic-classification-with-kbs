@@ -133,7 +133,12 @@ class Classifier:
             topics = []
             while phrase_length > 0:
                 # Check to see if we can obtain topics for the phrase
-                phrase = ' '.join(tokens[index:index+phrase_length])
+                updated_tokens= []
+                for token in tokens[index:index+phrase_length]:
+                    updated_tokens.extend(token.split('_'))
+                
+                phrase = ' '.join(updated_tokens)
+                
                 topics = self.identify_topics(phrase)
                 
                 # Found topics, no need to look for smaller word n-gram matches
