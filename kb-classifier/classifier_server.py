@@ -24,7 +24,7 @@ def probabilities(depth):
     Get the topic probabilities for the last classified example at the specified depth
     of the topic tree.  0 = root topics, 1 = next level and so on.
     """
-    probabilities = classifier.get_topic_probabilities(depth)
+    probabilities = classifier.get_topic_probabilities(int(depth))
     return jsonify(probabilities)
 
 

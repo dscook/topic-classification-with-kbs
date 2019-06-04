@@ -24,7 +24,14 @@ Victory in the Coca-Cola final next month, its first cup final in 28 years, woul
 """
 } 
 
+# Classify the text
 r = requests.post(url = 'http://127.0.0.1:5000/classify', json = data) 
 probabilities = r.json()
+print(probabilities)
 converted_probabilities, _ = convert_topic_probs_wikipedia_to_actual(probabilities)
 print_topic_probs(converted_probabilities)
+
+# Get the normalised probabilities
+r = requests.get(url = 'http://127.0.0.1:5000/probabilities/1') 
+normalised_prob = r.json()
+print(normalised_prob)

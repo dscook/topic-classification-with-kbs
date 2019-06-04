@@ -45,6 +45,7 @@ class Classifier:
         # Reset the vote to 0 for each topic node
         for topic in self.topic_name_to_node.values():
             topic.vote = 0
+            topic.transferring_vote = 0
             
         # Maintain graph that was traversed so we can later obtain the probability tree
         self.traversed_nodes = {}
@@ -97,7 +98,7 @@ class Classifier:
                         traversed_topic.add_child_topic(self.traversed_nodes[1+i][topic.name])
             
             for topic in self.topic_name_to_node.values():
-                topic.vote = topic.transferring_vote
+                topic.vote += topic.transferring_vote
                 topic.transferring_vote = 0
                         
         
@@ -195,31 +196,20 @@ class Classifier:
     
     
     def get_topic_probabilities(self, depth):
-        
-        # Assign the probabilities to the root nodes
         depths = sorted(self.traversed_nodes.keys(), reverse=True)
         depth_to_return = depths[0] - depth
         
-        for topic_name, probability in self.last_topic_to_prob_dict.items():
-            self.traversed_nodes[depths[0]][topic_name].vote = probability
+        total_vote = 0
+        for topic in self.traversed_nodes[depth_to_return].values():
+            total_vote += topic.upwards_vote
+            
+        print('Total Votes: {}'.format(total_vote))
         
-        # Work out the topic probabilities
-        for i in depths:
-            
-            # Return the probabilities if we have reached the requested depth
-            if i == depth_to_return:
-                topic_probabilities = {}
-                for topic_name, topic in self.traversed_nodes[i].items():
-                    topic_probabilities[topic_name] = { 'vote': topic.vote, 'upwards_vote': topic.upwards_vote }
-                return topic_probabilities
-            
-            # Otherwise propogate probabilities to the next level
-            for topic in self.traversed_nodes[i].values():
-                split_vote = 1 / len(topic.child_topics)
-                for child in topic.child_topics:
-                    child.vote += split_vote
-                    
-        raise Exception('Should have returned topic probabilities')
+        topic_probabilities = {}
+        for topic_name, topic in self.traversed_nodes[depth_to_return].items():
+            topic_probabilities[topic_name] = topic.upwards_vote / total_vote
+        
+        return topic_probabilities
     
     
     def populate_topic_name_to_node(self, topic_name_to_node, topic_name):
@@ -334,7 +324,16 @@ class Classifier:
             topic = cache[depth][topic_name]
         else:
             topic = TopicNode(topic_name, depth=None)
+            
             topic.upwards_vote = 0
+            # For root nodes that appear at many levels of the topic tree transfer their vote
+            if topic.name in self.root_topic_names and depth > 0:
+                for i in range(depth-1,-1,-1):
+                    if topic.name in cache[i]:
+                        topic.upwards_vote = cache[i][topic_name].upwards_vote
+                        break
+            
             cache[depth][topic_name] = topic
+        
         return topic
             
