@@ -68,6 +68,7 @@ class Classifier:
         
         # Transfer each node's vote evenly across its parents
         for i in range(self.max_depth):
+                        
             for topic in self.topic_name_to_node.values():
                 # Check we haven't reached a terminal node and if there is vote to transfer
                 if topic.vote > 0 and len(topic.parent_topics) > 0:
@@ -90,10 +91,14 @@ class Classifier:
                     topic.vote = 0
                     split_vote = vote / len(filtered_parents)
                     for parent_topic in filtered_parents:
-                        parent_topic.vote += split_vote
+                        parent_topic.transferring_vote += split_vote
                         traversed_topic = self.get_or_add_topic_to_cache(parent_topic.name, self.traversed_nodes, depth=2+i)
                         traversed_topic.upwards_vote += split_vote
                         traversed_topic.add_child_topic(self.traversed_nodes[1+i][topic.name])
+            
+            for topic in self.topic_name_to_node.values():
+                topic.vote = topic.transferring_vote
+                topic.transferring_vote = 0
                         
         
         # Return the root topic probabilities

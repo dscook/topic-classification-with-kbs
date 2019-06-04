@@ -19,6 +19,7 @@ class TopicNode:
         self.parent_topics = set()
         self.child_topics = set()
         self.vote = 0
+        self.transferring_vote = 0
         self.steps_left = 0
         self.filtered_parents = {}
         
@@ -50,6 +51,7 @@ class TopicNode:
         new_instance.parent_topics = self.parent_topics
         new_instance.child_topics = self.child_topics
         new_instance.vote = copy.deepcopy(self.vote, memodict)
+        new_instance.transferring_vote = copy.deepcopy(self.transferring_vote, memodict)
         new_instance.steps_left = copy.deepcopy(self.steps_left, memodict)
         
         return new_instance

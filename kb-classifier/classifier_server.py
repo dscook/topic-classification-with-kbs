@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, request, jsonify
 
-from classifier_copy import Classifier
+from classifier import Classifier
 from kb_common import wiki_topics_to_actual_topics
 
 app = Flask(__name__)
