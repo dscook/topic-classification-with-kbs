@@ -202,8 +202,6 @@ class Classifier:
         total_vote = 0
         for topic in self.traversed_nodes[depth_to_return].values():
             total_vote += topic.upwards_vote
-            
-        print('Total Votes: {}'.format(total_vote))
         
         topic_probabilities = {}
         for topic_name, topic in self.traversed_nodes[depth_to_return].items():
