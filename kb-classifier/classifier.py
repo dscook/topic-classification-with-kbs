@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from cachetools import cached, LFUCache
-from collections import deque
+from collections import deque, defaultdict
 import copy
 
 from sparql_dao import SparqlDao
@@ -35,7 +35,7 @@ class Classifier:
         :param text: the text to identify the topic probabilities for.
         :returns: a dict containing topic name to topic probability.
         """
-        phrase_to_topic_dict = self.identify_leaf_topics(text)
+        phrase_to_topic_dict, phrase_to_occurences = self.identify_leaf_topics(text)
                         
         # Materialise the reachable topic hierarchy        
         for phrase, topics in phrase_to_topic_dict.items():
@@ -57,7 +57,8 @@ class Classifier:
             phrase_leaf.upwards_vote = 1
             
             # Split the vote for the phrase amongst its topics
-            split_vote = 1 / len(topics)
+            # Note the phrase has a higher starting vote if it occurs multiple times in the document
+            split_vote = phrase_to_occurences[phrase] / len(topics)
             
             # Update each topic with the vote contribution
             for topic in topics:
@@ -134,9 +135,11 @@ class Classifier:
         Once a match is achieved the words are consumed.
         
         :param text: the text to find leaf topics for.
-        :returns: the dictionary of leaf topic matches.
+        :returns: tuple (dictionary of phrase to leaf topic matches, 
+                         dictionary of phrase to number of occurences in document)
         """
         phrase_to_topic_matches = {}
+        phrase_to_occurences = defaultdict(int)
         
         tokens = text.split()
         
@@ -167,6 +170,7 @@ class Classifier:
                 # Found topics, no need to look for smaller word n-gram matches
                 if topics:
                     phrase_to_topic_matches[phrase] = topics
+                    phrase_to_occurences[phrase] += 1
                     break
             
                 phrase_length -= 1
@@ -181,7 +185,7 @@ class Classifier:
             # Reset phrase length for processing next index
             phrase_length = 3
         
-        return phrase_to_topic_matches
+        return phrase_to_topic_matches, phrase_to_occurences
 
 
     @cached(phrase_to_topics_cache)

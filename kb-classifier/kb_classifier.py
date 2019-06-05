@@ -19,7 +19,7 @@ class KnowledgeBasePredictor():
 
     def train(self, x, y):
         wiki_class_probabilities = self.make_unsupervised_predictions(x, training=True)
-        self.classifier = RandomForestClassifier(n_estimators=100, random_state=42)
+        self.classifier = RandomForestClassifier(n_estimators=1000, random_state=42)
         self.classifier.fit(wiki_class_probabilities, y)
 
 

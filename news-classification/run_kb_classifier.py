@@ -8,33 +8,19 @@ sys.path.append('../kb-classifier/')
 
 import numpy as np
 
-from reuters_parser import load_data
+from loader import load_preprocessed_data
 from lookup_tables import topic_code_to_topic_dict, topic_code_to_int
-from sentence_utils import remove_stop_words_and_lemmatize
-from conversion import convert_dictionary_to_array
-from kb_classifier_copy import KnowledgeBasePredictor
-
-
-def sanitise_each_topic(text):      
-    return remove_stop_words_and_lemmatize(text, lowercase=False, lemmatize=False, keep_nouns_only=True)
-
+from kb_classifier import KnowledgeBasePredictor
 
 ###
 ### LOAD THE DATA
 ###
 
-year_data = load_data('19960820', '19970819', '../../../downloads/reuters/rcv1/', topic_code_to_topic_dict)
-#year_data = load_data('19960820', '19960830', '../../../downloads/reuters/rcv1/', topic_code_to_topic_dict)
-
-# For accurate comparison with the Naive Bayes classifier, keep the last 20% of documents using the same random seed.
-# I.e. we are making predictions on the same test set.
-np.random.seed(42)
-
 # Get 20% test
-x, y = convert_dictionary_to_array(year_data, topic_code_to_int)
+x, y = load_preprocessed_data('data/rcv1_no_stopwords.csv')
 total_examples = len(y)
 split_point = int(total_examples * 0.8)
-test_x = np.array(list(map(sanitise_each_topic, x[split_point:])))
+test_x = x[split_point:]
 test_y = y[split_point:]
 
 
@@ -54,7 +40,6 @@ for i in range(split_point):
         counts[topic_int] += 1
         current_index += 1
 
-train_x = np.array(list(map(sanitise_each_topic, train_x)))
 print(counts)
 
 ###

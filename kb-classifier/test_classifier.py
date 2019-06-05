@@ -6,9 +6,8 @@ sys.path.append('../common/')
 
 import unittest
 
-from classifier import Classifier
+from classifier_copy import Classifier
 from sentence_utils import remove_stop_words_and_lemmatize
-from kb_common import convert_topic_probs_wikipedia_to_actual, print_topic_probs
 
 
 doc_to_test = """
@@ -21,7 +20,7 @@ doc_to_test = """
 Philip Morris Tuesday Kansas attorney general decision list states lawsuits tobacco firms Medicaid money tobacco-related illnesses Philip Morris Kansas Attorney General Carla Stovall courts public policy tobacco Philip Morris companies lawsuit zealousness bandwagon attorney general fact state viaable legal basis upon cigarette manufacturers Gregory Little lawyer Philip Morris law correct state Kansas process waste millions taxpayer dollars time costs
 """
 
-shorter_doc_to_test = 'London rivals Chelsea and Arsenal meet in an all-English Europa League final'
+shorter_doc_to_test = 'London rivals Chelsea and Arsenal meet in an all-English Europa League final.  Chelsea won.'
 
 class ClassifierTestCase(unittest.TestCase):
     
@@ -63,15 +62,17 @@ class ClassifierTestCase(unittest.TestCase):
 
 
     def test_identify_leaf_topics(self):
-        phrase_to_topic_dict = self.classifier.identify_leaf_topics(self.shorter_doc_to_test)
+        phrase_to_topic_dict, phrase_to_occurences = self.classifier.identify_leaf_topics(self.shorter_doc_to_test)
         self.assertIn('Football_in_England', phrase_to_topic_dict['London rivals'])
         self.assertIn('Football_clubs_in_England', phrase_to_topic_dict['Chelsea'])
         self.assertIn('Association_football_penalty_shootouts', phrase_to_topic_dict['Europa League final'])
+        self.assertEqual(phrase_to_occurences['Arsenal'], 1)
+        self.assertEqual(phrase_to_occurences['Chelsea'], 2)
         
 
     def test_identify_topic_probabilities(self):
         topic_to_prob = self.classifier.identify_topic_probabilities(self.doc_to_test)
-        print_topic_probs(convert_topic_probs_wikipedia_to_actual(topic_to_prob))
+        print(topic_to_prob)
 
 
 if __name__ == '__main__':
