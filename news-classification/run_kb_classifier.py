@@ -18,6 +18,9 @@ from kb_classifier import KnowledgeBasePredictor
 
 # Get 20% test
 x, y = load_preprocessed_data('data/rcv1_no_stopwords.csv')
+x = np.array(x)
+y = np.array(y)
+
 total_examples = len(y)
 split_point = int(total_examples * 0.8)
 test_x = x[split_point:]

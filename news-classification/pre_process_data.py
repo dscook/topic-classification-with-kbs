@@ -11,7 +11,7 @@ import csv
 import numpy as np
 
 from reuters_parser import load_data
-from sentence_utils import remove_stop_words_and_lemmatize
+from sentence_utils_copy import remove_stop_words_and_lemmatize
 from lookup_tables import topic_code_to_topic_dict, topic_code_to_int
 from conversion import convert_dictionary_to_array
 
@@ -43,10 +43,14 @@ def sanitise_each_topic(dataset):
         
         for article in articles:
             
-            article_sanitised = remove_stop_words_and_lemmatize(article)    # For Naive Bayes
-            article_id = uuid.uuid3(namespace, article_sanitised)
-            
+            article_id = uuid.uuid3(namespace, article)
+                        
             if article_id not in seen_so_far:
+                #article_sanitised = remove_stop_words_and_lemmatize(article)    # For Naive Bayes
+                article_sanitised = remove_stop_words_and_lemmatize(article, 
+                                                                    lowercase=False, 
+                                                                    lemmatize=False, 
+                                                                    keep_nouns_only=True)    # For Knowledge Base Classifier
                 seen_so_far.add(article_id)
                 data_sanitised[topic_code].append(article_sanitised)
             else:
@@ -64,11 +68,14 @@ print_number_of_articles_per_topic(year_data, 'Data for a Year August 96 to Augu
 
 year_data_sanitised = sanitise_each_topic(year_data)
 
+# To ensure the output is always in the same order
 np.random.seed(42)
 
 x, y = convert_dictionary_to_array(year_data_sanitised, topic_code_to_int)
 
-with open('data/rcv1_lemmatized.csv', 'w', newline='') as csvfile:
+#path = 'data/rcv1_lemmatized_reduced.csv'    # Naive Bayes
+path = 'data/rcv1_no_stopwords.csv'   # Knowledge Base Classifier
+with open(path, 'w', newline='') as csvfile:
     article_writer = csv.writer(csvfile)
     for i in range(len(y)):
         article_writer.writerow([y[i], x[i]])
