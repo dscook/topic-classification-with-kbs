@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 
 ##
-## Code adapted from:
+## Code adapted (significantly) from:
 ##     Chastney, J., Cook, D., Ma, J., Melamed, T., 2019. Lab 1: Group Project.
 ##     CM50265: Machine Learning 2. University of Bath. Unpublished.
 ##
 from nltk.corpus import stopwords, wordnet
 from nltk.stem import WordNetLemmatizer
 import nltk
+import re
 
 
 punctuation = ['!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/',
@@ -75,9 +76,7 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True, ke
     if keep_nouns_only:
         # Only keep adjectives and nouns
         # Ensure noun phrases are grouped together
-        
-        #print(pos_tags)
-        
+                
         nouns = set(['NN', 'NNS', 'JJ'])
         proper_nouns = set(['NNP', 'NNPS'])
         
@@ -165,8 +164,8 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True, ke
                 prev_word = None
                 continue
 
-        # Add the updated token
-        if word.lower() not in english_stopwords and word.lower() != '\'s':
+        # Add the updated token        
+        if word.lower() not in english_stopwords and word.lower() != '\'s' and not is_number(word) and not is_time(word):
             # Additional check to ensure U.S. is not lemmatised to U
             if lemmatize and word != 'US':
                 word = lemmatizer.lemmatize(word, pos=wordnet_tag_from_penn_treebank(tag))
@@ -192,3 +191,39 @@ def lowercase_all_capital_words(text):
                                     else token for token in tokens]
     
     return ' '.join(updated_tokens)
+
+
+number_matcher = re.compile(r'^([:,/\.\-\+\\]*\d+[:,/\.\-\+\\]*)+$')
+def is_number(token):
+    """
+    Given a token, returns True if the token is soley a sequence of numbers and punctuation.
+    
+    :param token: the token to test.
+    :returns: True if the token is soley a sequence of numbers and punctuation.
+    """
+    return number_matcher.match(token) != None
+
+
+days = set(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])
+months = set(['january', 'february', 'march', 'april', 'may', 'june', 
+              'july', 'august', 'september', 'october', 'november', 'december'])
+months_shortened = set(['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'])
+date_matcher = re.compile(r'^\d{1,2}(st|nd|rd|\-jan|\-feb|\-mar|\-apr|\-may|\-jun|\-jul|\-aug|\-sep|\-oct|\-nov|\-dec)$')
+def is_time(token):
+    """
+    Given a token, returns True if the token is a time or date.
+    
+    :param token: the token to test.
+    :returns: True if the token is a time or date.
+    """
+    lowercase_token = token.lower()
+    
+    if lowercase_token in days or lowercase_token in months or lowercase_token in months_shortened:
+        return True
+    
+    if date_matcher.match(lowercase_token) != None:
+        return True
+    
+    return False
+    
+    
