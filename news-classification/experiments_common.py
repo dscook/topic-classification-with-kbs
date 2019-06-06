@@ -62,13 +62,15 @@ def run_proportional_experiments(classifier_runner, training_data_dict, test_x, 
         
         article_dict = {}
         
+        topic_int_to_prior_prob = {}
         for topic_code, probability in topic_code_to_prior_prob.items():
             num_to_take_for_topic = int(train_size * probability)
             article_dict[topic_code] = training_data_dict[topic_code][:num_to_take_for_topic]
+            topic_int_to_prior_prob[topic_code_to_int[topic_code]] = probability
         
         train_x, train_y = convert_dictionary_to_array(article_dict, topic_code_to_int)
-                
-        predict_y = classifier_runner(train_x, train_y, test_x, test_y)
+        
+        predict_y = classifier_runner(train_x, train_y, test_x, test_y, topic_int_to_prior_prob)
         
         print('--------- PROPORTIONAL TRAINING SET SIZE {} ---------'.format(train_size))
         print(classification_report(test_y, predict_y, digits=6, target_names=topic_code_to_topic_dict.values()))
@@ -82,13 +84,15 @@ def run_balanced_experiments(classifier_runner, training_data_dict, test_x, test
         
         article_dict = {}
         
-        for topic_code in topic_code_to_prior_prob.keys():
+        topic_int_to_prior_prob = {}
+        for topic_code, probability in topic_code_to_prior_prob.items():
             num_to_take_for_topic = train_size // 6
             article_dict[topic_code] = training_data_dict[topic_code][:num_to_take_for_topic]
+            topic_int_to_prior_prob[topic_code_to_int[topic_code]] = probability
         
         train_x, train_y = convert_dictionary_to_array(article_dict, topic_code_to_int)
         
-        predict_y = classifier_runner(train_x, train_y, test_x, test_y)
+        predict_y = classifier_runner(train_x, train_y, test_x, test_y, topic_int_to_prior_prob)
         
         print('--------- BALANCED TRAINING SET SIZE {} ---------'.format(train_size))
         print(classification_report(test_y, predict_y, digits=6, target_names=topic_code_to_topic_dict.values()))
