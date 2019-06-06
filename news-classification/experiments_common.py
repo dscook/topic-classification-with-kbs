@@ -58,19 +58,19 @@ def load_reutuers_data(preprocessed_article_path):
 
 def run_proportional_experiments(classifier_runner, training_data_dict, test_x, test_y, topic_code_to_prior_prob):
     # Test proportional to prior class probability
-    for train_size in [120, 1200, 12000, 60000]:
+    for train_size in [120, 600, 1200, 6000, 12000, 60000]:
         
         article_dict = {}
         
-        topic_int_to_prior_prob = {}
+        class_priors = np.zeros(shape=len(topic_code_to_prior_prob.keys()))
         for topic_code, probability in topic_code_to_prior_prob.items():
             num_to_take_for_topic = int(train_size * probability)
             article_dict[topic_code] = training_data_dict[topic_code][:num_to_take_for_topic]
-            topic_int_to_prior_prob[topic_code_to_int[topic_code]] = probability
+            class_priors[topic_code_to_int[topic_code]] = probability
         
         train_x, train_y = convert_dictionary_to_array(article_dict, topic_code_to_int)
         
-        predict_y = classifier_runner(train_x, train_y, test_x, test_y, topic_int_to_prior_prob)
+        predict_y = classifier_runner(train_x, train_y, test_x, test_y, class_priors)
         
         print('--------- PROPORTIONAL TRAINING SET SIZE {} ---------'.format(train_size))
         print(classification_report(test_y, predict_y, digits=6, target_names=topic_code_to_topic_dict.values()))
@@ -80,19 +80,19 @@ def run_proportional_experiments(classifier_runner, training_data_dict, test_x, 
 
 def run_balanced_experiments(classifier_runner, training_data_dict, test_x, test_y, topic_code_to_prior_prob):
     # Test balanced classes
-    for train_size in [12, 60, 120, 600, 1200, 6000]:
+    for train_size in [12, 60, 120, 600, 1200, 6000, 7200]:
         
         article_dict = {}
         
-        topic_int_to_prior_prob = {}
+        class_priors = np.zeros(shape=len(topic_code_to_prior_prob.keys()))
         for topic_code, probability in topic_code_to_prior_prob.items():
             num_to_take_for_topic = train_size // 6
             article_dict[topic_code] = training_data_dict[topic_code][:num_to_take_for_topic]
-            topic_int_to_prior_prob[topic_code_to_int[topic_code]] = probability
+            class_priors[topic_code_to_int[topic_code]] = probability
         
         train_x, train_y = convert_dictionary_to_array(article_dict, topic_code_to_int)
         
-        predict_y = classifier_runner(train_x, train_y, test_x, test_y, topic_int_to_prior_prob)
+        predict_y = classifier_runner(train_x, train_y, test_x, test_y, class_priors)
         
         print('--------- BALANCED TRAINING SET SIZE {} ---------'.format(train_size))
         print(classification_report(test_y, predict_y, digits=6, target_names=topic_code_to_topic_dict.values()))

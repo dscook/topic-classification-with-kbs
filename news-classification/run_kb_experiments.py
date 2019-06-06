@@ -13,7 +13,7 @@ from kb_classifier import KnowledgeBasePredictor
 from lookup_tables import topic_code_to_topic_dict
 
 
-def run_kb_classifier(train_x, train_y, test_x, test_y, topic_int_to_prior_prob):
+def run_kb_classifier(train_x, train_y, test_x, test_y, class_priors):
     kb_predictor = KnowledgeBasePredictor(topic_code_to_topic_dict.values(), topic_depth=1)
     kb_predictor.train(train_x, train_y)
     predict_y = kb_predictor.predict(test_x)
