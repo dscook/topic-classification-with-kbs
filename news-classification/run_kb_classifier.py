@@ -50,7 +50,7 @@ print(counts)
 ###
 
 np.random.seed(42)
-kb_predictor = KnowledgeBasePredictor(topic_code_to_topic_dict.values())
+kb_predictor = KnowledgeBasePredictor(topic_code_to_topic_dict.values(), topic_depth=2)
 kb_predictor.train(train_x, train_y)
 
 predict_y = kb_predictor.predict(train_x)
