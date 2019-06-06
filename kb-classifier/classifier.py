@@ -24,6 +24,7 @@ class Classifier:
         self.root_topic_names = root_topic_names
         self.max_depth = max_depth
         self.topic_name_to_node = {}    # Cache of topics so we can avoid costly DB lookups
+        self.tfidf = None
             
         
     def identify_topic_probabilities(self, text):
@@ -36,6 +37,11 @@ class Classifier:
         :returns: a dict containing topic name to topic probability.
         """
         phrase_to_topic_dict, phrase_to_occurences = self.identify_leaf_topics(text)
+        
+        # Calculate document length based on the number of matching phrases
+        document_length = 0
+        for count in phrase_to_occurences.values():
+            document_length += count
                         
         # Materialise the reachable topic hierarchy        
         for phrase, topics in phrase_to_topic_dict.items():
@@ -57,8 +63,14 @@ class Classifier:
             phrase_leaf.upwards_vote = 1
             
             # Split the vote for the phrase amongst its topics
-            # Note the phrase has a higher starting vote if it occurs multiple times in the document
-            split_vote = phrase_to_occurences[phrase] / len(topics)
+            if self.tfidf:
+                # We have the TF-IDF module so we can use TFIDF as the starting vote
+                split_vote = (self.tfidf.calculate_tfidf(phrase, 
+                                                         phrase_to_occurences[phrase], 
+                                                         document_length) / len(topics))
+            else:
+                # Note the phrase has a higher starting vote if it occurs multiple times in the document
+                split_vote = phrase_to_occurences[phrase] / len(topics)
             
             # Update each topic with the vote contribution
             for topic in topics:

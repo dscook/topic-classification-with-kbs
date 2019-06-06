@@ -3,12 +3,21 @@
 from flask import Flask, request, jsonify
 
 from classifier import Classifier
+from tfidf import TfIdf
 from kb_common import wiki_topics_to_actual_topics
 
 app = Flask(__name__)
 classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
                         root_topic_names=wiki_topics_to_actual_topics.keys(),
                         max_depth=5)
+tfidf_calculator = TfIdf(classifier)
+
+
+@app.route('/tfidf', methods=['POST'])
+def tfidf():
+    body = request.get_json()
+    tfidf_calculator.fit(body['documents'])
+    classifier.tfidf = tfidf_calculator
 
 
 @app.route('/classify', methods=['POST'])
