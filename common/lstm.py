@@ -33,7 +33,7 @@ class LstmPredictor():
                                       num_topics)
         
         # Path where weights from training should be saved
-        self.weights_path = 'models/lstm_tweets.h5'
+        self.weights_path = 'models/lstm.h5'
         if use_saved_weights:
             self.model.load_weights(self.weights_path)
         
