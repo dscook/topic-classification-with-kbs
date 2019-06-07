@@ -11,7 +11,7 @@ from experiments_common import load_reutuers_data, run_proportional_experiments,
 from classification import run_multinomial_naive_bayes 
 
 
-def run_naive_bayes(train_x, train_y, test_x, test_y, class_priors):
+def run_naive_bayes(train_x, train_y, test_x, test_y, class_priors, balanced):
     predict_y = run_multinomial_naive_bayes(train_x, train_y, test_x, class_priors, ngram_range = (1, 1))
     return predict_y
 

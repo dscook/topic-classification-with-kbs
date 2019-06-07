@@ -22,9 +22,15 @@ class KnowledgeBasePredictor():
         requests.post(url = 'http://127.0.0.1:5000/tfidf', json = doc) 
 
         
-    def train(self, x, y):
+    def train(self, x, y, balanced_classes=True):
         wiki_class_probabilities = self.make_unsupervised_predictions(x, training=True)
-        self.classifier = RandomForestClassifier(n_estimators=100, random_state=42)
+        
+        # Handle case where there is an imbalance in the class labels
+        class_weight = None
+        if not balanced_classes:
+            class_weight = 'balanced'
+            
+        self.classifier = RandomForestClassifier(n_estimators=100, random_state=42, class_weight=class_weight)
         self.classifier.fit(wiki_class_probabilities, y)
 
 

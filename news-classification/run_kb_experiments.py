@@ -13,15 +13,15 @@ from kb_classifier import KnowledgeBasePredictor
 from lookup_tables import topic_code_to_topic_dict
 
 
-def run_kb_classifier(train_x, train_y, test_x, test_y, class_priors):
-    kb_predictor = KnowledgeBasePredictor(topic_code_to_topic_dict.values(), topic_depth=1)
-    kb_predictor.train(train_x, train_y)
+def run_kb_classifier(train_x, train_y, test_x, test_y, class_priors, balanced):
+    kb_predictor = KnowledgeBasePredictor(topic_code_to_topic_dict.values(), topic_depth=3)
+    kb_predictor.train(train_x, train_y, balanced_classes=balanced)
     predict_y = kb_predictor.predict(test_x)
     return predict_y
 
 print('Running Knowledge Base experiments')
 np.random.seed(42)
 
-training_data_dict, test_x, test_y, topic_code_to_prior_prob = load_reutuers_data('data/rcv1_no_stopwords.csv')
+training_data_dict, test_x, test_y, topic_code_to_prior_prob = load_reutuers_data('data/rcv1_no_stopwords_no_noun_grouping.csv')
 run_proportional_experiments(run_kb_classifier, training_data_dict, test_x, test_y, topic_code_to_prior_prob)
 run_balanced_experiments(run_kb_classifier, training_data_dict, test_x, test_y, topic_code_to_prior_prob)
