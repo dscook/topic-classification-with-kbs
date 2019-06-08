@@ -20,7 +20,8 @@ from kb_common import wiki_topics_to_actual_topics
 ### LOAD THE DATA
 ###
 
-x, y = load_preprocessed_data('data/rcv1_no_stopwords_no_noun_grouping.csv')
+#x, y = load_preprocessed_data('data/rcv1_no_stopwords_no_noun_grouping.csv')
+x, y = load_preprocessed_data('data/rcv1_no_stopwords_reduced.csv')
 x = np.array(x)
 y = np.array(y)
 
@@ -47,9 +48,20 @@ written_embeddings = set()
 
 # Maintain the topic IDs present in the file
 topic_ids_present = set()
-    
+
+total_processed = 0
+last_percent_complete = 0
+
 # Loop through training set generating word embedding for each phrase
 for document in train_x:
+    
+    # Print current progress
+    percent_complete = int(100 * total_processed / len(train_x))
+    if percent_complete != last_percent_complete:
+        print('Percent complete: {}%'.format(percent_complete))
+        last_percent_complete = percent_complete
+    total_processed += 1
+    
     # This stage ensures the reachable topic hierarchy has been materialised
     classifier.identify_topic_probabilities(document)
     
@@ -69,8 +81,14 @@ for document in train_x:
             # Create topic id, probability pairs
             topic_id_prob_pairs = []
             for topic_name, probability in probabilities.items():
-                topic_id_prob_pairs.append({'topic_id': classifier.topic_name_to_id[topic_name], 'prob': probability})
-                topic_ids_present.add(classifier.topic_name_to_id[topic_name])
+                if topic_name.startswith('Phrase:'):
+                    # This is a workaround at the moment as phrases are not stored in the topic_name_to_id
+                    # dictionary.  We will be losing some information, print out the phrases that were dropped
+                    # from the embedding (they could have formed a dimension of the embedding)
+                    print(topic_name)
+                else:     
+                    topic_id_prob_pairs.append({'topic_id': classifier.topic_name_to_id[topic_name], 'prob': probability})
+                    topic_ids_present.add(classifier.topic_name_to_id[topic_name])
             
             embeddings_writer.append({ 'phrase': phrase, 'topic_probs': topic_id_prob_pairs })
             

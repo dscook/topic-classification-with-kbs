@@ -63,7 +63,7 @@ class Classifier:
         for phrase, topics in phrase_to_topic_dict.items():
             
             phrase_leaf = self.get_or_add_topic_to_cache('Phrase:' + phrase, self.traversed_nodes, depth=0)
-            phrase_leaf.upwards_vote = 1
+            phrase_leaf.upwards_vote = phrase_to_occurences[phrase]
             
             # Split the vote for the phrase amongst its topics
             if self.tfidf:
