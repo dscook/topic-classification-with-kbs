@@ -1,0 +1,221 @@
+Running Naive Bayes experiments
+Prior class probabilities are ...
+Topic Code: GCRIM, Probability: 0.3294559099437148
+Topic Code: E11, Probability: 0.09139167862266857
+Topic Code: GVOTE, Probability: 0.11830923739101644
+Topic Code: GHEA, Probability: 0.054044807416399956
+Topic Code: GREL, Probability: 0.02504138616046794
+Topic Code: GSPO, Probability: 0.38175698046573225
+
+Size of test set is 18122
+
+--------- PROPORTIONAL TRAINING SET SIZE 120 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.789965  0.979958  0.874764      6137
+  ECONOMIC PERFORMANCE   0.965377  0.853541  0.906021      1666
+             ELECTIONS   0.855750  0.823640  0.839388      2132
+                HEALTH   0.888889  0.507157  0.645833       978
+              RELIGION   0.846154  0.077647  0.142241       425
+                SPORTS   0.998121  0.939711  0.968036      6784
+
+              accuracy                       0.888202     18122
+             macro avg   0.890709  0.696942  0.729381     18122
+          weighted avg   0.898410  0.888202  0.878858     18122
+
+[[6014    8   73   33    4    5]
+ [ 117 1422  122    1    0    4]
+ [ 352   23 1756    0    0    1]
+ [ 421   17   44  496    0    0]
+ [ 320    1   48   21   33    2]
+ [ 389    2    9    7    2 6375]]
+
+--------- PROPORTIONAL TRAINING SET SIZE 1200 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.868795  0.975395  0.919014      6137
+  ECONOMIC PERFORMANCE   0.944778  0.944778  0.944778      1666
+             ELECTIONS   0.869739  0.920732  0.894509      2132
+                HEALTH   0.956522  0.607362  0.742964       978
+              RELIGION   0.990909  0.256471  0.407477       425
+                SPORTS   0.997112  0.966834  0.981739      6784
+
+              accuracy                       0.926222     18122
+             macro avg   0.937976  0.778595  0.815080     18122
+          weighted avg   0.931525  0.926222  0.920483     18122
+
+[[5986   29   98    8    0   16]
+ [  33 1574   59    0    0    0]
+ [ 125   43 1963    0    0    1]
+ [ 322   19   42  594    0    1]
+ [ 214    0   86   15  109    1]
+ [ 210    1    9    4    1 6559]]
+
+--------- PROPORTIONAL TRAINING SET SIZE 12000 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.927352  0.965130  0.945864      6137
+  ECONOMIC PERFORMANCE   0.948626  0.953181  0.950898      1666
+             ELECTIONS   0.877773  0.946529  0.910855      2132
+                HEALTH   0.955659  0.837423  0.892643       978
+              RELIGION   0.972028  0.654118  0.781997       425
+                SPORTS   0.997432  0.973172  0.985153      6784
+
+              accuracy                       0.950668     18122
+             macro avg   0.946478  0.888259  0.911235     18122
+          weighted avg   0.952285  0.950668  0.950201     18122
+
+[[5923   26  140   26    6   16]
+ [  22 1588   56    0    0    0]
+ [  64   48 2018    2    0    0]
+ [ 114   10   33  819    1    1]
+ [ 103    0   42    2  278    0]
+ [ 161    2   10    8    1 6602]]
+
+--------- PROPORTIONAL TRAINING SET SIZE 60000 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.951216  0.949976  0.950595      6137
+  ECONOMIC PERFORMANCE   0.938012  0.962785  0.950237      1666
+             ELECTIONS   0.892260  0.951689  0.921017      2132
+                HEALTH   0.917526  0.910020  0.913758       978
+              RELIGION   0.874408  0.868235  0.871311       425
+                SPORTS   0.997733  0.973172  0.985300      6784
+
+              accuracy                       0.955965     18122
+             macro avg   0.928526  0.935980  0.932036     18122
+          weighted avg   0.956860  0.955965  0.956227     18122
+
+[[5830   42  151   58   41   15]
+ [  18 1604   42    1    1    0]
+ [  42   54 2029    4    3    0]
+ [  56    9   20  890    3    0]
+ [  36    0   16    4  369    0]
+ [ 147    1   16   13    5 6602]]
+
+--------- BALANCED TRAINING SET SIZE 12 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.915374  0.336647  0.492256      6137
+  ECONOMIC PERFORMANCE   0.415136  0.786915  0.543532      1666
+             ELECTIONS   0.533144  0.528143  0.530631      2132
+                HEALTH   0.219986  0.648262  0.328497       978
+              RELIGION   0.088302  0.456471  0.147979       425
+                SPORTS   0.979695  0.796580  0.878699      6784
+
+              accuracy                       0.592374     18122
+             macro avg   0.525273  0.592169  0.486933     18122
+          weighted avg   0.791572  0.592374  0.629239     18122
+
+[[2066  665  558 1528 1248   72]
+ [   6 1311  224   78   26   21]
+ [  18  684 1126   81  213   10]
+ [  17  138   88  634   97    4]
+ [  10   42   16  158  194    5]
+ [ 140  318  100  403  419 5404]]
+
+--------- BALANCED TRAINING SET SIZE 60 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.938594  0.620173  0.746860      6137
+  ECONOMIC PERFORMANCE   0.714669  0.959184  0.819067      1666
+             ELECTIONS   0.709462  0.896811  0.792210      2132
+                HEALTH   0.484347  0.838446  0.614002       978
+              RELIGION   0.211551  0.767059  0.331638       425
+                SPORTS   0.997289  0.867630  0.927952      6784
+
+              accuracy                       0.791745     18122
+             macro avg   0.675985  0.824884  0.705288     18122
+          weighted avg   0.871459  0.791745  0.809718     18122
+
+[[3806  356  537  667  758   13]
+ [  11 1598   33   13   10    1]
+ [  14  115 1912   11   79    1]
+ [  28   49   33  820   48    0]
+ [  18    2   31   47  326    1]
+ [ 178  116  149  135  320 5886]]
+
+--------- BALANCED TRAINING SET SIZE 120 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.939717  0.746782  0.832214      6137
+  ECONOMIC PERFORMANCE   0.758314  0.971789  0.851881      1666
+             ELECTIONS   0.747007  0.907129  0.819318      2132
+                HEALTH   0.600692  0.887526  0.716467       978
+              RELIGION   0.379205  0.875294  0.529161       425
+                SPORTS   0.999180  0.897700  0.945726      6784
+
+              accuracy                       0.853438     18122
+             macro avg   0.737352  0.881037  0.782461     18122
+          weighted avg   0.891187  0.853438  0.861644     18122
+
+[[4583  303  412  471  364    4]
+ [   5 1619   29    5    8    0]
+ [  40  110 1934    8   39    1]
+ [  17   34   30  868   29    0]
+ [  15    8   20   10  372    0]
+ [ 217   61  164   83  169 6090]]
+
+--------- BALANCED TRAINING SET SIZE 600 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.954790  0.808701  0.875695      6137
+  ECONOMIC PERFORMANCE   0.866703  0.963986  0.912759      1666
+             ELECTIONS   0.790780  0.941370  0.859529      2132
+                HEALTH   0.713841  0.938650  0.810954       978
+              RELIGION   0.462175  0.920000  0.615264       425
+                SPORTS   0.998750  0.942364  0.969738      6784
+
+              accuracy                       0.898245     18122
+             macro avg   0.797840  0.919179  0.840656     18122
+          weighted avg   0.919297  0.898245  0.902804     18122
+
+[[4963  158  371  294  344    7]
+ [   3 1606   43    7    7    0]
+ [  28   66 2007   10   20    1]
+ [   9   13   13  918   25    0]
+ [  17    2   11    4  391    0]
+ [ 178    8   93   53   59 6393]]
+
+--------- BALANCED TRAINING SET SIZE 1200 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.953944  0.833632  0.889739      6137
+  ECONOMIC PERFORMANCE   0.906674  0.962185  0.933605      1666
+             ELECTIONS   0.813339  0.938086  0.871270      2132
+                HEALTH   0.794271  0.935583  0.859155       978
+              RELIGION   0.416493  0.938824  0.577007       425
+                SPORTS   0.999066  0.945755  0.971680      6784
+
+              accuracy                       0.907681     18122
+             macro avg   0.813964  0.925677  0.850409     18122
+          weighted avg   0.928726  0.907681  0.913289     18122
+
+[[5116   86  319  183  427    6]
+ [   3 1603   46    4   10    0]
+ [  19   60 2000    7   46    0]
+ [  16   11   13  915   23    0]
+ [  13    1    8    4  399    0]
+ [ 196    7   73   39   53 6416]]
+
+--------- BALANCED TRAINING SET SIZE 6000 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.962291  0.881538  0.920146      6137
+  ECONOMIC PERFORMANCE   0.919633  0.961585  0.940141      1666
+             ELECTIONS   0.854175  0.945122  0.897350      2132
+                HEALTH   0.859023  0.934560  0.895201       978
+              RELIGION   0.525358  0.950588  0.676717       425
+                SPORTS   0.998020  0.965949  0.981723      6784
+
+              accuracy                       0.932458     18122
+             macro avg   0.853083  0.939890  0.885213     18122
+          weighted avg   0.943205  0.932458  0.935299     18122
+
+[[5410   67  249  116  282   13]
+ [   5 1602   50    4    5    0]
+ [  22   60 2015    6   29    0]
+ [  16    8   16  914   24    0]
+ [  11    1    7    2  404    0]
+ [ 158    4   22   22   25 6553]]
+

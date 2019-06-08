@@ -1,0 +1,126 @@
+Running Knowledge Base experiments
+Prior class probabilities are ...
+Topic Code: GCRIM, Probability: 0.3294559099437148
+Topic Code: E11, Probability: 0.09139167862266857
+Topic Code: GVOTE, Probability: 0.11830923739101644
+Topic Code: GHEA, Probability: 0.054044807416399956
+Topic Code: GREL, Probability: 0.02504138616046794
+Topic Code: GSPO, Probability: 0.38175698046573225
+
+Size of test set is 18122
+
+Wiki topic probabilies shape: (117, 11243)
+Wiki topic probabilies shape: (18122, 11243)
+--------- PROPORTIONAL TRAINING SET SIZE 120 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.727001  0.950301  0.823787      6137
+  ECONOMIC PERFORMANCE   0.983990  0.479592  0.644875      1666
+             ELECTIONS   0.964238  0.670263  0.790814      2132
+                HEALTH   1.000000  0.113497  0.203857       978
+              RELIGION   0.000000  0.000000  0.000000       425
+                SPORTS   0.857310  0.972435  0.911251      6784
+
+              accuracy                       0.814921     18122
+             macro avg   0.755423  0.531015  0.562430     18122
+          weighted avg   0.825001  0.814921  0.783426     18122
+
+[[5832    4   13    0    0  288]
+ [ 447  799   29    0    0  391]
+ [ 596    6 1429    0    0  101]
+ [ 620    3    5  111    0  239]
+ [ 341    0    5    0    0   79]
+ [ 186    0    1    0    0 6597]]
+
+Wiki topic probabilies shape: (597, 12122)
+Wiki topic probabilies shape: (18122, 12122)
+--------- PROPORTIONAL TRAINING SET SIZE 600 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.812517  0.977350  0.887344      6137
+  ECONOMIC PERFORMANCE   0.986597  0.795318  0.880691      1666
+             ELECTIONS   0.920563  0.858818  0.888619      2132
+                HEALTH   0.972119  0.534765  0.689974       978
+              RELIGION   1.000000  0.232941  0.377863       425
+                SPORTS   0.971348  0.969487  0.970417      6784
+
+              accuracy                       0.902384     18122
+             macro avg   0.943857  0.728113  0.782485     18122
+          weighted avg   0.913701  0.902384  0.895381     18122
+
+[[5998    5   78    3    0   53]
+ [ 213 1325   48    0    0   80]
+ [ 264    9 1831    0    0   28]
+ [ 422    3   12  523    0   18]
+ [ 288    0   15    8   99   15]
+ [ 197    1    5    4    0 6577]]
+
+Wiki topic probabilies shape: (1197, 12454)
+Wiki topic probabilies shape: (18122, 12454)
+--------- PROPORTIONAL TRAINING SET SIZE 1200 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.843675  0.972625  0.903573      6137
+  ECONOMIC PERFORMANCE   0.976107  0.833733  0.899320      1666
+             ELECTIONS   0.912488  0.870544  0.891023      2132
+                HEALTH   0.964169  0.605317  0.743719       978
+              RELIGION   0.992908  0.329412  0.494700       425
+                SPORTS   0.967666  0.974941  0.971290      6784
+
+              accuracy                       0.913806     18122
+             macro avg   0.942836  0.764429  0.817271     18122
+          weighted avg   0.920364  0.913806  0.908839     18122
+
+[[5969    9   85    4    1   69]
+ [ 146 1389   58    0    0   73]
+ [ 223   19 1856    0    0   34]
+ [ 342    6   14  592    0   24]
+ [ 235    0   15   14  140   21]
+ [ 160    0    6    4    0 6614]]
+
+Wiki topic probabilies shape: (5997, 12945)
+Wiki topic probabilies shape: (18122, 12945)
+--------- PROPORTIONAL TRAINING SET SIZE 6000 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.868731  0.973766  0.918254      6137
+  ECONOMIC PERFORMANCE   0.971673  0.885354  0.926508      1666
+             ELECTIONS   0.914676  0.879925  0.896964      2132
+                HEALTH   0.975887  0.703476  0.817588       978
+              RELIGION   0.976744  0.494118  0.656250       425
+                SPORTS   0.983417  0.979068  0.981238      6784
+
+              accuracy                       0.930747     18122
+             macro avg   0.948521  0.819285  0.866134     18122
+          weighted avg   0.934849  0.930747  0.928509     18122
+
+[[5976   15   91    9    4   42]
+ [ 109 1475   50    0    0   32]
+ [ 210   24 1876    1    1   20]
+ [ 265    4   11  688    0   10]
+ [ 189    0   14    4  210    8]
+ [ 130    0    9    3    0 6642]]
+
+Wiki topic probabilies shape: (11997, 13107)
+Wiki topic probabilies shape: (18122, 13107)
+--------- PROPORTIONAL TRAINING SET SIZE 12000 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.883230  0.974906  0.926807      6137
+  ECONOMIC PERFORMANCE   0.967825  0.902761  0.934161      1666
+             ELECTIONS   0.923263  0.897280  0.910086      2132
+                HEALTH   0.979396  0.729039  0.835873       978
+              RELIGION   0.983051  0.545882  0.701967       425
+                SPORTS   0.983575  0.979805  0.981687      6784
+
+              accuracy                       0.937645     18122
+             macro avg   0.953390  0.838279  0.881763     18122
+          weighted avg   0.940812  0.937645  0.935880     18122
+
+[[5983   13   78   10    3   50]
+ [  92 1504   48    0    0   22]
+ [ 174   27 1913    1    1   16]
+ [ 229    8   15  713    0   13]
+ [ 170    0   12    1  232   10]
+ [ 126    2    6    3    0 6647]]
+
