@@ -25,6 +25,9 @@ class Classifier:
         self.max_depth = max_depth
         self.topic_name_to_node = {}    # Cache of topics so we can avoid costly DB lookups
         self.tfidf = None
+        # Below is so we can maintain an integer identifier to topic name mapping for generating word embeddings
+        self.topic_id = 0
+        self.topic_name_to_id = {}
             
         
     def identify_topic_probabilities(self, text):
@@ -246,6 +249,10 @@ class Classifier:
                 # Haven't seen the topic yet, create it
                 topic_node = TopicNode(topic_name, 0)
                 topic_name_to_node[topic_name] = topic_node
+                
+                # Update the topic name ID lookup table
+                self.topic_name_to_id[topic_name] = self.topic_id
+                self.topic_id += 1
             
             # We need to explore upwards from this topic
             to_process = deque([])
@@ -277,6 +284,10 @@ class Classifier:
                         if parent_topic_name not in topic_name_to_node:
                             parent_topic = TopicNode(parent_topic_name, parent_topic_depth)
                             topic_name_to_node[parent_topic_name] = parent_topic
+                            
+                            # Update the topic name ID lookup table
+                            self.topic_name_to_id[parent_topic_name] = self.topic_id
+                            self.topic_id += 1
                             
                             # Only get topic's parent if we haven't exceeded the max depth
                             if parent_topic_depth < self.max_depth:

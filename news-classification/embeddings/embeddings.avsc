@@ -1,0 +1,20 @@
+{
+    "namespace": "embeddings.avro",
+     "type": "record",
+     "name": "phrase_embedding",
+     "fields": [
+         {"name": "phrase", "type": "string"},
+         {"name": "topic_probs",  "type": {
+                 "type" : "array",
+                 "items" : {
+                     "name": "topic_prob",
+                     "type": "record",
+                     "fields": [
+                         {"name": "topic_id", "type": "int"},
+                         {"name": "prob", "type": "float"}
+                     ]
+                 }
+             }
+         }
+     ]
+}
