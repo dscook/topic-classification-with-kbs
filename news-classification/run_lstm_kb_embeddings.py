@@ -13,7 +13,8 @@ from word_embeddings import DocToIntSequenceConverter
 from lstm_common import split_data, calculate_max_sequence_length
 from lstm import LstmPredictor
 from embeddings import EmbeddingModel
-from lookup_tables import int_to_topic_code
+from lookup_tables import int_to_topic_code, topic_code_to_topic_dict
+from sklearn.metrics import classification_report
 
 ###
 ### LOAD THE DATA
@@ -43,15 +44,30 @@ embedding_model = EmbeddingModel('embeddings/embeddings-depth-1.avro',
 word_embedding_dim = embedding_model.get_embedding_dim()
 print('Word embedding dimension is {}'.format(word_embedding_dim))
 
-print(embedding_model.get_vector('tropical hardwoods'))
-
-###
+#
+##
 ### TRAIN THE LSTM
 ###
-#lstm = LstmPredictor(article_to_int_seq_converter.get_word_index(),
-#                     word_embedding_dim,
-#                     max_sequence_length,
-#                     embedding_model,
-#                     len(int_to_topic_code.values()),
-#                     weights_path='models/lstm_kb_embeddings.h5')
-#lstm.train(train_x_seq, train_y, val_x_seq, val_y)
+lstm = LstmPredictor(article_to_int_seq_converter.get_word_index(),
+                     word_embedding_dim,
+                     max_sequence_length,
+                     embedding_model,
+                     len(int_to_topic_code.values()),
+                     weights_path='models/lstm_kb_embeddings.h5')
+lstm.train(train_x_seq, train_y, val_x_seq, val_y)
+
+
+###
+### MAKE THE PREDICTIONS
+###
+
+# Re-initialise the LSTM, will use weights from the previous training run.
+lstm = LstmPredictor(article_to_int_seq_converter.get_word_index(),
+                     word_embedding_dim,
+                     max_sequence_length,
+                     embedding_model,
+                     len(int_to_topic_code.values()),
+                     use_saved_weights=True,
+                     weights_path='models/lstm_kb_embeddings.h5')
+test_y_predict = lstm.predict(test_x_seq)
+print(classification_report(test_y, test_y_predict, digits=6, target_names=topic_code_to_topic_dict.values()))
