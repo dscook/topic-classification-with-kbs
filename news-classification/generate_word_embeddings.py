@@ -97,8 +97,8 @@ for document in train_x:
     
 embeddings_writer.close()
 
-# Write out word to ID mapping
-with open('embeddings/word-id-mapping-depth-1.csv', 'w', newline='') as csv_mapping_file:
+# Write out topic to ID mapping
+with open('embeddings/topic-id-mapping-depth-1.csv', 'w', newline='') as csv_mapping_file:
     mappings_writer = csv.writer(csv_mapping_file)
     for topic_name, identifier in classifier.topic_name_to_id.items():
         in_use = '0'

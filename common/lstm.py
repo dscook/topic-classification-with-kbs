@@ -17,7 +17,8 @@ class LstmPredictor():
                  max_words_in_document,
                  word_embedding_model,
                  num_topics,
-                 use_saved_weights=False):
+                 use_saved_weights=False,
+                 weights_path='models/lstm.h5'):
         """
         :param word_index: a mapping of words in the vocabularly to integer IDs.
         :param word_embedding_dim: the length of a word embedding vector.
@@ -25,6 +26,7 @@ class LstmPredictor():
         :param word_embedding_model: a Gensim KeyedVectors word embedding model.
         :param num_topics: the number of topics to predict.
         :param use_saved_weights: if True will load saved weights from a previous training run.
+        :param weights_path: where to save best model weights.
         """
         self.model = self.create_lstm(word_index,
                                       word_embedding_dim,
@@ -33,7 +35,7 @@ class LstmPredictor():
                                       num_topics)
         
         # Path where weights from training should be saved
-        self.weights_path = 'models/lstm.h5'
+        self.weights_path = weights_path
         if use_saved_weights:
             self.model.load_weights(self.weights_path)
         
