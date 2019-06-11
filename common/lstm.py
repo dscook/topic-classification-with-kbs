@@ -115,7 +115,7 @@ class LstmPredictor():
         return model
     
     
-    def train(self, x, y, x_val, y_val):
+    def train(self, x, y, x_val, y_val, class_weight=None):
         """
         Trains the LSTM model.
         
@@ -124,16 +124,17 @@ class LstmPredictor():
         :param y: the document topics.  Must be one hot encoded.
         :param x_val: the validation documents, same format as x param.
         :param y_val: the validation document topics, same format as y param.
+        :param class_weight: the class weights to use to pay more attention to under represented classes.
         """
         # Convert labels into one hot encoding for use with a neural network
         y_cat = to_categorical(y)
         y_val_cat = to_categorical(y_val)
         
         callbacks_list = [
-                EarlyStopping(monitor='val_loss', patience=10),
+                EarlyStopping(monitor='val_loss', patience=20),
                 ModelCheckpoint(filepath=self.weights_path, monitor='val_loss', save_best_only=True)]
         self.model.fit(x, y_cat, epochs=100, callbacks=callbacks_list, 
-                       batch_size=32, validation_data=(x_val, y_val_cat))
+                       batch_size=32, validation_data=(x_val, y_val_cat), class_weight=class_weight)
     
     
     def predict(self, x):
