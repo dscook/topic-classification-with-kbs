@@ -21,7 +21,7 @@ from kb_common import wiki_topics_to_actual_topics
 ###
 
 #x, y = load_preprocessed_data('data/rcv1_no_stopwords_no_noun_grouping.csv')
-x, y = load_preprocessed_data('data/rcv1_no_stopwords_reduced.csv')
+x, y = load_preprocessed_data('data/rcv1_no_stopwords.csv')
 x = np.array(x)
 y = np.array(y)
 train_x = x
@@ -33,7 +33,7 @@ train_y = y
 ###
 
 schema = avro.schema.Parse(open('embeddings/embeddings.avsc', 'r').read())
-embeddings_writer = DataFileWriter(open('embeddings/embeddings-depth-1-reduced.avro', 'wb'), DatumWriter(), schema)
+embeddings_writer = DataFileWriter(open('embeddings/embeddings-depth-1.avro', 'wb'), DatumWriter(), schema)
 
 classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
                         root_topic_names=wiki_topics_to_actual_topics.keys(),
@@ -49,7 +49,7 @@ total_processed = 0
 last_percent_complete = 0
 
 # To write out topic to ID mapping
-with open('embeddings/topic-id-mapping-depth-1-reduced.csv', 'w', newline='', buffering=1) as csv_mapping_file:
+with open('embeddings/topic-id-mapping-depth-1.csv', 'w', newline='', buffering=1) as csv_mapping_file:
     
     mappings_writer = csv.writer(csv_mapping_file)
 
@@ -85,16 +85,13 @@ with open('embeddings/topic-id-mapping-depth-1-reduced.csv', 'w', newline='', bu
                 # Create topic id, probability pairs
                 topic_id_prob_pairs = []
                 for topic_name, probability in probabilities.items():
-                    if topic_name.startswith('Phrase:'):
-                        print(topic_name)
-                    else:
-                        topic_id = classifier.topic_name_to_id[topic_name]
-                        
-                        topic_id_prob_pairs.append({'topic_id': topic_id, 'prob': probability})
-                        
-                        if topic_id not in topic_ids_present:
-                            topic_ids_present.add(topic_id)
-                            mappings_writer.writerow([topic_name, topic_id])
+                    topic_id = classifier.topic_name_to_id[topic_name]
+                    
+                    topic_id_prob_pairs.append({'topic_id': topic_id, 'prob': probability})
+                    
+                    if topic_id not in topic_ids_present:
+                        topic_ids_present.add(topic_id)
+                        mappings_writer.writerow([topic_name, topic_id])
                 
                 embeddings_writer.append({ 'phrase': phrase, 'topic_probs': topic_id_prob_pairs })
                 

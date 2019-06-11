@@ -226,7 +226,11 @@ class Classifier:
     
     def get_topic_probabilities(self, depth):
         depths = sorted(self.traversed_nodes.keys(), reverse=True)
-        depth_to_return = depths[0] - depth
+        depth_to_return = None
+        if depth == -1:
+            depth_to_return = depths[-1]
+        else:
+            depth_to_return = depths[0] - depth
         
         total_vote = 0
         for topic in self.traversed_nodes[depth_to_return].values():

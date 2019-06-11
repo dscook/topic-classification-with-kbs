@@ -12,8 +12,8 @@ from kb_common import wiki_topics_to_actual_topics
 namespace = uuid.uuid4()
 last_doc_id = None
 doc_id_to_text = {}
-doc_id_to_topic_prob_cache = LFUCache(maxsize=100000)
-doc_id_to_depth_prob_cache = LFUCache(maxsize=100000)
+#doc_id_to_topic_prob_cache = LFUCache(maxsize=100000)
+#doc_id_to_depth_prob_cache = LFUCache(maxsize=100000)
 
 app = Flask(__name__)
 classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
@@ -53,13 +53,13 @@ def probabilities(depth):
     return get_topic_probabilities(last_doc_id, int(depth))
 
 
-@cached(doc_id_to_topic_prob_cache)
+#@cached(doc_id_to_topic_prob_cache)
 def identify_topic_probabilities(doc_id):
     topic_to_prob = classifier.identify_topic_probabilities(doc_id_to_text[doc_id])
     return jsonify(topic_to_prob)
 
 
-@cached(doc_id_to_depth_prob_cache)
+#@cached(doc_id_to_depth_prob_cache)
 def get_topic_probabilities(doc_id, depth):
     probabilities = classifier.get_topic_probabilities(depth)
     return jsonify(probabilities)
