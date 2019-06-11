@@ -8,17 +8,18 @@ from sparql_dao import SparqlDao
 from graph_structures import TopicNode
 
 
-phrase_to_topics_cache = LFUCache(maxsize=10000000)
+phrase_to_topics_cache = LFUCache(maxsize=1000000)
 
 
 class Classifier:
 
 
-    def __init__(self, sparql_endpoint_url, root_topic_names, max_depth):
+    def __init__(self, sparql_endpoint_url, root_topic_names, max_depth, phrase_path='../kb-classifier/data/anchors.txt'):
         """
        :param endpoint_url: the SPARQL endpoint URL.
        :param root_topic_names: set of the names of the topics we are classifying.
        :param max_depth: the maximum depth we are permitted to traverse upwards from the leaf nodes.
+       :param phrase_path: path to the file containing valid phrases.
         """
         self.dao = SparqlDao(sparql_endpoint_url)
         self.root_topic_names = root_topic_names
@@ -28,6 +29,13 @@ class Classifier:
         # Below is so we can maintain an integer identifier to topic name mapping for generating word embeddings
         self.topic_id = 0
         self.topic_name_to_id = {}
+        # Prime a cache of all valid phrases to prevent costly DB lookups
+        self.valid_phrases = set()
+        with open(phrase_path, 'r') as anchors:
+            for anchor in anchors:
+                if anchor.strip() != '':
+                    self.valid_phrases.add(anchor.strip())
+        print('Classifier Initialised')
             
         
     def identify_topic_probabilities(self, text):
@@ -180,7 +188,9 @@ class Classifier:
                 
                 phrase = ' '.join(updated_tokens)
                 
-                topics = self.identify_topics(phrase)
+                topics = None
+                if phrase in self.valid_phrases:
+                    topics = self.identify_topics(phrase)
                 
                 # Found topics, no need to look for smaller word n-gram matches
                 if topics:

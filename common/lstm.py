@@ -4,6 +4,7 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.layers import Embedding, LSTM, Dense
 from keras.models import Sequential
 from keras.utils import to_categorical
+from keras.optimizers import Adam
 import numpy as np
 
 class LstmPredictor():
@@ -39,7 +40,7 @@ class LstmPredictor():
         if use_saved_weights:
             self.model.load_weights(self.weights_path)
         
-        self.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
+        self.model.compile(optimizer=Adam(lr=0.0005), loss='categorical_crossentropy', metrics=['acc'])
     
 
     def create_embedding_matrix(self,
@@ -100,7 +101,8 @@ class LstmPredictor():
         
         model = Sequential()
         model.add(Embedding(num_words_in_vocab, word_embedding_dim, input_length=max_words_in_document))
-        model.add(LSTM(64))
+        model.add(LSTM(128))
+        model.add(Dense(64, activation='relu'))
         model.add(Dense(32, activation='relu'))
         model.add(Dense(num_topics, activation='softmax'))
             
@@ -128,9 +130,9 @@ class LstmPredictor():
         y_val_cat = to_categorical(y_val)
         
         callbacks_list = [
-                EarlyStopping(monitor='val_loss', patience=3),
+                EarlyStopping(monitor='val_loss', patience=10),
                 ModelCheckpoint(filepath=self.weights_path, monitor='val_loss', save_best_only=True)]
-        self.model.fit(x, y_cat, epochs=20, callbacks=callbacks_list, 
+        self.model.fit(x, y_cat, epochs=100, callbacks=callbacks_list, 
                        batch_size=32, validation_data=(x_val, y_val_cat))
     
     

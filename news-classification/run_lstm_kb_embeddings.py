@@ -31,7 +31,7 @@ print('Number of training examples: {}'.format(len(train_x)))
 max_sequence_length = calculate_max_sequence_length(train_x)
 
 # Convert articles to sequence of integers representing the words
-article_to_int_seq_converter = DocToIntSequenceConverter(train_x, max_sequence_length)
+article_to_int_seq_converter = DocToIntSequenceConverter(x, max_sequence_length)
 train_x_seq = article_to_int_seq_converter.convert_to_integer_sequences(train_x)
 val_x_seq = article_to_int_seq_converter.convert_to_integer_sequences(val_x)
 test_x_seq = article_to_int_seq_converter.convert_to_integer_sequences(test_x)
@@ -39,8 +39,8 @@ test_x_seq = article_to_int_seq_converter.convert_to_integer_sequences(test_x)
 ###
 ### GET THE CUSTOM KNOWLEDGE BASE WORD EMBEDDINGS
 ###
-embedding_model = EmbeddingModel('embeddings/embeddings-depth-1.avro',
-                                 'embeddings/topic-id-mapping-depth-1.csv')
+embedding_model = EmbeddingModel('embeddings/embeddings-depth-1-reduced.avro',
+                                 'embeddings/topic-id-mapping-depth-1-reduced.csv')
 word_embedding_dim = embedding_model.get_embedding_dim()
 print('Word embedding dimension is {}'.format(word_embedding_dim))
 
