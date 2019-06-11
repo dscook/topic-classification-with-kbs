@@ -18,10 +18,8 @@ class EmbeddingModel:
             mapping_reader = csv.reader(csvfile)
             for row in mapping_reader:
                 identifier = int(row[1])
-                involved = bool(int(row[2]))
-                if involved:
-                    self.topic_id_to_index[identifier] = self.embedding_dim
-                    self.embedding_dim += 1
+                self.topic_id_to_index[identifier] = self.embedding_dim
+                self.embedding_dim += 1
         
         # To store phrase to embedding vector
         self.phrase_to_embedding = {}

@@ -49,7 +49,7 @@ total_processed = 0
 last_percent_complete = 0
 
 # To write out topic to ID mapping
-with open('embeddings/topic-id-mapping-depth-1-reduced.csv', 'w', newline='') as csv_mapping_file:
+with open('embeddings/topic-id-mapping-depth-1-reduced.csv', 'w', newline='', buffering=1) as csv_mapping_file:
     
     mappings_writer = csv.writer(csv_mapping_file)
 
@@ -94,7 +94,7 @@ with open('embeddings/topic-id-mapping-depth-1-reduced.csv', 'w', newline='') as
                         
                         if topic_id not in topic_ids_present:
                             topic_ids_present.add(topic_id)
-                            mappings_writer.writerow([topic_name, topic_id, '1'])
+                            mappings_writer.writerow([topic_name, topic_id])
                 
                 embeddings_writer.append({ 'phrase': phrase, 'topic_probs': topic_id_prob_pairs })
                 
