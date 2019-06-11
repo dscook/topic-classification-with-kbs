@@ -39,8 +39,8 @@ test_x_seq = article_to_int_seq_converter.convert_to_integer_sequences(test_x)
 ###
 ### GET THE CUSTOM KNOWLEDGE BASE WORD EMBEDDINGS
 ###
-embedding_model = EmbeddingModel('embeddings/embeddings-depth-1-reduced.avro',
-                                 'embeddings/topic-id-mapping-depth-1-reduced.csv')
+embedding_model = EmbeddingModel('embeddings/embeddings-depth-1.avro',
+                                 'embeddings/topic-id-mapping-depth-1.csv')
 word_embedding_dim = embedding_model.get_embedding_dim()
 print('Word embedding dimension is {}'.format(word_embedding_dim))
 
