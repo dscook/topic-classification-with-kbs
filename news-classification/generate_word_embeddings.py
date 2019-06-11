@@ -21,7 +21,7 @@ from kb_common import wiki_topics_to_actual_topics
 ###
 
 #x, y = load_preprocessed_data('data/rcv1_no_stopwords_no_noun_grouping.csv')
-x, y = load_preprocessed_data('data/rcv1_no_stopwords.csv')
+x, y = load_preprocessed_data('data/rcv1_no_stopwords_reduced.csv')
 x = np.array(x)
 y = np.array(y)
 train_x = x
@@ -33,7 +33,7 @@ train_y = y
 ###
 
 schema = avro.schema.Parse(open('embeddings/embeddings.avsc', 'r').read())
-embeddings_writer = DataFileWriter(open('embeddings/embeddings-depth-1.avro', 'wb'), DatumWriter(), schema)
+embeddings_writer = DataFileWriter(open('embeddings/embeddings-depth-1-reduced.avro', 'wb'), DatumWriter(), schema)
 
 classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
                         root_topic_names=wiki_topics_to_actual_topics.keys(),
@@ -49,7 +49,7 @@ total_processed = 0
 last_percent_complete = 0
 
 # To write out topic to ID mapping
-with open('embeddings/topic-id-mapping-depth-1.csv', 'w', newline='') as csv_mapping_file:
+with open('embeddings/topic-id-mapping-depth-1-reduced.csv', 'w', newline='') as csv_mapping_file:
     
     mappings_writer = csv.writer(csv_mapping_file)
 
@@ -64,10 +64,7 @@ with open('embeddings/topic-id-mapping-depth-1.csv', 'w', newline='') as csv_map
             print('Percent complete: {}%'.format(percent_complete))
             last_percent_complete = percent_complete
         total_processed += 1
-        
-        # This stage ensures the reachable topic hierarchy has been materialised
-        classifier.identify_topic_probabilities(document)
-        
+                
         # This stage returns all phrases from the text that are in the knowledge base
         phrase_to_topic_matches, _ = classifier.identify_leaf_topics(document)
             
