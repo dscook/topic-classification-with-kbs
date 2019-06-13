@@ -31,6 +31,10 @@ class SparqlDao:
         self.PREFIX_XSD = 'PREFIX xsd: <{}>'.format(self.NS_XSD)
         self.NS_DSC38 = 'http://www.bath.ac.uk/dsc38/ontology#'
         self.PREFIX_DSC38 = 'PREFIX dsc38: <{}>'.format(self.NS_DSC38)
+        self.NS_RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+        self.PREFIX_RDF = 'PREFIX rdf: <{}>'.format(self.NS_RDF)
+        self.NS_RDFS = 'http://www.w3.org/2000/01/rdf-schema#'
+        self.PREFIX_RDFS = 'PREFIX rdfs: <{}>'.format(self.NS_RDFS)
 
     
     def get_parent_topics(self, topic):
@@ -185,6 +189,35 @@ class SparqlDao:
         results = self.sparql_query.query().convert()
         resources = self.extract_matches_from_results(results, 'resource', prefix_to_remove=self.NS_DBPEDIA)
         return resources
+
+
+    def filter_undesired_types(self, resource):
+        """
+        Returns None if the resource is an undesired type.  Currenty these are:
+            * Places.
+
+        Otherwise returns the resource unchanged.
+        """
+        to_return = resource
+        
+        self.sparql_query.setQuery(f"""
+            {self.PREFIX_RDF}
+            {self.PREFIX_RDFS}
+            {self.PREFIX_DBPEDIA_OWL}
+            
+            SELECT ?type
+            WHERE {{
+                <http://dbpedia.org/resource/{resource}> rdf:type ?type .
+                ?type rdfs:subClassOf+ dbpediaowl:Place
+            }}
+            """)
+        results = self.sparql_query.query().convert()
+        types = self.extract_matches_from_results(results, 'type', prefix_to_remove='')
+        
+        if len(types) > 0:
+            to_return = None
+        return to_return
+
 
     def get_topics_for_phrase(self, phrase):
         """

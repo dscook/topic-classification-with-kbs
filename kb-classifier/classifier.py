@@ -333,7 +333,8 @@ class Classifier:
         :param phrase: the phrase to lookup
         :returns: the name of the resource for the phrase.
         """
-        return self.dao.get_resource_for_phrase(phrase)
+        resource = self.dao.get_resource_for_phrase(phrase)
+        return self.dao.filter_undesired_types(resource)
 
 
     @cached(phrase_to_resource_from_redirect_cache)
@@ -344,7 +345,8 @@ class Classifier:
         :param phrase: the phrase to lookup
         :returns: the name of the resource for the phrase.
         """
-        return self.dao.get_resource_for_phrase_from_redirect(phrase)
+        resource = self.dao.get_resource_for_phrase_from_redirect(phrase)
+        return self.dao.filter_undesired_types(resource)
 
 
     @cached(phrase_to_resources_from_anchor_cache)
