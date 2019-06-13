@@ -8,10 +8,10 @@ from sparql_dao import SparqlDao
 from graph_structures import TopicNode
 
 
-phrase_to_topics_cache = LFUCache(maxsize=1000000)
 phrase_to_resource_cache = LFUCache(maxsize=100000)
 phrase_to_resource_from_redirect_cache = LFUCache(maxsize=100000)
 phrase_to_resources_from_anchor_cache = LFUCache(maxsize=1000000)
+resource_to_topics_cache = LFUCache(maxsize=1000000)
 
 class Classifier:
 
@@ -33,7 +33,6 @@ class Classifier:
         self.root_topic_names = root_topic_names
         self.max_depth = max_depth
         self.topic_name_to_node = {}    # Cache of topics so we can avoid costly DB lookups
-        self.tfidf = None
         # Below is so we can maintain an integer identifier to topic name mapping for generating word embeddings
         self.topic_id = 0
         self.topic_name_to_id = {}
@@ -65,18 +64,17 @@ class Classifier:
         :param text: the text to identify the topic probabilities for.
         :returns: a dict containing topic name to topic probability.
         """
-        phrase_to_leaf_nodes, phrase_to_occurences = self.identify_leaf_nodes(text)
+        # Get the resources associated with the phrases
+        phrase_to_resources, phrase_to_occurences = self.identify_leaf_nodes(text)
         
-        
-        phrase_to_topic_dict, phrase_to_occurences = self.identify_leaf_topics(text)
-        
-        # Calculate document length based on the number of matching phrases
-        document_length = 0
-        for count in phrase_to_occurences.values():
-            document_length += count
-                        
+        # Get the topics associated with the resources
+        resource_to_topics = {}
+        for resources in phrase_to_resources.values():
+            for resource in resources:
+                resource_to_topics[resource] = self.identify_topics(resource)
+                                
         # Materialise the reachable topic hierarchy        
-        for phrase, topics in phrase_to_topic_dict.items():
+        for topics in resource_to_topics.values():
             for topic_name in topics:
                 self.populate_topic_name_to_node(self.topic_name_to_node, topic_name)
         
@@ -89,28 +87,26 @@ class Classifier:
         self.traversed_nodes = {}
         
         # Initialise the votes
-        for phrase, topics in phrase_to_topic_dict.items():
+        for phrase, resources in phrase_to_resources.items():
             
             phrase_leaf = self.get_or_add_topic_to_cache('Phrase:' + phrase, self.traversed_nodes, depth=0)
             phrase_leaf.upwards_vote = phrase_to_occurences[phrase]
             
-            # Split the vote for the phrase amongst its topics
-            if self.tfidf:
-                # We have the TF-IDF module so we can use TFIDF as the starting vote
-                split_vote = (self.tfidf.calculate_tfidf(phrase, 
-                                                         phrase_to_occurences[phrase], 
-                                                         document_length) / len(topics))
-            else:
-                # Note the phrase has a higher starting vote if it occurs multiple times in the document
-                split_vote = phrase_to_occurences[phrase] / len(topics)
+            # Note the phrase has a higher starting vote if it occurs multiple times in the document
+            # Split the vote amongst the phrases resources
+            split_vote = phrase_to_occurences[phrase] / len(resources)
             
-            # Update each topic with the vote contribution
-            for topic in topics:
-                self.topic_name_to_node[topic].vote += split_vote
+            # Now allocate each resources vote amongst its topics
+            for resource in resources:
+                topics = resource_to_topics[resource]
+                split_vote_among_topics = split_vote / len(topics)
                 
-                traversed_topic = self.get_or_add_topic_to_cache(topic, self.traversed_nodes, depth=1)
-                traversed_topic.upwards_vote += split_vote
-                traversed_topic.add_child_topic(phrase_leaf)
+                for topic in topics:
+                    self.topic_name_to_node[topic].vote += split_vote_among_topics
+                    
+                    traversed_topic = self.get_or_add_topic_to_cache(topic, self.traversed_nodes, depth=1)
+                    traversed_topic.upwards_vote += split_vote_among_topics
+                    traversed_topic.add_child_topic(phrase_leaf)
         
         # Transfer each node's vote evenly across its parents
         for i in range(self.max_depth):
@@ -248,81 +244,16 @@ class Classifier:
         
         return phrase_to_node_matches, phrase_to_occurences
     
-    
-    def identify_leaf_topics(self, text):
-        """
-        Given a text returns a dictionary keyed by phrase with value of the corresponding topic
-        matches at the bottom of the topic hierarchy.
-        It is assumed the text has had stopwords removed and can be tokenised by splitting on
-        whitespace.
-        The method attempts to match a 3 word phrase, if this fails then 2 word phrase down to 1.
-        Once a match is achieved the words are consumed.
-        
-        :param text: the text to find leaf topics for.
-        :returns: tuple (dictionary of phrase to leaf topic matches, 
-                         dictionary of phrase to number of occurences in document)
-        """
-        phrase_to_topic_matches = {}
-        phrase_to_occurences = defaultdict(int)
-        
-        tokens = text.split()
-        
-        # Maintain the start of the phrase we are processing
-        index = 0
-        
-        # Initially consider a phrase of word length 3
-        phrase_length = 3
-        
-        while index < len(tokens):
-            
-            # Check the phrase length doesn't exceed the end of the string
-            while index + phrase_length > len(tokens):
-                phrase_length -= 1
-            
-            # Try and find a match for 3 word phrase, then 2 then 1
-            topics = []
-            while phrase_length > 0:
-                # Check to see if we can obtain topics for the phrase
-                updated_tokens= []
-                for token in tokens[index:index+phrase_length]:
-                    updated_tokens.extend(token.split('_'))
-                
-                phrase = ' '.join(updated_tokens)
-                
-                topics = None
-                if phrase in self.valid_phrases:
-                    topics = self.identify_topics(phrase)
-                
-                # Found topics, no need to look for smaller word n-gram matches
-                if topics:
-                    phrase_to_topic_matches[phrase] = topics
-                    phrase_to_occurences[phrase] += 1
-                    break
-            
-                phrase_length -= 1
-            
-            # Cover the case where we couldn't find a topics match
-            if phrase_length == 0:
-                phrase_length = 1
-                
-            # We have a match, consume the phrase
-            index += phrase_length
-            
-            # Reset phrase length for processing next index
-            phrase_length = 3
-        
-        return phrase_to_topic_matches, phrase_to_occurences
 
-
-    @cached(phrase_to_topics_cache)
-    def identify_topics(self, phrase):
+    @cached(resource_to_topics_cache)
+    def identify_topics(self, resource):
         """
-        Given a phrase, looks up the phrase in the ontology to determine its immediate topics.
+        Given a resource, looks up the resource in the ontology to determine its immediate topics.
         
-        :param phrase: the phrase to lookup
+        :param resource: the resource to lookup
         """
-        # Get the the list of topic names for the phrase
-        return self.dao.get_topics_for_phrase(phrase)
+        # Get the the list of topic names for the resource
+        return self.dao.get_topics_for_resource(resource)
     
     
     @cached(phrase_to_resource_cache)

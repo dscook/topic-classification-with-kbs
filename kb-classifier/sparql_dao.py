@@ -219,13 +219,13 @@ class SparqlDao:
         return to_return
 
 
-    def get_topics_for_phrase(self, phrase):
+    def get_topics_for_resource(self, resource):
         """
-        Given a phrase, get the list of topics that are associated with that phrase.
+        Given a resource, get the list of immediate topics that are associated with that resource.
         
-        :param phrase: the phrase to lookup.
-        :returns: the list of topic names associated with the phrase or an empty list if
-                  the phrase couldn't be matched to any topics.
+        :param resource: the resource to lookup.
+        :returns: the list of topic names associated with the resource or an empty list if
+                  the resource couldn't be matched to any topics.
         """
         self.sparql_query.setQuery(f"""
             {self.PREFIX_DBPEDIA_OWL}
@@ -235,8 +235,7 @@ class SparqlDao:
             
             SELECT ?topic
             WHERE {{ 
-                ?subject dbpediaowl:wikiPageWikiLinkText "{phrase}"@en .
-                ?subject dct:subject ?topic .
+                <http://dbpedia.org/resource/{resource}> dct:subject ?topic .
                 ?topic dsc38:reachable "true"^^xsd:boolean
             }}
             """)

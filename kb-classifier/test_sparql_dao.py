@@ -54,6 +54,14 @@ class SparqlDaoTestCase(unittest.TestCase):
         self.assertEqual(resource, 'David_Cameron')
         resource = self.dao.filter_undesired_types('United_States')
         self.assertEqual(resource, None)
+    
+    
+    def test_get_topics_for_resource(self):
+        topics = self.dao.get_topics_for_resource('David_Cameron')
+        self.assertEqual(topics, ['Prime_Ministers_of_the_United_Kingdom',
+                                  'Leaders_of_the_Opposition_(United_Kingdom)',
+                                  'British_monarchists',
+                                  'Panama_Papers'])
 
 
 if __name__ == '__main__':
