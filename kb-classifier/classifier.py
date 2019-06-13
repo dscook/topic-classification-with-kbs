@@ -11,6 +11,7 @@ from graph_structures import TopicNode
 phrase_to_topics_cache = LFUCache(maxsize=1000000)
 phrase_to_resource_cache = LFUCache(maxsize=100000)
 phrase_to_resource_from_redirect_cache = LFUCache(maxsize=100000)
+phrase_to_resources_from_anchor_cache = LFUCache(maxsize=1000000)
 
 class Classifier:
 
@@ -225,7 +226,7 @@ class Classifier:
                         nodes = [node]
                 # Oherwise look for anchor text matches
                 elif phrase in self.anchor_cache:
-                    nodes = self.identify_topics(phrase)
+                    nodes = self.get_resources_from_anchor(phrase)
                 
                 # Found nodes, no need to look for smaller word n-gram matches
                 if nodes:
@@ -344,6 +345,18 @@ class Classifier:
         :returns: the name of the resource for the phrase.
         """
         return self.dao.get_resource_for_phrase_from_redirect(phrase)
+
+
+    @cached(phrase_to_resources_from_anchor_cache)
+    def get_resources_from_anchor(self, phrase):
+        """
+        Given a phrase, looks up the corresponding resource nodes that hyperlinks have linked
+        to using the phrase as the link text.
+        
+        :param phrase: the phrase to lookup
+        :returns: the name of the resources for the phrase.
+        """
+        return self.dao.get_resources_for_phrase_from_anchor(phrase)
 
 
     def get_topic_probabilities(self, depth):

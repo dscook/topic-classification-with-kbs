@@ -33,6 +33,20 @@ class SparqlDaoTestCase(unittest.TestCase):
          self.assertEqual(resource, 'United_States')
          resource = self.dao.get_resource_for_phrase_from_redirect('USAA')
          self.assertEqual(resource, None)
+    
+    def test_get_resource_for_phrase_from_anchor(self):
+        resources = self.dao.get_resources_for_phrase_from_anchor('David Cameron')
+        self.assertEqual(resources, ['David_Cameron',
+                                     'Dave_Cameron_(footballer)',
+                                     'Premiership_of_David_Cameron',
+                                     'Shadow_Cabinet_of_David_Cameron',
+                                     'Family_of_David_Cameron',
+                                     'David_Cameron_(soccer)',
+                                     'David_Cameron_(darts_player)',
+                                     'Second_Cameron_ministry'])
+        resources = self.dao.get_resources_for_phrase_from_anchor('No Match')
+        self.assertEqual(resources, [])
+        
 
 
 if __name__ == '__main__':

@@ -161,7 +161,30 @@ class SparqlDao:
         if len(resources) == 1:
             to_return = resources[0]
         return to_return
+    
+    
+    def get_resources_for_phrase_from_anchor(self, phrase):
+        """
+        Given a phrase, gets any corresponding resources (from hyperlink anchor text) that are accessible.
         
+        :param phrase: the phrase to lookup.
+        """
+        self.sparql_query.setQuery(f"""
+            {self.PREFIX_DBPEDIA_OWL}
+            {self.PREFIX_DUBLIN_CORE}
+            {self.PREFIX_DSC38}
+            {self.PREFIX_XSD}
+            
+            SELECT DISTINCT ?resource
+            WHERE {{ 
+                ?resource dbpediaowl:wikiPageWikiLinkText "{phrase}"@en .
+                ?resource dct:subject ?topic .
+                ?topic dsc38:reachable "true"^^xsd:boolean
+            }}
+            """)
+        results = self.sparql_query.query().convert()
+        resources = self.extract_matches_from_results(results, 'resource', prefix_to_remove=self.NS_DBPEDIA)
+        return resources
 
     def get_topics_for_phrase(self, phrase):
         """
