@@ -30,7 +30,7 @@ class KnowledgeBasePredictor():
         if not balanced_classes:
             class_weight = 'balanced'
             
-        self.classifier = RandomForestClassifier(n_estimators=100, random_state=42, class_weight=class_weight)
+        self.classifier = RandomForestClassifier(n_estimators=1000, random_state=42, class_weight=class_weight)
         self.classifier.fit(wiki_class_probabilities, y)
 
 
@@ -53,6 +53,7 @@ class KnowledgeBasePredictor():
 
         for i in range(len(x)):
             
+            print(i)
             # Make a REST request to get Wikipedia topic probabilities from the classifier server
             doc = { 'text': x[i] }
             r = requests.post(url = 'http://127.0.0.1:5000/classify', json = doc) 

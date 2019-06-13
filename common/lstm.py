@@ -4,7 +4,7 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.layers import Embedding, LSTM, Dense
 from keras.models import Sequential
 from keras.utils import to_categorical
-from keras.optimizers import Adam
+from keras.optimizers import Adadelta
 import numpy as np
 
 class LstmPredictor():
@@ -40,8 +40,8 @@ class LstmPredictor():
         if use_saved_weights:
             self.model.load_weights(self.weights_path)
         
-        self.model.compile(optimizer=Adam(lr=0.0005), loss='categorical_crossentropy', metrics=['acc'])
-    
+        #self.model.compile(optimizer=RMSprop(lr=0.0001), loss='categorical_crossentropy', metrics=['acc'])
+        self.model.compile(optimizer=Adadelta(), loss='categorical_crossentropy', metrics=['acc'])
 
     def create_embedding_matrix(self,
                                 word_index,
