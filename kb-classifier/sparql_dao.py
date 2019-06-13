@@ -52,7 +52,7 @@ class SparqlDao:
             }}
             """)
         results = self.sparql_query.query().convert()
-        parent_topics = self.extract_topics_from_results(results, 'object')
+        parent_topics = self.extract_matches_from_results(results, 'object', prefix_to_remove=self.NS_DBPEDIA + 'Category:')
         
         return parent_topics
 
@@ -70,7 +70,7 @@ class SparqlDao:
             WHERE {{ ?subject skos:broader <http://dbpedia.org/resource/Category:{topic}> }}
             """)
         results = self.sparql_query.query().convert()
-        child_topics = self.extract_topics_from_results(results, 'subject')
+        child_topics = self.extract_matches_from_results(results, 'subject', prefix_to_remove=self.NS_DBPEDIA + 'Category:')
         
         return child_topics
     
@@ -94,6 +94,70 @@ class SparqlDao:
         if result.response.code != 200:
             raise Exception('Failed to mark topic as accessible')
 
+    
+    def get_resource_for_phrase(self, phrase):
+        """
+        Given a phrase, gets any corresponding resource that is accessible.
+        
+        :param phrase: the phrase to lookup.
+        """
+        # Resources have spaces replaced with underscores
+        phrase_as_resource = '_'.join(phrase.split())
+        
+        self.sparql_query.setQuery(f"""
+            {self.PREFIX_DUBLIN_CORE}
+            {self.PREFIX_DSC38}
+            {self.PREFIX_XSD}
+            
+            SELECT ?topic
+            WHERE {{ 
+                <http://dbpedia.org/resource/{phrase_as_resource}> dct:subject ?topic .
+                ?topic dsc38:reachable "true"^^xsd:boolean
+            }}
+            """)
+        results = self.sparql_query.query().convert()
+        
+        to_return = None
+        if len(results['results']['bindings']) > 0:
+            to_return = phrase_as_resource
+        
+        return to_return
+        
+
+    def get_resource_for_phrase_from_redirect(self, phrase):
+        """
+        Given a phrase, gets any corresponding resource (from a redirect) that is accessible.
+        
+        :param phrase: the phrase to lookup.
+        """
+        # Resources have spaces replaced with underscores
+        phrase_as_resource = '_'.join(phrase.split())
+        
+        self.sparql_query.setQuery(f"""
+            {self.PREFIX_DBPEDIA_OWL}
+            {self.PREFIX_DUBLIN_CORE}
+            {self.PREFIX_DSC38}
+            {self.PREFIX_XSD}
+            
+            SELECT DISTINCT ?resource
+            WHERE {{ 
+              <http://dbpedia.org/resource/{phrase_as_resource}> dbpediaowl:wikiPageRedirects ?resource .
+              ?resource dct:subject ?topic .
+              ?topic dsc38:reachable "true"^^xsd:boolean
+            }}
+            """)
+        
+        results = self.sparql_query.query().convert()
+        resources = self.extract_matches_from_results(results, 'resource', prefix_to_remove=self.NS_DBPEDIA)
+        
+        if len(resources) > 1:
+            raise Exception('Coding Error: A redirect should not refer to more than one resource')
+        
+        to_return = None
+        if len(resources) == 1:
+            to_return = resources[0]
+        return to_return
+        
 
     def get_topics_for_phrase(self, phrase):
         """
@@ -117,22 +181,23 @@ class SparqlDao:
             }}
             """)
         results = self.sparql_query.query().convert()
-        topics = self.extract_topics_from_results(results, 'topic')
+        topics = self.extract_matches_from_results(results, 'topic', prefix_to_remove=self.NS_DBPEDIA + 'Category:')
             
         return topics
     
     
-    def extract_topics_from_results(self, results, bound_variable):
+    def extract_matches_from_results(self, results, bound_variable, prefix_to_remove):
         """
-        Given a SPARQL results set extract the topics returned.
+        Given a SPARQL results set extract the bound variable.
         
         :param results: the SPARQL results set.
-        :param bound_variable: the variable name the topics are bound to.
-        :returns: a list of the topics found.
+        :param bound_variable: the variable name that has been bound to.
+        :param prefix_to_remove: any prefix to remove from the bound variable.
+        :returns: a list of the matches found.
         """
-        topics = []
+        matches = []
         for result in results['results']['bindings']:
             # Strip the namespace from each topic
-            topic = result[bound_variable]['value'][len(self.NS_DBPEDIA + 'Category:'):]
-            topics.append(topic)
-        return topics
+            match = result[bound_variable]['value'][len(prefix_to_remove):]
+            matches.append(match)
+        return matches

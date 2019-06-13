@@ -9,7 +9,8 @@ from graph_structures import TopicNode
 
 
 phrase_to_topics_cache = LFUCache(maxsize=1000000)
-
+phrase_to_resource_cache = LFUCache(maxsize=100000)
+phrase_to_resource_from_redirect_cache = LFUCache(maxsize=100000)
 
 class Classifier:
 
@@ -184,7 +185,7 @@ class Classifier:
         :returns: tuple (dictionary of phrase to leaf node (resource) matches, 
                          dictionary of phrase to number of occurences in document)
         """
-        phrase_to_topic_matches = {}
+        phrase_to_node_matches = {}
         phrase_to_occurences = defaultdict(int)
         
         tokens = text.split()
@@ -202,7 +203,6 @@ class Classifier:
                 phrase_length -= 1
             
             # Try and find a match for 3 word phrase, then 2 then 1
-            topics = []
             while phrase_length > 0:
                 # Check to see if we can obtain topics for the phrase
                 updated_tokens= []
@@ -211,13 +211,25 @@ class Classifier:
                 
                 phrase = ' '.join(updated_tokens)
                 
-                topics = None
-                if phrase in self.valid_phrases:
-                    topics = self.identify_topics(phrase)
+                nodes = None
                 
-                # Found topics, no need to look for smaller word n-gram matches
-                if topics:
-                    phrase_to_topic_matches[phrase] = topics
+                # Look for exact phrase match
+                if phrase in self.resource_cache:
+                    node = self.get_resource(phrase)
+                    if node:
+                        nodes = [node]
+                # Look for redirect exact match
+                elif phrase in self.redirect_cache:
+                    node = self.get_resource_from_redirect(phrase)
+                    if node:
+                        nodes = [node]
+                # Oherwise look for anchor text matches
+                elif phrase in self.anchor_cache:
+                    nodes = self.identify_topics(phrase)
+                
+                # Found nodes, no need to look for smaller word n-gram matches
+                if nodes:
+                    phrase_to_node_matches[phrase] = nodes
                     phrase_to_occurences[phrase] += 1
                     break
             
@@ -233,7 +245,7 @@ class Classifier:
             # Reset phrase length for processing next index
             phrase_length = 3
         
-        return phrase_to_topic_matches, phrase_to_occurences
+        return phrase_to_node_matches, phrase_to_occurences
     
     
     def identify_leaf_topics(self, text):
@@ -312,6 +324,28 @@ class Classifier:
         return self.dao.get_topics_for_phrase(phrase)
     
     
+    @cached(phrase_to_resource_cache)
+    def get_resource(self, phrase):
+        """
+        Given a phrase, looks up the corresponding resource node for the phrase.
+        
+        :param phrase: the phrase to lookup
+        :returns: the name of the resource for the phrase.
+        """
+        return self.dao.get_resource_for_phrase(phrase)
+
+
+    @cached(phrase_to_resource_from_redirect_cache)
+    def get_resource_from_redirect(self, phrase):
+        """
+        Given a phrase, looks up the corresponding resource node for the phrase from a redirect link.
+        
+        :param phrase: the phrase to lookup
+        :returns: the name of the resource for the phrase.
+        """
+        return self.dao.get_resource_for_phrase_from_redirect(phrase)
+
+
     def get_topic_probabilities(self, depth):
         depths = sorted(self.traversed_nodes.keys(), reverse=True)
         depth_to_return = None
