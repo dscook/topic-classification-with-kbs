@@ -101,8 +101,10 @@ class SparqlDao:
         
         :param phrase: the phrase to lookup.
         """
-        # Resources have spaces replaced with underscores
+        # Resources have spaces replaced with underscores and first letter always as a capital
         phrase_as_resource = '_'.join(phrase.split())
+        if len(phrase_as_resource) > 1:
+            phrase_as_resource = phrase_as_resource[0].upper() + phrase_as_resource[1:]
         
         self.sparql_query.setQuery(f"""
             {self.PREFIX_DUBLIN_CORE}
@@ -130,8 +132,10 @@ class SparqlDao:
         
         :param phrase: the phrase to lookup.
         """
-        # Resources have spaces replaced with underscores
+        # Resources have spaces replaced with underscores and first letter always as a capital
         phrase_as_resource = '_'.join(phrase.split())
+        if len(phrase_as_resource) > 1:
+            phrase_as_resource = phrase_as_resource[0].upper() + phrase_as_resource[1:]
         
         self.sparql_query.setQuery(f"""
             {self.PREFIX_DBPEDIA_OWL}
