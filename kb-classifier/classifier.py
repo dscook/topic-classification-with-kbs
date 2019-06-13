@@ -14,7 +14,13 @@ phrase_to_topics_cache = LFUCache(maxsize=1000000)
 class Classifier:
 
 
-    def __init__(self, sparql_endpoint_url, root_topic_names, max_depth, phrase_path='../kb-classifier/data/anchors.txt'):
+    def __init__(self, 
+                 sparql_endpoint_url, 
+                 root_topic_names, 
+                 max_depth, 
+                 resource_path='../kb-classifier/data/resources.txt',
+                 redirect_path='../kb-classifier/data/redirect_resources.txt',
+                 anchor_path='../kb-classifier/data/anchors.txt'):
         """
        :param endpoint_url: the SPARQL endpoint URL.
        :param root_topic_names: set of the names of the topics we are classifying.
@@ -30,13 +36,23 @@ class Classifier:
         self.topic_id = 0
         self.topic_name_to_id = {}
         # Prime a cache of all valid phrases to prevent costly DB lookups
-        self.valid_phrases = set()
-        with open(phrase_path, 'r') as anchors:
-            for anchor in anchors:
-                if anchor.strip() != '':
-                    self.valid_phrases.add(anchor.strip())
+        self.resource_cache = self.load_phrase_cache(resource_path)
+        self.redirect_cache = self.load_phrase_cache(redirect_path)
+        self.anchor_cache = self.load_phrase_cache(anchor_path)
         print('Classifier Initialised')
-            
+    
+    
+    def load_phrase_cache(self, phrase_path):
+        """
+        Given a file of phrases,  returns a set of those phrases so it can be used as a cache.
+        """
+        valid_phrases = set()
+        with open(phrase_path, 'r') as phrases:
+            for phrase in phrases:
+                if phrase.strip() != '':
+                    valid_phrases.add(phrase.strip())
+        return valid_phrases
+        
         
     def identify_topic_probabilities(self, text):
         """
@@ -47,6 +63,9 @@ class Classifier:
         :param text: the text to identify the topic probabilities for.
         :returns: a dict containing topic name to topic probability.
         """
+        phrase_to_leaf_nodes, phrase_to_occurences = self.identify_leaf_nodes(text)
+        
+        
         phrase_to_topic_dict, phrase_to_occurences = self.identify_leaf_topics(text)
         
         # Calculate document length based on the number of matching phrases
@@ -147,7 +166,76 @@ class Classifier:
         
         return topic_to_prob_dict
         
+    
+    def identify_leaf_nodes(self, text):
+        """
+        Given a text returns a dictionary keyed by phrase with the value of the corresponding
+        resource matches in DBpedia.
+        It is assumed the text has had stopwords removed and can be tokenised by splitting on
+        whitespace.
+        The method attempts to match a 3 word phrase, if this fails then 2 word phrase down to 1.
+        Once a match is achieved the words are consumed.
         
+        The algorithm will first attempt to match the phrase directly with a DBpedia resource,
+        if this succeeds this node only will be returned.
+        If this fails then all matching resources that use the same anchor text as the phrase will be matched.
+        
+        :param text: the text to find leaf nodes for.
+        :returns: tuple (dictionary of phrase to leaf node (resource) matches, 
+                         dictionary of phrase to number of occurences in document)
+        """
+        phrase_to_topic_matches = {}
+        phrase_to_occurences = defaultdict(int)
+        
+        tokens = text.split()
+        
+        # Maintain the start of the phrase we are processing
+        index = 0
+        
+        # Initially consider a phrase of word length 3
+        phrase_length = 3
+        
+        while index < len(tokens):
+            
+            # Check the phrase length doesn't exceed the end of the string
+            while index + phrase_length > len(tokens):
+                phrase_length -= 1
+            
+            # Try and find a match for 3 word phrase, then 2 then 1
+            topics = []
+            while phrase_length > 0:
+                # Check to see if we can obtain topics for the phrase
+                updated_tokens= []
+                for token in tokens[index:index+phrase_length]:
+                    updated_tokens.extend(token.split('_'))
+                
+                phrase = ' '.join(updated_tokens)
+                
+                topics = None
+                if phrase in self.valid_phrases:
+                    topics = self.identify_topics(phrase)
+                
+                # Found topics, no need to look for smaller word n-gram matches
+                if topics:
+                    phrase_to_topic_matches[phrase] = topics
+                    phrase_to_occurences[phrase] += 1
+                    break
+            
+                phrase_length -= 1
+            
+            # Cover the case where we couldn't find a topics match
+            if phrase_length == 0:
+                phrase_length = 1
+                
+            # We have a match, consume the phrase
+            index += phrase_length
+            
+            # Reset phrase length for processing next index
+            phrase_length = 3
+        
+        return phrase_to_topic_matches, phrase_to_occurences
+    
+    
     def identify_leaf_topics(self, text):
         """
         Given a text returns a dictionary keyed by phrase with value of the corresponding topic
