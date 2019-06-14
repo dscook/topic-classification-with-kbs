@@ -27,6 +27,7 @@ def tfidf():
     body = request.get_json()
     tfidf_calculator.fit(body['documents'])
     classifier.tfidf = tfidf_calculator
+    return 'OK'
 
 
 @app.route('/classify', methods=['POST'])
