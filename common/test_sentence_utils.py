@@ -57,6 +57,18 @@ class SentenceUtilsTestCase(unittest.TestCase):
         self.assertEqual(True, is_time('3rd'))
         self.assertEqual(True, is_time('31st'))
         self.assertEqual(True, is_time('26-oct'))
+        
+    
+    def test_coreference_resolution(self):
+        string_with_coreferences = """Bob Dole jumped to about five percentage points behind President Bill Clinton in the latest Reuters tracking poll on Tuesday, as Republican voters continued coming home& to their party's candidate.
+            The poll, conducted for Reuters by John Zogby Group International, produced the best results for Dole in a Reuters survey since its polling began in August.
+            It showed Clinton at 43.8 percent, Dole at 38.5 percent for a gap of just 5.3 percentage points. Reform Party candidate Ross Perot was at 4.5 percent, 1.9 percent supported other candidates and 11.3 percent were undecided.
+            """
+        coreference_resolved = remove_stop_words_and_lemmatize(string_with_coreferences,
+                                                               lowercase = False,
+                                                               lemmatize = False,
+                                                               keep_nouns_only=True)
+        print(coreference_resolved)
 
 
 if __name__ == '__main__':

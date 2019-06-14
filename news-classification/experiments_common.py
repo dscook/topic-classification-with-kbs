@@ -40,7 +40,7 @@ def load_reutuers_data(preprocessed_article_path):
         
     # Get the test set
     total_examples = len(y)
-    split_point = int(total_examples * 0.9)
+    split_point = int(total_examples * 0.95)
     test_x = x[split_point:]
     test_y = y[split_point:]
     print('Size of test set is {}'.format(len(test_y)))

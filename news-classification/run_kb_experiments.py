@@ -22,6 +22,6 @@ def run_kb_classifier(train_x, train_y, test_x, test_y, class_priors, balanced):
 print('Running Knowledge Base experiments')
 np.random.seed(42)
 
-training_data_dict, test_x, test_y, topic_code_to_prior_prob = load_reutuers_data('data/rcv1_no_stopwords.csv')
+training_data_dict, test_x, test_y, topic_code_to_prior_prob = load_reutuers_data('data/rcv1_no_stopwords_coreference.csv')
 #run_proportional_experiments(run_kb_classifier, training_data_dict, test_x, test_y, topic_code_to_prior_prob)
 run_balanced_experiments(run_kb_classifier, training_data_dict, test_x, test_y, topic_code_to_prior_prob)

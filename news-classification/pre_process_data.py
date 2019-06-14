@@ -46,11 +46,11 @@ def sanitise_each_topic(dataset):
             article_id = uuid.uuid3(namespace, article)
                         
             if article_id not in seen_so_far:
-                article_sanitised = remove_stop_words_and_lemmatize(article)    # For Naive Bayes
-                #article_sanitised = remove_stop_words_and_lemmatize(article, 
-                #                                                    lowercase=False, 
-                #                                                    lemmatize=False, 
-                #                                                    keep_nouns_only=True)    # For Knowledge Base Classifier
+                #article_sanitised = remove_stop_words_and_lemmatize(article)    # For Naive Bayes
+                article_sanitised = remove_stop_words_and_lemmatize(article, 
+                                                                    lowercase=False, 
+                                                                    lemmatize=False, 
+                                                                    keep_nouns_only=True)    # For Knowledge Base Classifier
                 seen_so_far.add(article_id)
                 data_sanitised[topic_code].append(article_sanitised)
             else:
@@ -73,8 +73,8 @@ np.random.seed(42)
 
 x, y = convert_dictionary_to_array(year_data_sanitised, topic_code_to_int)
 
-path = 'data/rcv1_lemmatized.csv'    # Naive Bayes
-#path = 'data/rcv1_no_stopwords_no_noun_grouping.csv'   # Knowledge Base Classifier
+#path = 'data/rcv1_lemmatized.csv'    # Naive Bayes
+path = 'data/rcv1_no_stopwords_coreference.csv'   # Knowledge Base Classifier
 with open(path, 'w', newline='') as csvfile:
     article_writer = csv.writer(csvfile)
     for i in range(len(y)):

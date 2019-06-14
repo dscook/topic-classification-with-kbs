@@ -73,9 +73,60 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True, ke
     tokens = []
     pos_tags = nltk.pos_tag_sents(nltk.word_tokenize(sent) for sent in nltk.sent_tokenize(text))
     
-    if keep_nouns_only:
-        # Only keep adjectives and nouns                
-        tokens = [(word, tag) for sent in pos_tags for (word, tag) in sent if tag in set(['NN', 'NNS', 'NNP', 'NNPS', 'JJ'])]
+    if keep_nouns_only:      
+        # Potential people: key surname, value full name
+        potential_people = {}
+        
+        # Only keep adjectives and nouns
+        # Ensure noun phrases are grouped together
+        nouns = set(['NN', 'NNS', 'JJ'])
+        proper_nouns = set(['NNP', 'NNPS'])
+        
+        tokens = []
+        token_so_far = ''
+        
+        for sent in pos_tags:
+            
+            if token_so_far:
+                tokens.append((token_so_far, 'NP'))
+            
+            matching_proper_noun_phrase = False
+            token_so_far = ''
+            
+            for word, tag in sent:
+                if matching_proper_noun_phrase:
+                    if tag in proper_nouns:
+                        token_so_far += '_{}'.format(word)
+                    else:
+                        # Matched the full proper noun, if a single noun then check to see if this potential
+                        # surname is in the potential people list and use the full name instead of the token
+                        noun_phrase_tokens = token_so_far.split('_')
+                        
+                        if len(noun_phrase_tokens) == 1:
+                            if token_so_far in potential_people:
+                                tokens.append((potential_people[token_so_far], 'NP'))
+                            else:
+                                tokens.append((token_so_far, 'NP'))
+                        else:
+                            tokens.append((token_so_far, 'NP'))
+                        
+                        # Add the proper noun phrase to the potential people set if length == 2
+                        if len(noun_phrase_tokens) == 2:
+                            # Use the fact news articles refer to people by surname once they have stated their full name
+                            potential_people[noun_phrase_tokens[-1]] = token_so_far
+                        
+                        # Reset the matching process
+                        token_so_far = ''
+                        matching_proper_noun_phrase = False
+                        
+                        if tag in nouns:
+                            tokens.append((word, tag))
+                else:
+                    if tag in proper_nouns:
+                        token_so_far = word
+                        matching_proper_noun_phrase = True
+                    elif tag in nouns:
+                        tokens.append((word, tag))
     else:
         tokens = [(word, tag) for sent in pos_tags for (word, tag) in sent]
 

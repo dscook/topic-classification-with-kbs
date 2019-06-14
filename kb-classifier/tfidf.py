@@ -8,10 +8,9 @@ class TfIdf:
     
     
     def __init__(self, classifier):
-        # Reuse classifier so we can determine if phrases are in the knowledge base
         self.classifier = classifier
-        
-        
+    
+    
     def fit(self, documents):
         """
         Given a set of documents, calculates the IDF value for each term.
@@ -28,11 +27,11 @@ class TfIdf:
         self.term_document_counts = defaultdict(int)
         for document in documents:
             
-            # Reuse classifier functionality to determine what phrases are valid
-            phrase_to_topic_dict, _ = self.classifier.identify_leaf_topics(document)
+            # Determine what phrases in the document are valid from the knowledge base
+            valid_phrases = self.identify_valid_phrases(document)
             
             # Update term counts for corpus
-            for phrase in phrase_to_topic_dict.keys():
+            for phrase in valid_phrases:
                 self.term_document_counts[phrase] += 1
         
         # Calculate IDF values
@@ -58,7 +57,45 @@ class TfIdf:
             return term_count/document_length * self.max_idf_value
         else:
             return term_count/document_length * self.idf_dict[term]
+    
+    
+    def identify_valid_phrases(self, document):
+        valid_phrases = set()
+                
+        tokens = document.split()
         
+        # Maintain the start of the phrase we are processing
+        index = 0
         
+        # Initially consider a phrase of word length 3
+        phrase_length = 3
         
+        while index < len(tokens):
             
+            # Check the phrase length doesn't exceed the end of the string
+            while index + phrase_length > len(tokens):
+                phrase_length -= 1
+            
+            # Try and find a match for 3 word phrase, then 2 then 1
+            while phrase_length > 0:
+                # Check to see if phrase exists in the knowledge base
+                updated_tokens= []
+                for token in tokens[index:index+phrase_length]:
+                    updated_tokens.extend(token.split('_'))
+                
+                phrase = ' '.join(updated_tokens)
+                
+                # Look for phrase in anchor text matches
+                if phrase in self.classifier.anchor_cache:
+                    valid_phrases.add(phrase)
+                            
+                phrase_length -= 1
+                            
+            # Advance a token
+            index += 1
+            
+            # Reset phrase length for processing next index
+            phrase_length = 3
+        
+        return valid_phrases
+        

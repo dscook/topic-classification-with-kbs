@@ -211,17 +211,17 @@ class Classifier:
                 nodes = None
                 
                 # Look for exact phrase match
-                if phrase in self.resource_cache:
-                    node = self.get_resource(phrase)
-                    if node:
-                        nodes = [node]
+                #if phrase in self.resource_cache:
+                #    node = self.get_resource(phrase)
+                #    if node:
+                #        nodes = [node]
                 # Look for redirect exact match
-                elif phrase in self.redirect_cache:
-                    node = self.get_resource_from_redirect(phrase)
-                    if node:
-                        nodes = [node]
+                #elif phrase in self.redirect_cache:
+                #    node = self.get_resource_from_redirect(phrase)
+                #    if node:
+                #        nodes = [node]
                 # Oherwise look for anchor text matches
-                elif phrase in self.anchor_cache:
+                if phrase in self.anchor_cache:
                     nodes = self.get_resources_from_anchor(phrase)
                 
                 # Found nodes, no need to look for smaller word n-gram matches
