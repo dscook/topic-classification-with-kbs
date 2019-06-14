@@ -40,6 +40,8 @@ class Classifier:
         self.resource_cache = self.load_phrase_cache(resource_path)
         self.redirect_cache = self.load_phrase_cache(redirect_path)
         self.anchor_cache = self.load_phrase_cache(anchor_path)
+        # Will be initialised if TFIDF is used
+        self.tfidf = None
         print('Classifier Initialised')
     
     
@@ -66,6 +68,11 @@ class Classifier:
         """
         # Get the resources associated with the phrases
         phrase_to_resources, phrase_to_occurences = self.identify_leaf_nodes(text)
+        
+        # Calculate document length based on the number of matching phrases
+        document_length = 0
+        for count in phrase_to_occurences.values():
+            document_length += count
         
         # Get the topics associated with the resources
         resource_to_topics = {}
@@ -95,6 +102,12 @@ class Classifier:
             # Note the phrase has a higher starting vote if it occurs multiple times in the document
             # Split the vote amongst the phrases resources
             split_vote = phrase_to_occurences[phrase] / len(resources)
+            
+            if self.tfidf:
+                # We have the TF-IDF module so we can use TFIDF instead as the starting vote
+                split_vote = (self.tfidf.calculate_tfidf(phrase, 
+                                                         phrase_to_occurences[phrase], 
+                                                         document_length) / len(resources))
             
             # Now allocate each resources vote amongst its topics
             for resource in resources:
