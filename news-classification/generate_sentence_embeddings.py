@@ -10,6 +10,7 @@ import avro.schema
 from avro.datafile import DataFileWriter
 from avro.io import DatumWriter
 from collections import defaultdict
+import numpy as np
 
 from loader import load_preprocessed_data
 from classifier import Classifier
@@ -32,8 +33,7 @@ classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
                         root_topic_names=wiki_topics_to_actual_topics.keys(),
                         max_depth=5)
 
-# Maintain dictionary of document IDs to topic probabilities for each sentence
-current_doc_id = 0
+# Maintain dictionary of document IDs to topic probabilities for each sentence in the document
 doc_id_to_topic_probs = defaultdict(list)
 doc_id_to_label = {}
 
@@ -61,7 +61,7 @@ for i in range(len(x)):
     for sentence in document.split('<EOS>'):
         classifier.identify_topic_probabilities(sentence)
         topic_to_prob_dict = classifier.get_topic_probabilities(1)
-        doc_id_to_topic_probs[current_doc_id].append(topic_to_prob_dict)
+        doc_id_to_topic_probs[i].append(topic_to_prob_dict)
     
         # Add any new topic names 
         for topic_name in topic_to_prob_dict.keys():
@@ -70,11 +70,8 @@ for i in range(len(x)):
                 current_index += 1
     
     # Store the document label
-    doc_id_to_label[current_doc_id] = y[i]
-    
-    # Advance the document ID
-    current_doc_id += 1
-    
+    doc_id_to_label[i] = y[i]
+
 
 # Convert document sentence probabilities to embeddings
 embedding_length = current_index
