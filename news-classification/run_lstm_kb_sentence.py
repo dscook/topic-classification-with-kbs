@@ -58,6 +58,8 @@ def convert_to_np(embedded_docs):
         for j in range(len(embedded_docs[i])):
             sent_index = max_num_sent_in_doc - j - 1
             np_array[i, sent_index] = embedded_docs[i][j]
+    
+    return np_array
 
 train_x = convert_to_np(train_x)
 val_x = convert_to_np(val_x)

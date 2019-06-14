@@ -20,7 +20,7 @@ from kb_common import wiki_topics_to_actual_topics
 ### LOAD THE DATA
 ###
 
-x, y = load_preprocessed_data('data/rcv1_no_stopwords_eos_reduced_1.csv')
+x, y = load_preprocessed_data('data/rcv1_no_stopwords_eos_reduced.csv')
 
 ###
 ### GENERATE THE SENTENCE EMBEDDINGS
