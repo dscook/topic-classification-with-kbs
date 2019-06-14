@@ -169,6 +169,9 @@ class Classifier:
                 topic_to_prob_dict[root_topic] = 0
             
         # Normalise the votes to turn into probabilities
+        if total_votes == 0:
+            return None
+            
         for root_topic in self.root_topic_names:
             topic_to_prob_dict[root_topic] /= total_votes
             

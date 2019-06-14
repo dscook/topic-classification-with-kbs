@@ -45,8 +45,8 @@ embedding_model = EmbeddingModel('embeddings/embeddings-depth-1.avro',
 word_embedding_dim = embedding_model.get_embedding_dim()
 print('Word embedding dimension is {}'.format(word_embedding_dim))
 
-#
-##
+
+###
 ### TRAIN THE LSTM
 ###
 #lstm = LstmPredictor(article_to_int_seq_converter.get_word_index(),

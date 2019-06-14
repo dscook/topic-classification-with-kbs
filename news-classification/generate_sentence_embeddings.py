@@ -20,7 +20,7 @@ from kb_common import wiki_topics_to_actual_topics
 ### LOAD THE DATA
 ###
 
-x, y = load_preprocessed_data('data/rcv1_no_stopwords_eos_reduced.csv')
+x, y = load_preprocessed_data('data/rcv1_no_stopwords_eos_reduced_1.csv')
 
 ###
 ### GENERATE THE SENTENCE EMBEDDINGS
@@ -59,15 +59,19 @@ for i in range(len(x)):
     # Get the topic probabilities for each sentence of the document
     document = x[i]
     for sentence in document.split('<EOS>'):
-        classifier.identify_topic_probabilities(sentence)
-        topic_to_prob_dict = classifier.get_topic_probabilities(1)
-        doc_id_to_topic_probs[i].append(topic_to_prob_dict)
-    
-        # Add any new topic names 
-        for topic_name in topic_to_prob_dict.keys():
-            if topic_name not in topic_name_to_index:
-                topic_name_to_index[topic_name] = current_index
-                current_index += 1
+        if sentence != '':
+            topic_to_prob_dict = classifier.identify_topic_probabilities(sentence)
+            
+            if topic_to_prob_dict:
+                topic_to_prob_dict = classifier.get_topic_probabilities(1)
+                
+                doc_id_to_topic_probs[i].append(topic_to_prob_dict)
+            
+                # Add any new topic names 
+                for topic_name in topic_to_prob_dict.keys():
+                    if topic_name not in topic_name_to_index:
+                        topic_name_to_index[topic_name] = current_index
+                        current_index += 1
     
     # Store the document label
     doc_id_to_label[i] = y[i]
@@ -86,7 +90,7 @@ for doc_id, sentence_probs in doc_id_to_topic_probs.items():
         for topic, probability in sentence_prob.items():
             embedding[topic_name_to_index[topic]] = probability
         
-        embeddings.append(embedding)
+        embeddings.append(embedding.tolist())
     
     embeddings_writer.append({ 'doc_id': doc_id, 'label': doc_id_to_label[doc_id], 'embeddings': embeddings })
 
