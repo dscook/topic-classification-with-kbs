@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 ##
-## Code adapted (significantly) from:
+## Code adapted (significantly, >60% new) from:
 ##     Chastney, J., Cook, D., Ma, J., Melamed, T., 2019. Lab 1: Group Project.
 ##     CM50265: Machine Learning 2. University of Bath. Unpublished.
 ##
@@ -62,7 +62,11 @@ def wordnet_tag_from_penn_treebank(pos):
         return wordnet.NOUN
 
 
-def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True, keep_nouns_only=False):
+def remove_stop_words_and_lemmatize(text,
+                                    lowercase = True,
+                                    lemmatize = True,
+                                    keep_nouns_only=False,
+                                    eos_indicators=False):
     """
     Given a string, tokenises the string based on punctuation and whitespace, lowercases
     all tokens if lowercase is True and lemmatizes if lemmatize is True.
@@ -86,10 +90,7 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True, ke
         token_so_far = ''
         
         for sent in pos_tags:
-            
-            if token_so_far:
-                tokens.append((token_so_far, 'NP'))
-            
+                        
             matching_proper_noun_phrase = False
             token_so_far = ''
             
@@ -127,6 +128,13 @@ def remove_stop_words_and_lemmatize(text, lowercase = True, lemmatize = True, ke
                         matching_proper_noun_phrase = True
                     elif tag in nouns:
                         tokens.append((word, tag))
+            
+            if token_so_far:
+                tokens.append((token_so_far, 'NP'))
+                
+            # Add an end of sentence tag if instructed to do so
+            if eos_indicators:
+                tokens.append(('<EOS>', 'NP'))
     else:
         tokens = [(word, tag) for sent in pos_tags for (word, tag) in sent]
 

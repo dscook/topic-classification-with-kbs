@@ -7,9 +7,17 @@ sys.path.append('../kb-classifier/')
 
 import requests
 from collections import defaultdict
+from loader import load_preprocessed_data
+
+
+# Prime TFIDF scores
+x, y = load_preprocessed_data('data/rcv1_no_stopwords_coreference_lemmatized.csv')
+doc = { 'documents': x }
+requests.post(url = 'http://127.0.0.1:5001/tfidf', json = doc) 
+
 
 document_to_debug = """
-British army deserter United_States trial IRA bombing years years Lawyers Peter_McMullen time jail U.S. extradition pre-trial detention Britain McMullen former cook Parachute_Regiment guerrilla Irish Republican_Army guilty bombings bombs English headquarters regiment many soldiers Northern_Ireland time bombs woman soldiers injury blast McMullen extradition United_States fight New_York British police normal rules McMullen years months 14-year sentence judge years months custody U.S. time custody Britain return bad case Judge_Arthur_Myerson York_Crown_Court McMullen Myerson McMullen IRA death sentence later robbery kidnapping guerrilla group violence
+estimated Singaporeans time music mass outdoor aerobic workout nation fit red white clothing colour national flag participant Prime_Minister_Goh_Chok_Tong several member cabinet part km two-mile walk Officials Great_Singapore_Workout participant previous year State television total attendance similar event World_Guiness record aerobics gymnastics display participant Goh reporter workout large number young people part youth lead habit open fresh air sun director Ministry Health Healthy_Lifestyle_Unit K._Vijaya workout event fitness Singaporeans Reuters number Singaporeans sort regular exercise level obesity child annual workout
 """
 
 print('')
@@ -21,7 +29,7 @@ print('')
 
 # Make a REST request to get Wikipedia topic probabilities from the classifier server
 doc = { 'text': document_to_debug }
-r = requests.post(url = 'http://127.0.0.1:5000/classify', json = doc) 
+r = requests.post(url = 'http://127.0.0.1:5001/classify', json = doc) 
 wiki_topic_to_prob = r.json()
 
 
@@ -32,14 +40,14 @@ print(wiki_topic_to_prob)
 print('')
 
 
-r = requests.get(url = 'http://127.0.0.1:5000/probabilities/{}'.format(-1))
+r = requests.get(url = 'http://127.0.0.1:5001/probabilities/{}'.format(-1))
 phrase_to_prob = r.json()
 
 topics_to_phrases = defaultdict(set)
 
 for phrase in phrase_to_prob.keys():
     doc = { 'text': phrase[7:] }
-    r = requests.post(url = 'http://127.0.0.1:5000/classify', json = doc) 
+    r = requests.post(url = 'http://127.0.0.1:5001/classify', json = doc) 
     wiki_topic_to_prob = r.json()
     max_prob = 0
     max_topic = 0

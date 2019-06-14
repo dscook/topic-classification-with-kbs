@@ -1,0 +1,17 @@
+{
+    "namespace": "sentence.avro",
+     "type": "record",
+     "name": "sentence_embedding",
+     "fields": [
+         {"name": "doc_id", "type": "int"},
+         {"name": "label", "type": "int"}
+         {"name": "embeddings",  "type": {
+                 "type" : "array",
+                 "items" : {
+                     "type": "array",
+                     "items": "float"
+                }
+            }
+        }
+    ]
+}
