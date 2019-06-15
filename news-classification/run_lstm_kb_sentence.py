@@ -26,19 +26,24 @@ y = []
 max_num_sent_in_doc = 0
 sent_embedding_dim = 0
 
-# Read the sentence embedding vectors
+# Determine sentence embedding length
 reader = DataFileReader(open('embeddings/sentences-depth-2.avro', 'rb'), DatumReader())
+
 for doc_sent_embedding in reader:
-    
+
+    # Determine the maximum length of a sentence embedding
     sentence_embeddings = doc_sent_embedding['embeddings']
-    x.append(sentence_embeddings)
+    for embedding in sentence_embeddings:
+        for record in embedding:
+            topic_id = record['topic_id']
+            if topic_id+1 > sent_embedding_dim:
+                sent_embedding_dim = topic_id+1
     
-    label = doc_sent_embedding['label']
-    y.append(label)
-    
+    # Determine the maximum number of sentences in a document
     if len(sentence_embeddings) > max_num_sent_in_doc:
         max_num_sent_in_doc = len(sentence_embeddings)
-        sent_embedding_dim = len(sentence_embeddings[0])
+        
+    x.append(sentence_embeddings)
 
 reader.close()
 
@@ -56,8 +61,14 @@ def convert_to_np(embedded_docs):
     
     for i in range(len(embedded_docs)):
         for j in range(len(embedded_docs[i])):
+
+            embedding = np.zeros(shape=sent_embedding_dim)
+            
+            for topic_id, prob in embedded_docs[i][j].items():
+                embedding[topic_id] = prob
+            
             sent_index = max_num_sent_in_doc - j - 1
-            np_array[i, sent_index] = embedded_docs[i][j]
+            np_array[i, sent_index] = embedding
     
     return np_array
 
