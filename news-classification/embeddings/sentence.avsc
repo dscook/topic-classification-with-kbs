@@ -8,8 +8,15 @@
          {"name": "embeddings",  "type": {
                  "type" : "array",
                  "items" : {
-                     "type": "array",
-                     "items": "float"
+                     "type" : "array",
+                     "items": {
+                        "name": "topic_prob",
+                        "type": "record",
+                        "fields": [
+                             {"name": "topic_id", "type": "int"},
+                             {"name": "prob", "type": "float"}
+                         ]
+                     }
                 }
             }
         }

@@ -27,7 +27,7 @@ max_num_sent_in_doc = 0
 sent_embedding_dim = 0
 
 # Read the sentence embedding vectors
-reader = DataFileReader(open('embeddings/sentences.avro', 'rb'), DatumReader())
+reader = DataFileReader(open('embeddings/sentences-depth-2.avro', 'rb'), DatumReader())
 for doc_sent_embedding in reader:
     
     sentence_embeddings = doc_sent_embedding['embeddings']
