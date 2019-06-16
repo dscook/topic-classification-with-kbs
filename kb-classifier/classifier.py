@@ -315,6 +315,8 @@ class Classifier:
             depth_to_return = depths[-1]
         else:
             depth_to_return = depths[0] - depth
+            if depth_to_return < 0:
+                depth_to_return = 0
         
         total_vote = 0
         for topic in self.traversed_nodes[depth_to_return].values():

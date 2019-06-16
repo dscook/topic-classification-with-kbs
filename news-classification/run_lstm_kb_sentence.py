@@ -44,6 +44,8 @@ for doc_sent_embedding in reader:
         max_num_sent_in_doc = len(sentence_embeddings)
         
     x.append(sentence_embeddings)
+    y.append(doc_sent_embedding['label'])
+    
 
 reader.close()
 
@@ -64,8 +66,9 @@ def convert_to_np(embedded_docs):
 
             embedding = np.zeros(shape=sent_embedding_dim)
             
-            for topic_id, prob in embedded_docs[i][j].items():
-                embedding[topic_id] = prob
+            for topic_prob_object in embedded_docs[i][j]:
+                                
+                embedding[topic_prob_object['topic_id']] = topic_prob_object['prob']
             
             sent_index = max_num_sent_in_doc - j - 1
             np_array[i, sent_index] = embedding
@@ -79,16 +82,16 @@ test_x = convert_to_np(test_x)
 ###
 ### TRAIN THE LSTM
 ###
-lstm = LstmPredictor(sent_embedding_dim,
-                     max_num_sent_in_doc,
-                     len(int_to_topic_code.values()))
+#lstm = LstmPredictor(sent_embedding_dim,
+#                     max_num_sent_in_doc,
+#                     len(int_to_topic_code.values()))
 
 
-class_weights = compute_class_weight('balanced', np.unique(train_y), train_y)
-class_weights_dict = {}
-for i in range(len(class_weights)):
-    class_weights_dict[i] = class_weights[i]
-lstm.train(train_x, train_y, val_x, val_y, class_weights_dict)
+#class_weights = compute_class_weight('balanced', np.unique(train_y), train_y)
+#class_weights_dict = {}
+#for i in range(len(class_weights)):
+#    class_weights_dict[i] = class_weights[i]
+#lstm.train(train_x, train_y, val_x, val_y, class_weights_dict)
 
 
 ###
