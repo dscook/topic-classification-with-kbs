@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-topic_code_to_int = {
+topic_to_int = {
     'Bacterial Infections and Mycoses': 0,
     'Virus Diseases': 1,
     'Parasitic Diseases': 2,
@@ -30,7 +30,7 @@ topic_code_to_int = {
     'Wounds and Injuries': 25
 }
 
-int_to_topic_code = {
+int_to_topic = {
     0: 'Bacterial Infections and Mycoses',
     1: 'Virus Diseases',
     2: 'Parasitic Diseases',
