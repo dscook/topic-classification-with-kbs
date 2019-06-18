@@ -37,11 +37,11 @@ class DataGenerator(keras.utils.Sequence):
         batch_y = None
         if end_index > len(self.x):
             batch = self.x[start_index:]
-            if self.y:
+            if self.y is not None:
                 batch_y = self.y[start_index:]
         else:
             batch = self.x[start_index:end_index]
-            if self.y:
+            if self.y is not None:
                 batch_y = self.y[start_index:end_index]
         
         # Densify batch
@@ -54,7 +54,7 @@ class DataGenerator(keras.utils.Sequence):
                 sent_index = self.max_num_sent_in_doc - j - 1
                 dense_batch[i, sent_index][:len(sparse_embedding)] = sparse_embedding
 
-        if not self.y:
-            return batch
+        if self.y is None:
+            return dense_batch
         else:
-            return batch, batch_y
+            return dense_batch, batch_y

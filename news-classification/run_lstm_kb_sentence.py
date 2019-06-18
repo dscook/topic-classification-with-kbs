@@ -6,13 +6,10 @@ import sys
 sys.path.append('../common/')
 sys.path.append('../kb-classifier/')
 
-from avro.datafile import DataFileReader
-from avro.io import DatumReader
 from fastavro import reader
 import numpy as np
 from sklearn.utils.class_weight import compute_class_weight
 from sklearn.metrics import classification_report
-from keras.utils import to_categorical
 
 from lstm_common import split_data
 from lstm_sentence import LstmPredictor
@@ -32,15 +29,10 @@ def load_data():
     
     # Determine sentence embedding length
     with open('embeddings/sentences-depth-2-part1.avro', 'rb') as avro_file:
-        #reader = DataFileReader(open('embeddings/sentences-depth-2-part1.avro', 'rb'), DatumReader())
         avro_reader = reader(avro_file)
         
-        i = 0
         for doc_sent_embedding in avro_reader:
-            
-            print(i)
-            i += 1
-        
+                    
             # Determine the maximum length of a sentence embedding
             sentence_embeddings = doc_sent_embedding['embeddings']
             
@@ -89,16 +81,16 @@ train_x, train_y, val_x, val_y, test_x, test_y, max_num_sent_in_doc, sent_embedd
 ###
 ### TRAIN THE LSTM
 ###
-lstm = LstmPredictor(sent_embedding_dim,
-                     max_num_sent_in_doc,
-                     len(int_to_topic_code.values()))
+#lstm = LstmPredictor(sent_embedding_dim,
+#                     max_num_sent_in_doc,
+#                     len(int_to_topic_code.values()))
 
 
-class_weights = compute_class_weight('balanced', np.unique(train_y), train_y)
-class_weights_dict = {}
-for i in range(len(class_weights)):
-    class_weights_dict[i] = class_weights[i]
-lstm.train_generator(train_x, train_y, val_x, val_y, class_weights_dict)
+#class_weights = compute_class_weight('balanced', np.unique(train_y), train_y)
+#class_weights_dict = {}
+#for i in range(len(class_weights)):
+#    class_weights_dict[i] = class_weights[i]
+#lstm.train_generator(train_x, train_y, val_x, val_y, class_weights_dict)
 
 
 ###

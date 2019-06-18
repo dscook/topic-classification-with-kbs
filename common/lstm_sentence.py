@@ -107,8 +107,7 @@ class LstmPredictor():
         self.model.fit_generator(generator=training_generator,
                                  validation_data=validation_generator,
                                  epochs=100,
-                                 callbacks=callbacks_list, 
-                                 batch_size=32,
+                                 callbacks=callbacks_list,
                                  class_weight=class_weight)
     
     def predict(self, x):
