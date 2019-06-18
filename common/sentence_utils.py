@@ -171,7 +171,16 @@ def remove_stop_words_and_lemmatize(text,
         
         # Quite often similar words are separated with a slash, e.g. iphone/android
         # Split these terms into separate words
+        # Also capture the case where a space did not occur between sentences e.g. "end of sentence.start of new sentence ..."
         words = word.split('/')
+        # BELOW IF WAS ADDED AFTER NEWS CLASSIFICATION EXPERIMENTS, I.E. FOR OHSUMED
+        # Check the length of a word is greater than a limit before splitting to try and avoid splitting acronyms
+        if len(word) > 9 and len(words) == 1:
+            eos_split = word.split('.')
+            # Should only be two words if a split at the end of a sentence went wrong
+            if len(eos_split) == 2:
+                words = eos_split
+        
         if len(words) > 1:
             perform_split = True
             
