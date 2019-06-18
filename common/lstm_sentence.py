@@ -7,6 +7,9 @@ from keras.utils import to_categorical
 from keras.optimizers import Adadelta
 import numpy as np
 
+from lstm_generator import DataGenerator
+
+
 class LstmPredictor():
     """
     Wraps the building of a Keras LSTM as well as methods for training and prediction.
@@ -25,6 +28,8 @@ class LstmPredictor():
         :param use_saved_weights: if True will load saved weights from a previous training run.
         :param weights_path: where to save best model weights.
         """
+        self.max_sentences_in_document = max_sentences_in_document
+        self.sentence_embedding_dim = sentence_embedding_dim
         self.model = self.create_lstm(sentence_embedding_dim,
                                       max_sentences_in_document,
                                       num_topics)
@@ -79,6 +84,32 @@ class LstmPredictor():
         self.model.fit(x, y_cat, epochs=100, callbacks=callbacks_list, 
                        batch_size=32, validation_data=(x_val, y_val_cat), class_weight=class_weight)
     
+
+    def train_generator(self, x, y, x_val, y_val, class_weight=None):
+        # Convert labels into one hot encoding for use with a neural network
+        y_cat = to_categorical(y)
+        y_val_cat = to_categorical(y_val)
+        
+        training_generator = DataGenerator(x,
+                                           y_cat,
+                                           self.max_sentences_in_document,
+                                           self.sentence_embedding_dim,
+                                           batch_size=32)
+        validation_generator = DataGenerator(x_val,
+                                             y_val_cat,
+                                             self.max_sentences_in_document,
+                                             self.sentence_embedding_dim,
+                                             batch_size=32)
+        
+        callbacks_list = [
+                EarlyStopping(monitor='val_loss', patience=20),
+                ModelCheckpoint(filepath=self.weights_path, monitor='val_loss', save_best_only=True)]
+        self.model.fit_generator(generator=training_generator,
+                                 validation_data=validation_generator,
+                                 epochs=100,
+                                 callbacks=callbacks_list, 
+                                 batch_size=32,
+                                 class_weight=class_weight)
     
     def predict(self, x):
         """
@@ -89,5 +120,14 @@ class LstmPredictor():
         :returns: the predictions.
         """
         return np.argmax(self.model.predict(x), axis=1)
+
+
+    def predict_generator(self, x):
+        test_generator = DataGenerator(x,
+                                       None,
+                                       self.max_sentences_in_document,
+                                       self.sentence_embedding_dim,
+                                       batch_size=32)
+        return np.argmax(self.model.predict_generator(generator=test_generator), axis=1)
     
     

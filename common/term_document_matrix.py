@@ -16,6 +16,7 @@ class TermDocumentMatrixCreator():
         # Assume words already lower case
         self.vectoriser = CountVectorizer(lowercase = False, binary = binary, ngram_range = ngram_range)
         self.vectoriser.fit(documents)
+        #print(len(self.vectoriser.vocabulary_.keys()))
         
     def create_term_document_matrix(self, documents):
         """

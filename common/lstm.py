@@ -7,6 +7,7 @@ from keras.utils import to_categorical
 from keras.optimizers import Adadelta
 import numpy as np
 
+
 class LstmPredictor():
     """
     Wraps the building of a Keras LSTM as well as methods for training and prediction.
@@ -135,7 +136,7 @@ class LstmPredictor():
                 ModelCheckpoint(filepath=self.weights_path, monitor='val_loss', save_best_only=True)]
         self.model.fit(x, y_cat, epochs=100, callbacks=callbacks_list, 
                        batch_size=32, validation_data=(x_val, y_val_cat), class_weight=class_weight)
-    
+   
     
     def predict(self, x):
         """
