@@ -27,43 +27,45 @@ def load_data():
     max_num_sent_in_doc = 0
     sent_embedding_dim = 0
     
-    # Determine sentence embedding length
-    with open('embeddings/sentences-depth-2-part1.avro', 'rb') as avro_file:
-        avro_reader = reader(avro_file)
-        
-        for doc_sent_embedding in avro_reader:
+    embedding_files = ['sentences-depth-2-part1.avro']
+    
+    for file in embedding_files:
+        with open('embeddings/' + file, 'rb') as avro_file:
+            avro_reader = reader(avro_file)
+            
+            for doc_sent_embedding in avro_reader:
+                        
+                # Determine the maximum length of a sentence embedding
+                sentence_embeddings = doc_sent_embedding['embeddings']
+                
+                formatted_sentence_embeddings = []
+                
+                for embedding in sentence_embeddings:
                     
-            # Determine the maximum length of a sentence embedding
-            sentence_embeddings = doc_sent_embedding['embeddings']
-            
-            formatted_sentence_embeddings = []
-            
-            for embedding in sentence_embeddings:
-                
-                max_topic_id_in_embedding = 0
-                
-                for record in embedding:
-                    topic_id = record['topic_id']
-                    if topic_id+1 > sent_embedding_dim:
-                        sent_embedding_dim = topic_id+1
-                    if topic_id+1 > max_topic_id_in_embedding:
-                        max_topic_id_in_embedding = topic_id+1
-                
-                formatted_embedding = np.zeros(shape=max_topic_id_in_embedding, dtype=np.float32)
+                    max_topic_id_in_embedding = 0
                     
-                for record in embedding:
-                    topic_id = record['topic_id']
-                    prob = record['prob']
-                    formatted_embedding[topic_id] = prob
+                    for record in embedding:
+                        topic_id = record['topic_id']
+                        if topic_id+1 > sent_embedding_dim:
+                            sent_embedding_dim = topic_id+1
+                        if topic_id+1 > max_topic_id_in_embedding:
+                            max_topic_id_in_embedding = topic_id+1
+                    
+                    formatted_embedding = np.zeros(shape=max_topic_id_in_embedding, dtype=np.float32)
+                        
+                    for record in embedding:
+                        topic_id = record['topic_id']
+                        prob = record['prob']
+                        formatted_embedding[topic_id] = prob
+                    
+                    formatted_sentence_embeddings.append(formatted_embedding)
                 
-                formatted_sentence_embeddings.append(formatted_embedding)
-            
-            # Determine the maximum number of sentences in a document
-            if len(sentence_embeddings) > max_num_sent_in_doc:
-                max_num_sent_in_doc = len(sentence_embeddings)
-                
-            x.append(formatted_sentence_embeddings)
-            y.append(doc_sent_embedding['label'])
+                # Determine the maximum number of sentences in a document
+                if len(sentence_embeddings) > max_num_sent_in_doc:
+                    max_num_sent_in_doc = len(sentence_embeddings)
+                    
+                x.append(formatted_sentence_embeddings)
+                y.append(doc_sent_embedding['label'])
         
     # Print out some useful statistics
     print('Maximum number of sentences in a document: {}'.format(max_num_sent_in_doc))
@@ -81,16 +83,16 @@ train_x, train_y, val_x, val_y, test_x, test_y, max_num_sent_in_doc, sent_embedd
 ###
 ### TRAIN THE LSTM
 ###
-#lstm = LstmPredictor(sent_embedding_dim,
-#                     max_num_sent_in_doc,
-#                     len(int_to_topic_code.values()))
+lstm = LstmPredictor(sent_embedding_dim,
+                     max_num_sent_in_doc,
+                     len(int_to_topic_code.values()))
 
 
-#class_weights = compute_class_weight('balanced', np.unique(train_y), train_y)
-#class_weights_dict = {}
-#for i in range(len(class_weights)):
-#    class_weights_dict[i] = class_weights[i]
-#lstm.train_generator(train_x, train_y, val_x, val_y, class_weights_dict)
+class_weights = compute_class_weight('balanced', np.unique(train_y), train_y)
+class_weights_dict = {}
+for i in range(len(class_weights)):
+    class_weights_dict[i] = class_weights[i]
+lstm.train_generator(train_x, train_y, val_x, val_y, class_weights_dict)
 
 
 ###
