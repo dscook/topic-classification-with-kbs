@@ -3,6 +3,7 @@
 from term_document_matrix import TermDocumentMatrixCreator
 from sklearn.naive_bayes import BernoulliNB, MultinomialNB
 from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.svm import LinearSVC
 
 def run_bernoulli_naive_bayes(train_x, train_y, test_x, test_y, ngram_range):
     """
@@ -52,3 +53,16 @@ def run_multinomial_naive_bayes_tfidf(train_x, train_y, test_x, ngram_range):
     predict_y = naive_bayes.predict(test_tfidf)
     
     return predict_y
+
+
+def run_support_vector_classifier(train_x, train_y, test_x, ngram_range, C=0.005):
+    tdm_creator = TermDocumentMatrixCreator(train_x, binary = False, ngram_range=ngram_range)
+    train_tdm = tdm_creator.create_term_document_matrix(train_x)
+    test_tdm = tdm_creator.create_term_document_matrix(test_x)
+    
+    svc = LinearSVC(loss='hinge', class_weight='balanced', max_iter=10000, C=C)
+    svc.fit(train_tdm, train_y)
+    predict_y = svc.predict(test_tdm)
+    
+    return predict_y
+    
