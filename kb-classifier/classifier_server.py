@@ -15,6 +15,7 @@ last_doc_id = None
 doc_id_to_text = {}
 doc_id_to_topic_prob_cache = LFUCache(maxsize=100000)
 doc_id_to_depth_prob_cache = LFUCache(maxsize=100000)
+doc_id_to_all_prob_cache = LFUCache(maxsize=100000)
 
 app = Flask(__name__)
 classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
@@ -52,7 +53,10 @@ def probabilities(depth):
     Get the topic probabilities for the last classified example at the specified depth
     of the topic tree.  0 = root topics, 1 = next level and so on.
     """
-    return get_topic_probabilities(last_doc_id, int(depth))
+    if depth == 'all':
+        return get_all_topic_probabilities(last_doc_id)
+    else:
+        return get_topic_probabilities(last_doc_id, int(depth))
 
 
 @cached(doc_id_to_topic_prob_cache)
@@ -64,6 +68,12 @@ def identify_topic_probabilities(doc_id):
 @cached(doc_id_to_depth_prob_cache)
 def get_topic_probabilities(doc_id, depth):
     probabilities = classifier.get_topic_probabilities(depth)
+    return jsonify(probabilities)
+
+
+@cached(doc_id_to_all_prob_cache)
+def get_all_topic_probabilities(doc_id):
+    probabilities = classifier.get_all_topic_probabilities()
     return jsonify(probabilities)
     
 

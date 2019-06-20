@@ -44,7 +44,11 @@ class KnowledgeBasePredictor():
     
     
     def get_classification_report(self, y, predict):
-        clazzification_report = classification_report(y, predict, digits=6, target_names=self.topic_labels)
+        clazzification_report = classification_report(y,
+                                                      predict,
+                                                      digits=6,
+                                                      target_names=self.topic_labels,
+                                                      labels=np.arange(len(self.topic_labels)))
         confuzion_matrix = confusion_matrix(y, predict)
         return (clazzification_report, confuzion_matrix)
     

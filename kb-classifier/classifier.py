@@ -3,6 +3,7 @@
 from cachetools import cached, LFUCache
 from collections import deque, defaultdict
 import copy
+import numpy as np
 
 from sparql_dao import SparqlDao
 from graph_structures import TopicNode
@@ -325,6 +326,26 @@ class Classifier:
         topic_probabilities = {}
         for topic_name, topic in self.traversed_nodes[depth_to_return].items():
             topic_probabilities[topic_name] = topic.upwards_vote / total_vote
+        
+        return topic_probabilities
+    
+    
+    def get_all_topic_probabilities(self):
+        topic_probabilities = {}
+        
+        tree_depth = np.max(list(self.traversed_nodes.keys())) + 1
+        
+        # Do not return the phrase probabilities by default
+        for i in range(1, tree_depth):
+            
+            depth_with_root_topics_as_zero = str(tree_depth - i - 1)
+            
+            total_vote = 0
+            for topic in self.traversed_nodes[i].values():
+                total_vote += topic.upwards_vote
+
+            for topic_name, topic in self.traversed_nodes[i].items():
+                topic_probabilities[depth_with_root_topics_as_zero + ':' + topic_name] = topic.upwards_vote / total_vote
         
         return topic_probabilities
     

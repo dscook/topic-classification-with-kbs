@@ -4,7 +4,7 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.layers import LSTM, Dense
 from keras.models import Sequential
 from keras.utils import to_categorical
-from keras.optimizers import Adadelta
+from keras.optimizers import Adadelta, RMSprop
 import numpy as np
 
 from lstm_generator import DataGenerator
@@ -39,8 +39,8 @@ class LstmPredictor():
         if use_saved_weights:
             self.model.load_weights(self.weights_path)
         
-        #self.model.compile(optimizer=RMSprop(lr=0.0001), loss='categorical_crossentropy', metrics=['acc'])
-        self.model.compile(optimizer=Adadelta(), loss='categorical_crossentropy', metrics=['acc'])
+        self.model.compile(optimizer=RMSprop(lr=0.0001), loss='categorical_crossentropy', metrics=['acc'])
+        #self.model.compile(optimizer=Adadelta(), loss='categorical_crossentropy', metrics=['acc'])
 
 
     def create_lstm(self,
@@ -94,12 +94,12 @@ class LstmPredictor():
                                            y_cat,
                                            self.max_sentences_in_document,
                                            self.sentence_embedding_dim,
-                                           batch_size=32)
+                                           batch_size=128)
         validation_generator = DataGenerator(x_val,
                                              y_val_cat,
                                              self.max_sentences_in_document,
                                              self.sentence_embedding_dim,
-                                             batch_size=32)
+                                             batch_size=128)
         
         callbacks_list = [
                 EarlyStopping(monitor='val_loss', patience=20),
@@ -126,7 +126,7 @@ class LstmPredictor():
                                        None,
                                        self.max_sentences_in_document,
                                        self.sentence_embedding_dim,
-                                       batch_size=32)
+                                       batch_size=128)
         return np.argmax(self.model.predict_generator(generator=test_generator), axis=1)
     
     
