@@ -8,6 +8,7 @@ from classifier import Classifier
 from tfidf import TfIdf
 from kb_common import wiki_topics_to_actual_topics, topic_depth
 
+
 # Used for generating document IDs
 namespace = uuid.uuid4()
 last_doc_id = None

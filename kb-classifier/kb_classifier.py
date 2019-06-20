@@ -12,9 +12,12 @@ from kb_common import wiki_topics_to_actual_topics
 class KnowledgeBasePredictor():
     
     
-    def __init__(self, topic_labels, topic_depth):
+    def __init__(self, topic_labels, topic_depth, top_level_prediction_number=None):
         self.topic_labels = topic_labels
         self.topic_depth = topic_depth
+        self.top_level_prediction_number = len(self.topic_labels)
+        if top_level_prediction_number is not None:
+            self.top_level_prediction_number = top_level_prediction_number
 
 
     def fit_tfidf(self, x):
@@ -48,7 +51,7 @@ class KnowledgeBasePredictor():
     
     def make_unsupervised_predictions(self, x, training):
         
-        class_probabilities = np.zeros(shape=(len(x), len(self.topic_labels)))
+        class_probabilities = np.zeros(shape=(len(x), self.top_level_prediction_number))
         wikipedia_topic_probabilities = defaultdict(lambda: {})
 
         for i in range(len(x)):
