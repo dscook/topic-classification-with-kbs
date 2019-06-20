@@ -6,7 +6,7 @@ import uuid
 
 from classifier import Classifier
 from tfidf import TfIdf
-from kb_common import wiki_topics_to_actual_topics
+from kb_common import wiki_topics_to_actual_topics, topic_depth
 
 # Used for generating document IDs
 namespace = uuid.uuid4()
@@ -18,7 +18,7 @@ doc_id_to_depth_prob_cache = LFUCache(maxsize=100000)
 app = Flask(__name__)
 classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
                         root_topic_names=wiki_topics_to_actual_topics.keys(),
-                        max_depth=5)
+                        max_depth=topic_depth)
 tfidf_calculator = TfIdf(classifier)
 
 

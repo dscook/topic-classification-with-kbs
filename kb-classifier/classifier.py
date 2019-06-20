@@ -140,7 +140,7 @@ class Classifier:
                         topic.filtered_parents[i] = filtered_parents
                     
                     if len(filtered_parents) == 0:
-                        raise Exception('Implementation error: there should be a valid path to a root topic')
+                        raise Exception('Implementation error: there should be a valid path to a root topic.')
                     
                     vote = topic.vote
                     topic.vote = 0

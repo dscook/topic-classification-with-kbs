@@ -27,7 +27,7 @@ def load_data():
     max_num_sent_in_doc = 0
     sent_embedding_dim = 0
     
-    embedding_files = ['sentences-depth-2-part1.avro']
+    embedding_files = ['sentences-depth-2-part2.avro']
     
     for file in embedding_files:
         with open('embeddings/' + file, 'rb') as avro_file:
@@ -43,7 +43,7 @@ def load_data():
                 for embedding in sentence_embeddings:
                     
                     max_topic_id_in_embedding = 0
-                    
+                                        
                     for record in embedding:
                         topic_id = record['topic_id']
                         if topic_id+1 > sent_embedding_dim:
