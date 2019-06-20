@@ -26,6 +26,19 @@ def shuffle_data(x, y):
     return x, y
 
 
+def remove_empty_examples(x, y):
+    
+    filtered_x = []
+    filtered_y = []
+    
+    for i in range(len(x)):
+        if x[i]:
+            filtered_x.append(x[i])
+            filtered_y.append(y[i])
+    
+    return filtered_x, filtered_y
+
+
 def write_data(x, y, file_suffix):
     path = 'data/ohsumed_no_stopwords_{}.csv'.format(file_suffix)
     with open(path, 'w', newline='') as csvfile:
@@ -40,6 +53,10 @@ train_x, train_y, test_x, test_y = load_data('../../../downloads/UVigoMED/single
 train_x = list(map(remove_stop_words_and_lemmatize, train_x))
 test_x = list(map(remove_stop_words_and_lemmatize, test_x))
 
+# Remove any examples that are empty
+train_x, train_y = remove_empty_examples(train_x, train_y)
+test_x, test_y = remove_empty_examples(test_x, test_y)
+
 # To ensure the output is always in the same order
 np.random.seed(42)
 
@@ -48,5 +65,5 @@ train_x, train_y = shuffle_data(train_x, train_y)
 test_x, test_y = shuffle_data(test_x, test_y)
 
 # Write out the data
-write_data(train_x, train_y, 'train')
-write_data(test_x, test_y, 'test')
+write_data(train_x, train_y, 'train-1')
+write_data(test_x, test_y, 'test-1')

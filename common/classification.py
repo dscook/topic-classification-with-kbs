@@ -4,6 +4,7 @@ from term_document_matrix import TermDocumentMatrixCreator
 from sklearn.naive_bayes import BernoulliNB, MultinomialNB
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.svm import LinearSVC
+from sklearn.ensemble import RandomForestClassifier
 
 def run_bernoulli_naive_bayes(train_x, train_y, test_x, test_y, ngram_range):
     """
@@ -63,6 +64,18 @@ def run_support_vector_classifier(train_x, train_y, test_x, ngram_range, C=0.005
     svc = LinearSVC(loss='hinge', class_weight='balanced', max_iter=10000, C=C)
     svc.fit(train_tdm, train_y)
     predict_y = svc.predict(test_tdm)
+    
+    return predict_y
+
+
+def run_random_forest_classifier(train_x, train_y, test_x, ngram_range):
+    tdm_creator = TermDocumentMatrixCreator(train_x, binary = False, ngram_range=ngram_range)
+    train_tdm = tdm_creator.create_term_document_matrix(train_x)
+    test_tdm = tdm_creator.create_term_document_matrix(test_x)
+    
+    random_forest = RandomForestClassifier(n_estimators=100, class_weight='balanced')
+    random_forest.fit(train_tdm, train_y)
+    predict_y = random_forest.predict(test_tdm)
     
     return predict_y
     
