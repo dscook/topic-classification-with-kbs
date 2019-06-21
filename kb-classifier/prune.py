@@ -25,7 +25,7 @@ def prune(topic, topic_hierarchy):
 
 
 # OHSUMED dataset
-topic_hierarchy = TopicHierarchyPruner(max_depth=4, endpoint_url='http://localhost:3030/DBpedia/')
+topic_hierarchy = TopicHierarchyPruner(max_depth=6, endpoint_url='http://localhost:3030/DBpedia/')
 prune('Anatomy', topic_hierarchy)
 prune('Health', topic_hierarchy)
 prune('Diseases_and_disorders', topic_hierarchy)

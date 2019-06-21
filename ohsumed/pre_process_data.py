@@ -8,6 +8,7 @@ sys.path.append('../common/')
 import numpy as np
 import csv
 import uuid
+from langdetect import detect
 
 from ohsumed_parser import load_data
 from sentence_utils import remove_stop_words_and_lemmatize
@@ -31,10 +32,35 @@ def shuffle_data(x, y):
     return x, y
 
 
+def remove_non_english_and_empty(x, y):
+    
+    filtered_x = []
+    filtered_y = []
+    
+    number_non_english_articles = 0
+    number_empty = 0
+    
+    for i in range(len(x)):
+        if x[i]:
+            lang = detect(x[i])
+            if lang != 'en':
+                number_non_english_articles += 1
+            else:
+                filtered_x.append(x[i])
+                filtered_y.append(y[i])
+        else:
+            number_empty += 1
+    
+    print('{} non English articles removed.'.format(number_non_english_articles))
+    print('{} empty articles removed.'.format(number_empty))
+    
+    return filtered_x, filtered_y
+
+
 # Intentionally here so duplicates that span the train and test set are removed
 seen_so_far = set()
 
-def remove_empty_examples_and_duplicates(x, y):
+def remove_duplicates(x, y):
     
     number_of_duplicates = 0
     
@@ -59,7 +85,7 @@ def remove_empty_examples_and_duplicates(x, y):
 
 
 def write_data(x, y, file_suffix):
-    path = 'data/ohsumed_no_stopwords_{}.csv'.format(file_suffix)
+    path = 'data/ohsumed_eng_only_{}.csv'.format(file_suffix)
     with open(path, 'w', newline='') as csvfile:
         article_writer = csv.writer(csvfile)
         for i in range(len(y)):
@@ -68,13 +94,24 @@ def write_data(x, y, file_suffix):
 
 train_x, train_y, test_x, test_y = load_data('../../../downloads/UVigoMED/single_label/')
 
-# Remove stopwords and lemmatise
+# Remove non english articles
+train_x, train_y = remove_non_english_and_empty(train_x, train_y)
+test_x, test_y = remove_non_english_and_empty(test_x, test_y)
+
+# Remove stopwords and lemmatise - for non-KB classifiers
 train_x = list(map(remove_stop_words_and_lemmatize, train_x))
 test_x = list(map(remove_stop_words_and_lemmatize, test_x))
 
-# Remove any examples that are empty or duplicates
-train_x, train_y = remove_empty_examples_and_duplicates(train_x, train_y)
-test_x, test_y = remove_empty_examples_and_duplicates(test_x, test_y)
+# Remove stopwords for knowledge base classifier
+def format_for_kb_classifier(article):
+    return remove_stop_words_and_lemmatize(article, lowercase=False, lemmatize=True, keep_nouns_only=True)
+
+#train_x = list(map(format_for_kb_classifier, train_x))
+#test_x = list(map(format_for_kb_classifier, test_x))
+
+# Remove any examples that are duplicates
+train_x, train_y = remove_duplicates(train_x, train_y)
+test_x, test_y = remove_duplicates(test_x, test_y)
 
 # To ensure the output is always in the same order
 np.random.seed(42)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-topic_depth=4
+topic_depth=6
 
 wiki_topics_to_index = {
     'Anatomy': 0,

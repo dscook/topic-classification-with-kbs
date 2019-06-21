@@ -33,7 +33,7 @@ class KnowledgeBasePredictor():
         if not balanced_classes:
             class_weight = 'balanced'
             
-        self.classifier = RandomForestClassifier(n_estimators=1000, random_state=42, class_weight=class_weight)
+        self.classifier = RandomForestClassifier(n_estimators=100, random_state=42, class_weight=class_weight)
         self.classifier.fit(wiki_class_probabilities, y)
 
 
