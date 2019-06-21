@@ -227,18 +227,29 @@ class Classifier:
                 
                 nodes = None
                 
+                # Resources always have their first letter as a capital
+                for_resource_search = phrase
+                if len(for_resource_search) > 1:
+                    for_resource_search = for_resource_search[0].upper() + for_resource_search[1:]
+                
                 # Look for exact phrase match
-                #if phrase in self.resource_cache:
-                #    node = self.get_resource(phrase)
-                #    if node:
-                #        nodes = [node]
+                if for_resource_search in self.resource_cache:
+                    print('Getting exact match for: {}'.format(for_resource_search))
+                    node = self.get_resource(phrase)
+                    if node:
+                        nodes = [node]
+                        print('Found')
+                
                 # Look for redirect exact match
-                #elif phrase in self.redirect_cache:
-                #    node = self.get_resource_from_redirect(phrase)
-                #    if node:
-                #        nodes = [node]
+                if nodes is None and for_resource_search in self.redirect_cache:
+                    print('Getting redirect for: {}'.format(for_resource_search))
+                    node = self.get_resource_from_redirect(phrase)
+                    if node:
+                        nodes = [node]
+                        print('Found')
+                
                 # Oherwise look for anchor text matches
-                if phrase in self.anchor_cache:
+                if nodes is None and phrase in self.anchor_cache:
                     nodes = self.get_resources_from_anchor(phrase)
                 
                 # Found nodes, no need to look for smaller word n-gram matches
@@ -331,23 +342,43 @@ class Classifier:
     
     
     def get_all_topic_probabilities(self):
-        topic_probabilities = {}
+        #topic_probabilities = defaultdict(list)
+        topic_probabilities = defaultdict(int)
         
         tree_depth = np.max(list(self.traversed_nodes.keys())) + 1
         
         # Do not return the phrase probabilities by default
         for i in range(1, tree_depth):
             
-            depth_with_root_topics_as_zero = str(tree_depth - i - 1)
+            #depth_with_root_topics_as_zero = str(tree_depth - i - 1)
             
-            total_vote = 0
-            for topic in self.traversed_nodes[i].values():
-                total_vote += topic.upwards_vote
+            #total_vote = 0
+            #for topic in self.traversed_nodes[i].values():
+                #total_vote += topic.upwards_vote
 
             for topic_name, topic in self.traversed_nodes[i].items():
-                topic_probabilities[depth_with_root_topics_as_zero + ':' + topic_name] = topic.upwards_vote / total_vote
+                #topic_probabilities[topic_name].append(topic.upwards_vote / total_vote)
+                
+                # Root topics always store the total votes that have flown through them
+                if topic_name in self.root_topic_names:
+                    topic_probabilities[topic_name] = topic.upwards_vote
+                else:
+                    # For non root topic add the amount of vote that has flowed through it
+                    topic_probabilities[topic_name] += topic.upwards_vote
         
-        return topic_probabilities
+        #max_topic_probabilities = {}
+        
+        #for topic_name, probabilities in topic_probabilities.items():
+        #    max_topic_probabilities[topic_name] = np.max(probabilities)
+        
+        #return max_topic_probabilities
+        
+        normalised_topic_probabilities = {}
+                    
+        for topic_name, votes in topic_probabilities.items():
+            normalised_topic_probabilities[topic_name] = 1.0
+            
+        return normalised_topic_probabilities
     
     
     def populate_topic_name_to_node(self, topic_name_to_node, topic_name):

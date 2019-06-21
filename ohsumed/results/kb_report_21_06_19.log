@@ -1,0 +1,33 @@
+Wiki topic probabilies shape: (10859, 20609)
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.706400  0.802727  0.751489      1100
+                                               Virus Diseases   0.900000  0.097826  0.176471        92
+                                           Parasitic Diseases   0.866120  0.940653  0.901849       337
+                                                    Neoplasms   0.590461  0.650362  0.618966       552
+                                     Musculoskeletal Diseases   0.333333  0.017857  0.033898        56
+                                    Digestive System Diseases   0.716227  0.855778  0.779809      1047
+                                      Stomatognathic Diseases   0.807407  0.827848  0.817500       395
+                                   Respiratory Tract Diseases   0.661654  0.594595  0.626335       296
+                                Otorhinolaryngologic Diseases   0.865285  0.678862  0.760820       246
+                                      Nervous System Diseases   0.766667  0.216981  0.338235       106
+                                                 Eye Diseases   0.744131  0.875691  0.804569       362
+                                     Male Urogenital Diseases   0.820144  0.828087  0.824096       826
+       Female Urogenital Diseases and Pregnancy Complications   0.587302  0.336364  0.427746       110
+                                      Cardiovascular Diseases   0.537190  0.384615  0.448276       169
+                                 Hemic and Lymphatic Diseases   0.776025  0.755760  0.765759       651
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.548235  0.609150  0.577090       765
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.620690  0.305085  0.409091       177
+                                    Endocrine System Diseases   0.763708  0.793758  0.778443       737
+                                       Immune System Diseases   0.000000  0.000000  0.000000        35
+                            Disorders of Environmental Origin   0.000000  0.000000  0.000000         5
+                                              Animal Diseases   0.559913  0.573661  0.566703       896
+               Pathological Conditions and Signs and Symptoms   0.350000  0.025180  0.046980       278
+                                        Occupational Diseases   0.619048  0.224138  0.329114        58
+                                 Chemically-Induced Disorders   0.713131  0.677543  0.694882       521
+                                          Wounds and Injuries   0.648387  0.796829  0.714984      1009
+
+                                                    micro avg   0.695184  0.695184  0.695184     10859
+                                                    macro avg   0.596210  0.494975  0.507427     10859
+                                                 weighted avg   0.682869  0.695184  0.676157     10859
