@@ -342,43 +342,26 @@ class Classifier:
     
     
     def get_all_topic_probabilities(self):
-        #topic_probabilities = defaultdict(list)
-        topic_probabilities = defaultdict(int)
+        topic_probabilities = defaultdict(list)
         
         tree_depth = np.max(list(self.traversed_nodes.keys())) + 1
         
         # Do not return the phrase probabilities by default
         for i in range(1, tree_depth):
-            
-            #depth_with_root_topics_as_zero = str(tree_depth - i - 1)
-            
-            #total_vote = 0
-            #for topic in self.traversed_nodes[i].values():
-                #total_vote += topic.upwards_vote
+                        
+            total_vote = 0
+            for topic in self.traversed_nodes[i].values():
+                total_vote += topic.upwards_vote
 
             for topic_name, topic in self.traversed_nodes[i].items():
-                #topic_probabilities[topic_name].append(topic.upwards_vote / total_vote)
-                
-                # Root topics always store the total votes that have flown through them
-                if topic_name in self.root_topic_names:
-                    topic_probabilities[topic_name] = topic.upwards_vote
-                else:
-                    # For non root topic add the amount of vote that has flowed through it
-                    topic_probabilities[topic_name] += topic.upwards_vote
+                topic_probabilities[topic_name].append(topic.upwards_vote / total_vote)
         
-        #max_topic_probabilities = {}
+        max_topic_probabilities = {}
         
-        #for topic_name, probabilities in topic_probabilities.items():
-        #    max_topic_probabilities[topic_name] = np.max(probabilities)
+        for topic_name, probabilities in topic_probabilities.items():
+            max_topic_probabilities[topic_name] = np.max(probabilities)
         
-        #return max_topic_probabilities
-        
-        normalised_topic_probabilities = {}
-                    
-        for topic_name, votes in topic_probabilities.items():
-            normalised_topic_probabilities[topic_name] = 1.0
-            
-        return normalised_topic_probabilities
+        return max_topic_probabilities
     
     
     def populate_topic_name_to_node(self, topic_name_to_node, topic_name):
