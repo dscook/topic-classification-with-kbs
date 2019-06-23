@@ -7,7 +7,6 @@ self.model.compile(optimizer=RMSprop(lr=0.0001), loss='categorical_crossentropy'
         model.add(Dense(num_topics, activation='softmax'))
 
 
-(env) Daniels-MacBook-Pro-5:news-classification danielcook$ python run_lstm_kb_sentence.py 
 Using TensorFlow backend.
 Maximum number of sentences in a document: 536
 Sentence embedding dimension: 2609
@@ -172,5 +171,65 @@ Epoch 75/100
 Epoch 76/100
 177/177 [==============================] - 1391s 8s/step - loss: 0.1058 - acc: 0.9646 - val_loss: 0.1544 - val_acc: 0.9562
 Epoch 77/100
- 32/177 [====>.........................] - ETA: 14:59 - loss: 0.1065 - acc: 0.9618
+177/177 [==============================] - 11311s 64s/step - loss: 0.1042 - acc: 0.9659 - val_loss: 0.1888 - val_acc: 0.9426
+Epoch 78/100
+177/177 [==============================] - 1400s 8s/step - loss: 0.1011 - acc: 0.9650 - val_loss: 0.1817 - val_acc: 0.9474
+Epoch 79/100
+177/177 [==============================] - 1514s 9s/step - loss: 0.1011 - acc: 0.9662 - val_loss: 0.1511 - val_acc: 0.9561
+Epoch 80/100
+177/177 [==============================] - 1372s 8s/step - loss: 0.0996 - acc: 0.9672 - val_loss: 0.1445 - val_acc: 0.9568
+Epoch 81/100
+177/177 [==============================] - 1222s 7s/step - loss: 0.2015 - acc: 0.9553 - val_loss: 0.1751 - val_acc: 0.9460
+Epoch 82/100
+177/177 [==============================] - 1274s 7s/step - loss: 0.0990 - acc: 0.9656 - val_loss: 0.1432 - val_acc: 0.9577
+Epoch 83/100
+177/177 [==============================] - 1322s 7s/step - loss: 0.0942 - acc: 0.9681 - val_loss: 0.1522 - val_acc: 0.9564
+Epoch 84/100
+177/177 [==============================] - 1305s 7s/step - loss: 0.0945 - acc: 0.9684 - val_loss: 0.1633 - val_acc: 0.9527
+Epoch 85/100
+177/177 [==============================] - 1326s 7s/step - loss: 0.0918 - acc: 0.9692 - val_loss: 0.1747 - val_acc: 0.9479
+Epoch 86/100
+177/177 [==============================] - 1549s 9s/step - loss: 0.0901 - acc: 0.9685 - val_loss: 0.1538 - val_acc: 0.9545
+Epoch 87/100
+177/177 [==============================] - 1354s 8s/step - loss: 0.0895 - acc: 0.9677 - val_loss: 0.1584 - val_acc: 0.9549
+Epoch 88/100
+177/177 [==============================] - 1392s 8s/step - loss: 0.0888 - acc: 0.9687 - val_loss: 0.1564 - val_acc: 0.9553
+Epoch 89/100
+177/177 [==============================] - 1330s 8s/step - loss: 0.0858 - acc: 0.9698 - val_loss: 0.1577 - val_acc: 0.9529
+Epoch 90/100
+177/177 [==============================] - 1239s 7s/step - loss: 0.0863 - acc: 0.9705 - val_loss: 0.1524 - val_acc: 0.9569
+Epoch 91/100
+177/177 [==============================] - 1445s 8s/step - loss: 0.0847 - acc: 0.9705 - val_loss: 0.2279 - val_acc: 0.9318
+Epoch 92/100
+177/177 [==============================] - 1288s 7s/step - loss: 0.0899 - acc: 0.9704 - val_loss: 0.1758 - val_acc: 0.9496
+Epoch 93/100
+177/177 [==============================] - 1344s 8s/step - loss: 0.0818 - acc: 0.9713 - val_loss: 0.1469 - val_acc: 0.9576
+Epoch 94/100
+177/177 [==============================] - 1397s 8s/step - loss: 0.1496 - acc: 0.9649 - val_loss: 0.1492 - val_acc: 0.9566
+Epoch 95/100
+177/177 [==============================] - 1407s 8s/step - loss: 0.1003 - acc: 0.9703 - val_loss: 0.1570 - val_acc: 0.9539
+Epoch 96/100
+177/177 [==============================] - 1446s 8s/step - loss: 0.0789 - acc: 0.9727 - val_loss: 0.1551 - val_acc: 0.9551
+Epoch 97/100
+177/177 [==============================] - 1382s 8s/step - loss: 0.0883 - acc: 0.9712 - val_loss: 0.1451 - val_acc: 0.9592
+Epoch 98/100
+177/177 [==============================] - 1305s 7s/step - loss: 0.0772 - acc: 0.9732 - val_loss: 0.1842 - val_acc: 0.9460
+Epoch 99/100
+177/177 [==============================] - 1241s 7s/step - loss: 0.0780 - acc: 0.9727 - val_loss: 0.2131 - val_acc: 0.9364
+Epoch 100/100
+177/177 [==============================] - 1349s 8s/step - loss: 0.0765 - acc: 0.9720 - val_loss: 0.1645 - val_acc: 0.9537
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.956936  0.941344  0.949076      2455
+  ECONOMIC PERFORMANCE   0.942393  0.939617  0.941003       679
+             ELECTIONS   0.917121  0.951357  0.933926       884
+                HEALTH   0.863436  0.926714  0.893957       423
+              RELIGION   0.858639  0.877005  0.867725       187
+                SPORTS   0.991343  0.982498  0.986901      2914
+
+              accuracy                       0.955847      7542
+             macro avg   0.921645  0.936423  0.928765      7542
+          weighted avg   0.956573  0.955847  0.956079      7542
+
+(env) Daniels-MacBook-Pro-5:news-classification danielcook$ 
 
