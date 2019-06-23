@@ -66,6 +66,7 @@ def remove_stop_words_and_lemmatize(text,
                                     lowercase = True,
                                     lemmatize = True,
                                     keep_nouns_only=False,
+                                    simple_keep_nouns=False,
                                     eos_indicators=False):
     """
     Given a string, tokenises the string based on punctuation and whitespace, lowercases
@@ -77,66 +78,96 @@ def remove_stop_words_and_lemmatize(text,
     tokens = []
     pos_tags = nltk.pos_tag_sents(nltk.word_tokenize(sent) for sent in nltk.sent_tokenize(text))
     
-    if keep_nouns_only:      
-        # Potential people: key surname, value full name
-        potential_people = {}
+    if keep_nouns_only:
         
-        # Only keep adjectives and nouns
-        # Ensure noun phrases are grouped together
-        nouns = set(['NN', 'NNS', 'JJ'])
-        proper_nouns = set(['NNP', 'NNPS'])
-        
-        tokens = []
-        token_so_far = ''
-        
-        for sent in pos_tags:
-                        
-            matching_proper_noun_phrase = False
+        if simple_keep_nouns:
+            # Only keep adjectives and nouns                
+            tokens = [(word, tag) for sent in pos_tags for (word, tag) in sent if tag in set(['NN', 'NNS', 'NNP', 'NNPS', 'JJ'])]
+        else:
+            # Potential people: key surname, value full name
+            potential_people = {}
+            
+            # Only keep adjectives and nouns
+            # Ensure noun phrases are grouped together
+            nouns = set(['NN', 'NNS', 'JJ'])
+            proper_nouns = set(['NNP', 'NNPS'])
+            
+            tokens = []
             token_so_far = ''
             
-            for word, tag in sent:
-                if matching_proper_noun_phrase:
-                    if tag in proper_nouns:
-                        token_so_far += '_{}'.format(word)
-                    else:
-                        # Matched the full proper noun, if a single noun then check to see if this potential
-                        # surname is in the potential people list and use the full name instead of the token
-                        noun_phrase_tokens = token_so_far.split('_')
-                        
-                        if len(noun_phrase_tokens) == 1:
-                            if token_so_far in potential_people:
-                                tokens.append((potential_people[token_so_far], 'NP'))
+            for sent in pos_tags:
+                            
+                matching_proper_noun_phrase = False
+                token_so_far = ''
+                
+                for word, tag in sent:
+                    if matching_proper_noun_phrase:
+                        if tag in proper_nouns:
+                            token_so_far += '_{}'.format(word)
+                        else:
+                            # Matched the full proper noun, if a single noun then check to see if this potential
+                            # surname is in the potential people list and use the full name instead of the token
+                            noun_phrase_tokens = token_so_far.split('_')
+                            
+                            if len(noun_phrase_tokens) == 1:
+                                if token_so_far in potential_people:
+                                    tokens.append((potential_people[token_so_far], 'NP'))
+                                else:
+                                    tokens.append((token_so_far, 'NP'))
                             else:
                                 tokens.append((token_so_far, 'NP'))
-                        else:
-                            tokens.append((token_so_far, 'NP'))
-                        
-                        # Add the proper noun phrase to the potential people set if length == 2
-                        if len(noun_phrase_tokens) == 2:
-                            # Use the fact news articles refer to people by surname once they have stated their full name
-                            potential_people[noun_phrase_tokens[-1]] = token_so_far
-                        
-                        # Reset the matching process
-                        token_so_far = ''
-                        matching_proper_noun_phrase = False
-                        
-                        if tag in nouns:
+                            
+                            # Add the proper noun phrase to the potential people set if length == 2
+                            if len(noun_phrase_tokens) == 2:
+                                # Use the fact news articles refer to people by surname once they have stated their full name
+                                potential_people[noun_phrase_tokens[-1]] = token_so_far
+                            
+                            # Reset the matching process
+                            token_so_far = ''
+                            matching_proper_noun_phrase = False
+                            
+                            if tag in nouns:
+                                tokens.append((word, tag))
+                    else:
+                        if tag in proper_nouns:
+                            token_so_far = word
+                            matching_proper_noun_phrase = True
+                        elif tag in nouns:
                             tokens.append((word, tag))
-                else:
-                    if tag in proper_nouns:
-                        token_so_far = word
-                        matching_proper_noun_phrase = True
-                    elif tag in nouns:
-                        tokens.append((word, tag))
-            
-            if token_so_far:
-                tokens.append((token_so_far, 'NP'))
                 
-            # Add an end of sentence tag if instructed to do so
-            if eos_indicators:
-                tokens.append(('<EOS>', 'NP'))
+                if token_so_far:
+                    tokens.append((token_so_far, 'NP'))
+                    
+                # Add an end of sentence tag if instructed to do so
+                if eos_indicators:
+                    tokens.append(('<EOS>', 'NP'))
     else:
-        tokens = [(word, tag) for sent in pos_tags for (word, tag) in sent]
+        
+        if not eos_indicators:
+            tokens = [(word, tag) for sent in pos_tags for (word, tag) in sent]
+        else:
+            for sent in pos_tags:
+                for word, tag in sent:
+                    
+                    eos_detected = False
+                    
+                    # Catch case where new sentence was not started with a space
+                    # Check the length of a word is greater than a limit before splitting to try and avoid splitting acronyms
+                    if len(word) > 9:
+                        eos_split = word.split('.')
+                        # Should only be two words if a split at the end of a sentence occurred
+                        if len(eos_split) == 2:
+                            tokens.append((eos_split[0], 'NN'))
+                            tokens.append(('<EOS>', 'NP'))
+                            tokens.append((eos_split[1], 'NN'))
+                            eos_detected = True
+                    
+                    if not eos_detected:
+                        tokens.append((word, tag))
+                
+                # Add end of sentence tag
+                tokens.append(('<EOS>', 'NP'))
+                            
 
     updated_tokens = []
     
