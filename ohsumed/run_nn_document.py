@@ -11,8 +11,8 @@ import numpy as np
 from sklearn.utils.class_weight import compute_class_weight
 from sklearn.metrics import classification_report
 
-from lstm_common import split_data, calculate_max_sentence_length
-from lstm_sentence import LstmPredictor
+from lstm_common import split_data
+from neural_network import NeuralNetwork
 from lookup_tables import int_to_topic, topic_to_int
 
 ###
@@ -27,7 +27,7 @@ def load_data():
     max_num_sent_in_doc = 0
     sent_embedding_dim = 0
     
-    embedding_files = ['sentences.avro']
+    embedding_files = ['sentences-train.avro']
     
     for file in embedding_files:
         with open('embeddings/' + file, 'rb') as avro_file:
@@ -64,7 +64,7 @@ def load_data():
                 if len(sentence_embeddings) > max_num_sent_in_doc:
                     max_num_sent_in_doc = len(sentence_embeddings)
                     
-                x.append(formatted_sentence_embeddings)
+                x.append(formatted_sentence_embeddings[0])
                 y.append(doc_sent_embedding['label'])
         
     # Print out some useful statistics
@@ -80,32 +80,24 @@ def load_data():
 
 train_x, train_y, val_x, val_y, test_x, test_y, max_num_sent_in_doc, sent_embedding_dim = load_data()
 
-sentence_limit = calculate_max_sentence_length(train_x)
-
 ###
-### TRAIN THE LSTM
+### TRAIN THE NN
 ###
-lstm = LstmPredictor(sent_embedding_dim,
-                     sentence_limit,
-                     len(int_to_topic.values()))
-
+nn = NeuralNetwork(sent_embedding_dim, len(int_to_topic.values()))
 
 class_weights = compute_class_weight('balanced', np.unique(train_y), train_y)
 class_weights_dict = {}
 for i in range(len(class_weights)):
     class_weights_dict[i] = class_weights[i]
-lstm.train_generator(train_x, train_y, val_x, val_y, class_weights_dict)
+nn.train_generator(train_x, train_y, val_x, val_y, class_weights_dict)
 
 
 ###
 ### MAKE THE PREDICTIONS
 ###
 
-# Re-initialise the LSTM, will use weights from the previous training run.
-lstm = LstmPredictor(sent_embedding_dim,
-                     sentence_limit,
-                     len(int_to_topic.values()),
-                     use_saved_weights=True)
+# Re-initialise the NN, will use weights from the previous training run.
+nn = NeuralNetwork(sent_embedding_dim, len(int_to_topic.values()), use_saved_weights=True)
 
-test_y_predict = lstm.predict_generator(test_x)
+test_y_predict = nn.predict_generator(test_x)
 print(classification_report(test_y, test_y_predict, digits=6, target_names=topic_to_int.keys()))

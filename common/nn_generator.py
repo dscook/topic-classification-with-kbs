@@ -8,10 +8,9 @@ import keras
 class DataGenerator(keras.utils.Sequence):
 
 
-    def __init__(self, x, y, max_num_sent_in_doc, sent_embedding_dim, batch_size=32):
+    def __init__(self, x, y, sent_embedding_dim, batch_size=32):
         self.x = x
         self.y = y
-        self.max_num_sent_in_doc = max_num_sent_in_doc
         self.sent_embedding_dim = sent_embedding_dim
         self.batch_size = batch_size
 
@@ -46,16 +45,15 @@ class DataGenerator(keras.utils.Sequence):
         
         # Densify batch
         num_in_batch = len(batch)
-        dense_batch = np.zeros(shape=(num_in_batch, self.max_num_sent_in_doc, self.sent_embedding_dim))
+        dense_batch = np.zeros(shape=(num_in_batch, self.sent_embedding_dim))
     
         for i in range(num_in_batch):
-            for j in range(len(batch[i])):
-                if j < self.max_num_sent_in_doc:
-                    sparse_embedding = batch[i][j]                
-                    sent_index = self.max_num_sent_in_doc - j - 1
-                    dense_batch[i, sent_index][:len(sparse_embedding)] = sparse_embedding
-
+            sparse_embedding = batch[i] 
+            dense_batch[i][:len(sparse_embedding)] = sparse_embedding
+            
         if self.y is None:
             return dense_batch
         else:
             return dense_batch, batch_y
+
+

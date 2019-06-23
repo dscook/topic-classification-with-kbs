@@ -18,14 +18,18 @@ from kb_common import wiki_topics_to_actual_topics, topic_depth
 ### LOAD THE DATA
 ###
 
-x, y = load_preprocessed_data('data/ohsumed_eos_test.csv')
+train_x, train_y = load_preprocessed_data('data/ohsumed_eos_train.csv')
+test_x, test_y = load_preprocessed_data('data/ohsumed_eos_test.csv')
+
+x = train_x + test_x
+y = train_y + test_y
 
 ###
 ### GENERATE THE SENTENCE EMBEDDINGS
 ###
 
 schema = avro.schema.Parse(open('embeddings/sentence.avsc', 'r').read())
-embeddings_writer = DataFileWriter(open('embeddings/sentences-test.avro', 'wb'), DatumWriter(), schema)
+embeddings_writer = DataFileWriter(open('embeddings/sentences.avro', 'wb'), DatumWriter(), schema)
 
 classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
                         root_topic_names=wiki_topics_to_actual_topics.keys(),
@@ -56,7 +60,7 @@ for i in range(len(x)):
     # To store sentence embeddings
     embeddings = []
     
-    for sentence in document.split('<EOS>'):
+    for sentence in document.split('<eos>'):
         if sentence != '':
             topic_to_prob_dict = classifier.identify_topic_probabilities(sentence)
             
