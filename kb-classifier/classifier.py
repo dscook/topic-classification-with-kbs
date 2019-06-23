@@ -234,19 +234,19 @@ class Classifier:
                 
                 # Look for exact phrase match
                 if for_resource_search in self.resource_cache:
-                    print('Getting exact match for: {}'.format(for_resource_search))
+                    #print('Getting exact match for: {}'.format(for_resource_search))
                     node = self.get_resource(phrase)
                     if node:
                         nodes = [node]
-                        print('Found')
+                        #print('Found')
                 
                 # Look for redirect exact match
                 if nodes is None and for_resource_search in self.redirect_cache:
-                    print('Getting redirect for: {}'.format(for_resource_search))
+                    #print('Getting redirect for: {}'.format(for_resource_search))
                     node = self.get_resource_from_redirect(phrase)
                     if node:
                         nodes = [node]
-                        print('Found')
+                        #print('Found')
                 
                 # Oherwise look for anchor text matches
                 if nodes is None and phrase in self.anchor_cache:

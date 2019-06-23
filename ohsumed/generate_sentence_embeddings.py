@@ -12,24 +12,24 @@ from avro.io import DatumWriter
 
 from loader import load_preprocessed_data
 from classifier import Classifier
-from kb_common import wiki_topics_to_actual_topics
+from kb_common import wiki_topics_to_actual_topics, topic_depth
 
 ###
 ### LOAD THE DATA
 ###
 
-x, y = load_preprocessed_data('data/rcv1_no_stopwords_eos_reduced.csv')
+x, y = load_preprocessed_data('data/ohsumed_eos_test.csv')
 
 ###
 ### GENERATE THE SENTENCE EMBEDDINGS
 ###
 
 schema = avro.schema.Parse(open('embeddings/sentence.avsc', 'r').read())
-embeddings_writer = DataFileWriter(open('embeddings/sentences-depth-2.avro', 'wb'), DatumWriter(), schema)
+embeddings_writer = DataFileWriter(open('embeddings/sentences-test.avro', 'wb'), DatumWriter(), schema)
 
 classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
                         root_topic_names=wiki_topics_to_actual_topics.keys(),
-                        max_depth=5)
+                        max_depth=topic_depth)
 
 # Maintain topic name to index dictionary for word embeddings
 topic_name_to_index = {}
@@ -61,7 +61,7 @@ for i in range(len(x)):
             topic_to_prob_dict = classifier.identify_topic_probabilities(sentence)
             
             if topic_to_prob_dict:
-                topic_to_prob_dict = classifier.get_topic_probabilities(2)
+                topic_to_prob_dict = classifier.get_all_topic_probabilities()
 
                 # Add any new topic names 
                 for topic_name in topic_to_prob_dict.keys():
@@ -76,9 +76,10 @@ for i in range(len(x)):
                 embeddings.append(sentence_embedding)
     
     # Write the embeddings  
-    embeddings_writer.append({ 'doc_id': i, 
-                               'label': y[i], 
-                               'embeddings': embeddings })
+    if embeddings:
+        embeddings_writer.append({ 'doc_id': i, 
+                                   'label': y[i], 
+                                   'embeddings': embeddings })
 
 # Close the avro file
 embeddings_writer.close()
