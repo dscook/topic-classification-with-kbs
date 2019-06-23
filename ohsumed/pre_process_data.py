@@ -85,7 +85,7 @@ def remove_duplicates(x, y):
 
 
 def write_data(x, y, file_suffix):
-    path = 'data/ohsumed_eng_only_{}.csv'.format(file_suffix)
+    path = 'data/ohsumed_eos_{}.csv'.format(file_suffix)
     with open(path, 'w', newline='') as csvfile:
         article_writer = csv.writer(csvfile)
         for i in range(len(y)):
@@ -99,15 +99,14 @@ train_x, train_y = remove_non_english_and_empty(train_x, train_y)
 test_x, test_y = remove_non_english_and_empty(test_x, test_y)
 
 # Remove stopwords and lemmatise - for non-KB classifiers
-train_x = list(map(remove_stop_words_and_lemmatize, train_x))
-test_x = list(map(remove_stop_words_and_lemmatize, test_x))
+#train_x = list(map(remove_stop_words_and_lemmatize, train_x))
+#test_x = list(map(remove_stop_words_and_lemmatize, test_x))
 
-# Remove stopwords for knowledge base classifier
 def format_for_kb_classifier(article):
-    return remove_stop_words_and_lemmatize(article, lowercase=False, lemmatize=True, keep_nouns_only=True)
+    return remove_stop_words_and_lemmatize(article, lowercase=True, lemmatize=True, keep_nouns_only=False, eos_indicators=True)
 
-#train_x = list(map(format_for_kb_classifier, train_x))
-#test_x = list(map(format_for_kb_classifier, test_x))
+train_x = list(map(format_for_kb_classifier, train_x))
+test_x = list(map(format_for_kb_classifier, test_x))
 
 # Remove any examples that are duplicates
 train_x, train_y = remove_duplicates(train_x, train_y)
