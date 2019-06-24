@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 from wiki_lookup_cache import LookupCache
 
-lookup_cache = LookupCache()
+def lookup_cache_init():
+    return LookupCache()
 
 sparql_endpoint_url='http://localhost:3030/DBpedia/'
 
