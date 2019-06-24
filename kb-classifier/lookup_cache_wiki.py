@@ -49,4 +49,8 @@ class LookupCache:
     
     def contains_anchor(self, phrase):
         return phrase in self.anchor_cache 
+
+
+    def get_normal_form(self, phrase):
+        return phrase
         

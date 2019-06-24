@@ -13,7 +13,7 @@ with open ('/Users/danielcook/Development/university/Project/downloads/MeSH/mesh
             resources.add(match.group(2))
 
 # Write out all resources encountered
-with open('../data-medline/resources.csv', 'w') as resources_csv:
+with open('../data-mesh/resources.csv', 'w') as resources_csv:
     resource_writer = csv.writer(resources_csv)
     for resource in resources:
         resource_writer.writerow([resource.lower(), resource])

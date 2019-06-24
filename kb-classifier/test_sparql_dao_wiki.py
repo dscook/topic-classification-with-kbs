@@ -3,7 +3,7 @@
 
 import unittest
 
-from sparql_dao import SparqlDao
+from sparql_dao_wiki import SparqlDao
 
 class SparqlDaoTestCase(unittest.TestCase):
     
