@@ -34,8 +34,21 @@ class SparqlDao:
         :param topic: the topic to find the parents of.
         :returns: a list of the parent topic names.
         """
-        pass
-    
+        self.sparql_query.setQuery(f"""
+            {self.PREFIX_RDF}
+            {self.PREFIX_MESHV}
+            {self.PREFIX_MESH}
+            
+            SELECT ?ancestorTreeNum
+            WHERE {{
+                    mesh:{topic} meshv:parentTreeNumber ?ancestorTreeNum
+            }}
+            """)
+        results = self.sparql_query.query().convert()
+        parent_topics = self.extract_matches_from_results(results, 'ancestorTreeNum', prefix_to_remove=self.NS_MESH)
+        
+        return parent_topics
+
 
     def get_child_topics(self, topic):
         """
@@ -44,7 +57,20 @@ class SparqlDao:
         :param topic: the topic to find the children of.
         :returns: a list of the child topic names.
         """
-        pass
+        self.sparql_query.setQuery(f"""
+            {self.PREFIX_RDF}
+            {self.PREFIX_MESHV}
+            {self.PREFIX_MESH}
+            
+            SELECT ?childTreeNum
+            WHERE {{
+                    ?childTreeNum meshv:parentTreeNumber mesh:{topic}
+            }}
+            """)
+        results = self.sparql_query.query().convert()
+        child_topics = self.extract_matches_from_results(results, 'childTreeNum', prefix_to_remove=self.NS_MESH)
+        
+        return child_topics
 
 
     def mark_as_accessible(self, topic):
@@ -67,9 +93,9 @@ class SparqlDao:
             {self.PREFIX_MESHV}
             {self.PREFIX_MESH}
             
-            SELECT ?descriptor
+            SELECT ?concept
             WHERE {{
-                ?term meshv:prefLabel "{phrase}"@en .
+                {{{{?term meshv:prefLabel "{phrase}"@en}} UNION {{?term meshv:altLabel "{phrase}"@en}}}} .
                 ?concept ?predicate1 ?term .
                 ?concept rdf:type meshv:Concept .
                 ?descriptor ?predicate2 ?concept .
@@ -77,10 +103,10 @@ class SparqlDao:
             }}
             """)
         results = self.sparql_query.query().convert()
-        resources = self.extract_matches_from_results(results, 'descriptor', prefix_to_remove=self.NS_MESH)
+        resources = self.extract_matches_from_results(results, 'concept', prefix_to_remove=self.NS_MESH)
         
         if len(resources) > 1:
-            raise Exception('Coding Error: A phrase ({}) should not refer to more than one resource'.format(phrase))
+            raise Exception('Coding Error: A phrase ({}) should not refer to more than one concept'.format(phrase))
         
         to_return = None
         if len(resources) == 1:
@@ -96,7 +122,25 @@ class SparqlDao:
         :returns: the list of topic names associated with the resource or an empty list if
                   the resource couldn't be matched to any topics.
         """
-        pass
+        self.sparql_query.setQuery(f"""
+            {self.PREFIX_RDF}
+            {self.PREFIX_MESHV}
+            {self.PREFIX_MESH}
+            
+            SELECT ?topic
+            WHERE {{
+            	    ?descriptor ?predicate mesh:{resource} .
+                ?descriptor rdf:type meshv:TopicalDescriptor .
+                ?descriptor meshv:treeNumber ?topic
+            }}
+            """)
+        results = self.sparql_query.query().convert()
+        topics = self.extract_matches_from_results(results, 'topic', prefix_to_remove=self.NS_MESH)
+        
+        if not topics:
+            raise Exception('Coding Error: no topics found for resource ({})'.format(resource))
+            
+        return topics
     
 
     def extract_matches_from_results(self, results, bound_variable, prefix_to_remove):
