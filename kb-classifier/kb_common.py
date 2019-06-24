@@ -7,9 +7,9 @@ import numpy as np
 dataset = 'ohsumed'
 
 if dataset == 'reuters':
-    from kb_reuters import wiki_topics_to_index, wiki_topics_to_actual_topic, topic_depth, sparql_endpoint_url
+    from kb_reuters import wiki_topics_to_index, wiki_topics_to_actual_topic, topic_depth, sparql_endpoint_url, lookup_cache
 elif dataset == 'ohsumed':
-    from kb_ohsumed import wiki_topics_to_index, wiki_topics_to_actual_topics, topic_depth, sparql_endpoint_url
+    from kb_ohsumed import wiki_topics_to_index, wiki_topics_to_actual_topics, topic_depth, sparql_endpoint_url, lookup_cache
 
 
 def wikipedia_topic_probs_as_array(topic_to_prob):

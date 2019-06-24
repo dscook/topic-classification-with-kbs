@@ -17,47 +17,25 @@ resource_to_topics_cache = LFUCache(maxsize=1000000)
 class Classifier:
 
 
-    def __init__(self, 
-                 sparql_endpoint_url, 
-                 root_topic_names, 
-                 max_depth, 
-                 resource_path='../kb-classifier/data/resources.txt',
-                 redirect_path='../kb-classifier/data/redirect_resources.txt',
-                 anchor_path='../kb-classifier/data/anchors.txt'):
+    def __init__(self, sparql_endpoint_url, root_topic_names, max_depth, phrase_cache):
         """
        :param endpoint_url: the SPARQL endpoint URL.
        :param root_topic_names: set of the names of the topics we are classifying.
        :param max_depth: the maximum depth we are permitted to traverse upwards from the leaf nodes.
-       :param phrase_path: path to the file containing valid phrases.
         """
         self.dao = SparqlDao(sparql_endpoint_url)
         self.root_topic_names = root_topic_names
         self.max_depth = max_depth
+        self.phrase_cache = phrase_cache
         self.topic_name_to_node = {}    # Cache of topics so we can avoid costly DB lookups
         # Below is so we can maintain an integer identifier to topic name mapping for generating word embeddings
         self.topic_id = 0
         self.topic_name_to_id = {}
-        # Prime a cache of all valid phrases to prevent costly DB lookups
-        self.resource_cache = self.load_phrase_cache(resource_path)
-        self.redirect_cache = self.load_phrase_cache(redirect_path)
-        self.anchor_cache = self.load_phrase_cache(anchor_path)
         # Will be initialised if TFIDF is used
         self.tfidf = None
         print('Classifier Initialised')
     
     
-    def load_phrase_cache(self, phrase_path):
-        """
-        Given a file of phrases,  returns a set of those phrases so it can be used as a cache.
-        """
-        valid_phrases = set()
-        with open(phrase_path, 'r') as phrases:
-            for phrase in phrases:
-                if phrase.strip() != '':
-                    valid_phrases.add(phrase.strip())
-        return valid_phrases
-        
-        
     def identify_topic_probabilities(self, text):
         """
         Given a text identifies the topic probabilities.
@@ -226,30 +204,25 @@ class Classifier:
                 phrase = ' '.join(updated_tokens)
                 
                 nodes = None
-                
-                # Resources always have their first letter as a capital
-                for_resource_search = phrase
-                if len(for_resource_search) > 1:
-                    for_resource_search = for_resource_search[0].upper() + for_resource_search[1:]
-                
+                                
                 # Look for exact phrase match
-                if for_resource_search in self.resource_cache:
-                    #print('Getting exact match for: {}'.format(for_resource_search))
+                if self.phrase_cache.contains_exact(phrase):
+                    print('Getting exact match for: {}'.format(phrase))
                     node = self.get_resource(phrase)
                     if node:
                         nodes = [node]
-                        #print('Found')
+                        print('Found')
                 
                 # Look for redirect exact match
-                if nodes is None and for_resource_search in self.redirect_cache:
-                    #print('Getting redirect for: {}'.format(for_resource_search))
+                if nodes is None and self.phrase_cache.contains_redirect(phrase):
+                    print('Getting redirect for: {}'.format(phrase))
                     node = self.get_resource_from_redirect(phrase)
                     if node:
                         nodes = [node]
-                        #print('Found')
+                        print('Found')
                 
                 # Oherwise look for anchor text matches
-                if nodes is None and phrase in self.anchor_cache:
+                if nodes is None and self.phrase_cache.contains_anchor(phrase):
                     nodes = self.get_resources_from_anchor(phrase)
                 
                 # Found nodes, no need to look for smaller word n-gram matches

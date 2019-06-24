@@ -26,15 +26,15 @@ def prune(topic, topic_hierarchy):
 
 # OHSUMED dataset
 topic_hierarchy = TopicHierarchyPruner(max_depth=4, endpoint_url='http://localhost:3030/DBpedia/')
-
 prune('Anatomy', topic_hierarchy)
 prune('Health', topic_hierarchy)
 prune('Diseases_and_disorders', topic_hierarchy)
 prune('Deaths_by_cause', topic_hierarchy)
 prune('Mammals', topic_hierarchy)
-
 prune('Virology', topic_hierarchy)
 prune('Genetics', topic_hierarchy)
 prune('Clinical_medicine', topic_hierarchy)
 prune('Human_pregnancy', topic_hierarchy)
 
+
+# OHSUMED dataset - MeSH headings
