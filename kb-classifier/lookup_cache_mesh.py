@@ -30,5 +30,5 @@ class LookupCache:
         return False
     
     
-    def get_normal_form(self, phrase):
+    def translate(self, phrase):
         return self.resources[phrase]

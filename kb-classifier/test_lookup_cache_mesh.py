@@ -19,8 +19,8 @@ class LookupCacheTestCase(unittest.TestCase):
         self.assertTrue(present)
     
     
-    def test_get_normal_form(self):
-        normal_form = self.cache.get_normal_form('hepatitis b')
+    def test_translate(self):
+        normal_form = self.cache.translate('hepatitis b')
         self.assertEqual(normal_form, 'Hepatitis B')
 
 

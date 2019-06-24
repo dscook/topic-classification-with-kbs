@@ -206,7 +206,7 @@ class Classifier:
                 # Look for exact phrase match
                 if self.phrase_cache.contains_exact(phrase):
                     print('Getting exact match for: {}'.format(phrase))
-                    node = self.get_resource(phrase)
+                    node = self.get_resource(self.phrase_cache.translate(phrase))
                     if node:
                         nodes = [node]
                         print('Found')
@@ -214,7 +214,7 @@ class Classifier:
                 # Look for redirect exact match
                 if nodes is None and self.phrase_cache.contains_redirect(phrase):
                     print('Getting redirect for: {}'.format(phrase))
-                    node = self.get_resource_from_redirect(phrase)
+                    node = self.get_resource_from_redirect(self.phrase_cache.translate(phrase))
                     if node:
                         nodes = [node]
                         print('Found')

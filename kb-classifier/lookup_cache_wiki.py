@@ -51,6 +51,6 @@ class LookupCache:
         return phrase in self.anchor_cache 
 
 
-    def get_normal_form(self, phrase):
+    def translate(self, phrase):
         return phrase
         

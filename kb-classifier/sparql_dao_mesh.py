@@ -168,6 +168,13 @@ class SparqlDao:
             
         return topics
     
+    
+    def filter_undesired_types(self, resource):
+        """
+        Returns None if the resource is an undesired type
+        """
+        return resource
+    
 
     def extract_matches_from_results(self, results, bound_variable, prefix_to_remove):
         """
