@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+from lookup_cache_mesh import LookupCache
+from sparql_dao_mesh import SparqlDao
 
-sparql_endpoint_url='http://localhost:3030/MeSH/'
+def lookup_cache_init():
+    return LookupCache()
+
+def dao_init():
+    return SparqlDao(endpoint_url='http://localhost:3030/MeSH/')
 
 topic_depth=8
 

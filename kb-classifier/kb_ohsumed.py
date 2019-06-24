@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from wiki_lookup_cache import LookupCache
-from sparql_dao import SparqlDao
+from lookup_cache_wiki import LookupCache
+from sparql_dao_wiki import SparqlDao
 
 def lookup_cache_init():
     return LookupCache()

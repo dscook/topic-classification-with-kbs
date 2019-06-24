@@ -2,40 +2,15 @@
 # -*- coding: utf-8 -*-
 
 from topic_hierarchy_pruner import TopicHierarchyPruner
-from kb_common import dao_init
+from kb_common import dao_init, topic_depth, wiki_topics_to_index
 
 
-def prune(topic, topic_hierarchy):
-    num_nodes_accessible = topic_hierarchy.prune_from_root_topic(topic)
+def prune(topic, topic_hierarchy_pruner):
+    num_nodes_accessible = topic_hierarchy_pruner.prune_from_root_topic(topic)
     print('{} pruned with {} topics accessible'.format(topic, num_nodes_accessible))
 
 
-# Reuters RCV1 dataset
-#topic_hierarchy = TopicHierarchyPruner(max_depth=5, endpoint_url='http://localhost:3030/DBpedia/')
-#prune('Crime', topic_hierarchy)
-#prune('Law', topic_hierarchy)
-#prune('Business', topic_hierarchy)
-#prune('Economics', topic_hierarchy)
-#prune('Elections', topic_hierarchy)
-#prune('Politics', topic_hierarchy)
-#prune('Health', topic_hierarchy)
-#prune('Medicine', topic_hierarchy)
-#prune('Religion', topic_hierarchy)
-#prune('Theology', topic_hierarchy)
-#prune('Sports', topic_hierarchy)
+topic_hierarchy_pruner = TopicHierarchyPruner(max_depth=topic_depth, dao=dao_init())
 
-
-# OHSUMED dataset
-topic_hierarchy = TopicHierarchyPruner(max_depth=4, dao=dao_init())
-prune('Anatomy', topic_hierarchy)
-prune('Health', topic_hierarchy)
-prune('Diseases_and_disorders', topic_hierarchy)
-prune('Deaths_by_cause', topic_hierarchy)
-prune('Mammals', topic_hierarchy)
-prune('Virology', topic_hierarchy)
-prune('Genetics', topic_hierarchy)
-prune('Clinical_medicine', topic_hierarchy)
-prune('Human_pregnancy', topic_hierarchy)
-
-
-# OHSUMED dataset - MeSH headings
+for topic in wiki_topics_to_index.keys():
+    prune(topic, topic_hierarchy_pruner)
