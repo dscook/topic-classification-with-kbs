@@ -17,6 +17,14 @@ class SparqlDao:
         self.sparql_query.setReturnFormat(JSON)
         self.sparql_update = SPARQLWrapper(endpoint_url + 'update')
         self.sparql_update.setReturnFormat(JSON)
+        
+        # Namespaces for use in queries
+        self.NS_RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+        self.PREFIX_RDF = 'PREFIX rdf: <{}>'.format(self.NS_RDF)
+        self.NS_MESHV = 'http://id.nlm.nih.gov/mesh/vocab#'
+        self.PREFIX_MESHV = 'PREFIX meshv: <{}>'.format(self.NS_MESHV)
+        self.NS_MESH = 'http://id.nlm.nih.gov/mesh/2019/'
+        self.PREFIX_MESH = 'PREFIX mesh: <{}>'.format(self.NS_MESH)
 
     
     def get_parent_topics(self, topic):
@@ -54,7 +62,30 @@ class SparqlDao:
         
         :param phrase: the phrase to lookup.
         """
-        pass
+        self.sparql_query.setQuery(f"""
+            {self.PREFIX_RDF}
+            {self.PREFIX_MESHV}
+            {self.PREFIX_MESH}
+            
+            SELECT ?descriptor
+            WHERE {{
+                ?term meshv:prefLabel "{phrase}"@en .
+                ?concept ?predicate1 ?term .
+                ?concept rdf:type meshv:Concept .
+                ?descriptor ?predicate2 ?concept .
+                ?descriptor rdf:type meshv:TopicalDescriptor
+            }}
+            """)
+        results = self.sparql_query.query().convert()
+        resources = self.extract_matches_from_results(results, 'descriptor', prefix_to_remove=self.NS_MESH)
+        
+        if len(resources) > 1:
+            raise Exception('Coding Error: A phrase ({}) should not refer to more than one resource'.format(phrase))
+        
+        to_return = None
+        if len(resources) == 1:
+            to_return = resources[0]
+        return to_return
 
 
     def get_topics_for_resource(self, resource):
