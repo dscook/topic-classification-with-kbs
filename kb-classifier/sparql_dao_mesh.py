@@ -25,6 +25,10 @@ class SparqlDao:
         self.PREFIX_MESHV = 'PREFIX meshv: <{}>'.format(self.NS_MESHV)
         self.NS_MESH = 'http://id.nlm.nih.gov/mesh/2019/'
         self.PREFIX_MESH = 'PREFIX mesh: <{}>'.format(self.NS_MESH)
+        self.NS_XSD = 'http://www.w3.org/2001/XMLSchema#'
+        self.PREFIX_XSD = 'PREFIX xsd: <{}>'.format(self.NS_XSD)
+        self.NS_DSC38 = 'http://www.bath.ac.uk/dsc38/ontology#'
+        self.PREFIX_DSC38 = 'PREFIX dsc38: <{}>'.format(self.NS_DSC38)
 
     
     def get_parent_topics(self, topic):
@@ -38,10 +42,13 @@ class SparqlDao:
             {self.PREFIX_RDF}
             {self.PREFIX_MESHV}
             {self.PREFIX_MESH}
+            {self.PREFIX_DSC38}
+            {self.PREFIX_XSD}
             
             SELECT ?ancestorTreeNum
             WHERE {{
-                    mesh:{topic} meshv:parentTreeNumber ?ancestorTreeNum
+                    mesh:{topic} meshv:parentTreeNumber ?ancestorTreeNum .
+                    ?ancestorTreeNum dsc38:reachable "true"^^xsd:boolean
             }}
             """)
         results = self.sparql_query.query().convert()
@@ -79,7 +86,19 @@ class SparqlDao:
         
         :param topic: the topic to mark as accessible.
         """
-        pass
+        self.sparql_update.setQuery(f"""
+            {self.PREFIX_MESH}
+            {self.PREFIX_DSC38}
+            {self.PREFIX_XSD}
+
+            INSERT DATA 
+            {{
+	            mesh:{topic} dsc38:reachable "true"^^xsd:boolean
+            }}
+            """)
+        result = self.sparql_update.query()
+        if result.response.code != 200:
+            raise Exception('Failed to mark topic as accessible')
 
 
     def get_resource_for_phrase(self, phrase):
@@ -92,14 +111,18 @@ class SparqlDao:
             {self.PREFIX_RDF}
             {self.PREFIX_MESHV}
             {self.PREFIX_MESH}
+            {self.PREFIX_DSC38}
+            {self.PREFIX_XSD}
             
-            SELECT ?concept
+            SELECT DISTINCT ?concept
             WHERE {{
                 {{{{?term meshv:prefLabel "{phrase}"@en}} UNION {{?term meshv:altLabel "{phrase}"@en}}}} .
                 ?concept ?predicate1 ?term .
                 ?concept rdf:type meshv:Concept .
                 ?descriptor ?predicate2 ?concept .
-                ?descriptor rdf:type meshv:TopicalDescriptor
+                ?descriptor rdf:type meshv:TopicalDescriptor .
+                ?descriptor meshv:treeNumber ?topic .
+                ?topic dsc38:reachable "true"^^xsd:boolean
             }}
             """)
         results = self.sparql_query.query().convert()
@@ -126,12 +149,15 @@ class SparqlDao:
             {self.PREFIX_RDF}
             {self.PREFIX_MESHV}
             {self.PREFIX_MESH}
+            {self.PREFIX_DSC38}
+            {self.PREFIX_XSD}
             
             SELECT ?topic
             WHERE {{
             	    ?descriptor ?predicate mesh:{resource} .
                 ?descriptor rdf:type meshv:TopicalDescriptor .
-                ?descriptor meshv:treeNumber ?topic
+                ?descriptor meshv:treeNumber ?topic .
+                ?topic dsc38:reachable "true"^^xsd:boolean
             }}
             """)
         results = self.sparql_query.query().convert()
