@@ -5,7 +5,6 @@ from collections import deque, defaultdict
 import copy
 import numpy as np
 
-from sparql_dao import SparqlDao
 from graph_structures import TopicNode
 
 
@@ -17,13 +16,12 @@ resource_to_topics_cache = LFUCache(maxsize=1000000)
 class Classifier:
 
 
-    def __init__(self, sparql_endpoint_url, root_topic_names, max_depth, phrase_cache):
+    def __init__(self, dao, root_topic_names, max_depth, phrase_cache):
         """
-       :param endpoint_url: the SPARQL endpoint URL.
        :param root_topic_names: set of the names of the topics we are classifying.
        :param max_depth: the maximum depth we are permitted to traverse upwards from the leaf nodes.
         """
-        self.dao = SparqlDao(sparql_endpoint_url)
+        self.dao = dao
         self.root_topic_names = root_topic_names
         self.max_depth = max_depth
         self.phrase_cache = phrase_cache

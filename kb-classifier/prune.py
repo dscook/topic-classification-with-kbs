@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from topic_hierarchy_pruner import TopicHierarchyPruner
+from kb_common import dao_init
 
 
 def prune(topic, topic_hierarchy):
@@ -25,7 +26,7 @@ def prune(topic, topic_hierarchy):
 
 
 # OHSUMED dataset
-topic_hierarchy = TopicHierarchyPruner(max_depth=4, endpoint_url='http://localhost:3030/DBpedia/')
+topic_hierarchy = TopicHierarchyPruner(max_depth=4, dao=dao_init())
 prune('Anatomy', topic_hierarchy)
 prune('Health', topic_hierarchy)
 prune('Diseases_and_disorders', topic_hierarchy)

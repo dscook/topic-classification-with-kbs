@@ -12,7 +12,7 @@ from avro.io import DatumWriter
 
 from loader import load_preprocessed_data
 from classifier import Classifier
-from kb_common import wiki_topics_to_actual_topics
+from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, lookup_cache_init
 
 ###
 ### LOAD THE DATA
@@ -27,9 +27,10 @@ x, y = load_preprocessed_data('data/rcv1_no_stopwords_eos_reduced.csv')
 schema = avro.schema.Parse(open('embeddings/sentence.avsc', 'r').read())
 embeddings_writer = DataFileWriter(open('embeddings/sentences-depth-2.avro', 'wb'), DatumWriter(), schema)
 
-classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
+classifier = Classifier(dao=dao_init(),
                         root_topic_names=wiki_topics_to_actual_topics.keys(),
-                        max_depth=5)
+                        max_depth=topic_depth,
+                        phrase_cache=lookup_cache_init())
 
 # Maintain topic name to index dictionary for word embeddings
 topic_name_to_index = {}

@@ -8,6 +8,7 @@ import unittest
 
 from classifier_copy import Classifier
 from sentence_utils import remove_stop_words_and_lemmatize
+from kb_common import dao_init
 
 
 doc_to_test = """
@@ -26,7 +27,7 @@ class ClassifierTestCase(unittest.TestCase):
     
 
     def setUp(self):
-        self.classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
+        self.classifier = Classifier(dao=dao_init(),
                                      root_topic_names=set(['Crime',
                                                            'Law',
                                                            'Business',

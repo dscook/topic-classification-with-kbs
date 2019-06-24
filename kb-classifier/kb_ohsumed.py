@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from wiki_lookup_cache import LookupCache
+from sparql_dao import SparqlDao
 
 def lookup_cache_init():
     return LookupCache()
 
-sparql_endpoint_url='http://localhost:3030/DBpedia/'
+def dao_init():
+    return SparqlDao(endpoint_url='http://localhost:3030/DBpedia/')
 
 topic_depth=4
 

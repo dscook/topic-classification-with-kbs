@@ -14,7 +14,7 @@ from avro.io import DatumWriter
 
 from loader import load_preprocessed_data
 from classifier import Classifier
-from kb_common import wiki_topics_to_actual_topics
+from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, lookup_cache_init
 
 ###
 ### LOAD THE DATA
@@ -35,9 +35,10 @@ train_y = y
 schema = avro.schema.Parse(open('embeddings/embeddings.avsc', 'r').read())
 embeddings_writer = DataFileWriter(open('embeddings/embeddings-depth-1.avro', 'wb'), DatumWriter(), schema)
 
-classifier = Classifier(sparql_endpoint_url='http://localhost:3030/DBpedia/',
+classifier = Classifier(dao=dao_init(),
                         root_topic_names=wiki_topics_to_actual_topics.keys(),
-                        max_depth=5)
+                        max_depth=topic_depth,
+                        phrase_cache=lookup_cache_init())
 
 # The written embeddings so far, to ensure we don't write them to the file twice
 written_embeddings = set()

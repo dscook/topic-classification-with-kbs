@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from collections import deque
 
-from sparql_dao import SparqlDao
 from graph_structures import TopicNode
 
 class TopicHierarchyPruner:
@@ -10,13 +9,12 @@ class TopicHierarchyPruner:
     Initialises and provides methods to access the topic hierarchy.
     """
     
-    def __init__(self, max_depth, endpoint_url):
+    def __init__(self, max_depth, dao):
         """
         :param max_depth: the maximum depth of the topic tree to keep from the root node.
-        :param endpoint_url: the SPARQL endpoint URL.
         """
         self.max_depth = max_depth
-        self.dao = SparqlDao(endpoint_url)
+        self.dao = dao
         
     
     def prune_from_root_topic(self, root_topic_name):

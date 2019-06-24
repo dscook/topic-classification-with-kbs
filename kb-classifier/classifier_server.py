@@ -6,7 +6,7 @@ import uuid
 
 from classifier import Classifier
 from tfidf import TfIdf
-from kb_common import wiki_topics_to_actual_topics, topic_depth, sparql_endpoint_url, lookup_cache_init
+from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, lookup_cache_init
 
 
 # Used for generating document IDs
@@ -18,7 +18,7 @@ doc_id_to_depth_prob_cache = LFUCache(maxsize=100000)
 doc_id_to_all_prob_cache = LFUCache(maxsize=100000)
 
 app = Flask(__name__)
-classifier = Classifier(sparql_endpoint_url=sparql_endpoint_url,
+classifier = Classifier(dao=dao_init(),
                         root_topic_names=wiki_topics_to_actual_topics.keys(),
                         max_depth=topic_depth,
                         phrase_cache=lookup_cache_init())
