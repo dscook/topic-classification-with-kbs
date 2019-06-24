@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+sparql_endpoint_url='http://localhost:3030/MeSH/'
+
 topic_depth=8
 
 wiki_topics_to_index = {

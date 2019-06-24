@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+sparql_endpoint_url='http://localhost:3030/DBpedia/'
+
 topic_depth=5
 
 wiki_topics_to_index = {
