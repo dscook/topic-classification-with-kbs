@@ -114,47 +114,45 @@ class SparqlDao:
             {self.PREFIX_DSC38}
             {self.PREFIX_XSD}
             
-            SELECT DISTINCT ?term
+            SELECT DISTINCT ?concept
             WHERE {{
-                {{{{?term meshv:prefLabel "{phrase}"@en}} UNION {{?term meshv:altLabel "{phrase}"@en}}}}
+                {{{{?term meshv:prefLabel "{phrase}"@en}} UNION {{?term meshv:altLabel "{phrase}"@en}}}} .
+                ?concept ?predicate ?term
             }}
             """)
         results = self.sparql_query.query().convert()
-        terms = self.extract_matches_from_results(results, 'term', prefix_to_remove=self.NS_MESH)
-        
-        if len(terms) > 1:
-            raise Exception('Coding Error: A phrase ({}) should not refer to more than one term'.format(phrase))
+        resources = self.extract_matches_from_results(results, 'concept', prefix_to_remove=self.NS_MESH)
+                            
+        if resources:
             
-        # Get the term
-        term = None
-        if len(terms) == 1:
-            term = terms[0]
-        
-        if term:
+            # Filter resources that aren't actually concepts
+            concepts = []
             
-            self.sparql_query.setQuery(f"""
-                {self.PREFIX_RDF}
-                {self.PREFIX_MESHV}
-                {self.PREFIX_MESH}
-                {self.PREFIX_DSC38}
-                {self.PREFIX_XSD}
-                
-                SELECT DISTINCT ?concept
-                WHERE {{
-                    ?concept ?predicate mesh:{term} .
-                    ?concept rdf:type meshv:Concept
-                }}
-                """)
-            results = self.sparql_query.query().convert()
-            resources = self.extract_matches_from_results(results, 'concept', prefix_to_remove=self.NS_MESH)
+            for resource in resources:
+                self.sparql_query.setQuery(f"""
+                    {self.PREFIX_RDF}
+                    {self.PREFIX_MESHV}
+                    {self.PREFIX_MESH}
+                    {self.PREFIX_DSC38}
+                    {self.PREFIX_XSD}
+                    
+                    SELECT 1
+                    WHERE {{
+                        mesh:{resource} rdf:type meshv:Concept
+                    }}
+                    """)
+                results = self.sparql_query.query().convert()
+                extracted_concepts = self.extract_matches_from_results(results, '.0', prefix_to_remove=self.NS_MESH)
+                if extracted_concepts:
+                    concepts.append(resource)
         
-            if len(resources) > 1:
+            if len(concepts) > 1:
                 raise Exception('Coding Error: A phrase ({}) should not refer to more than one concept'.format(phrase))
             
             # Get the resource (aka concept)
             concept = None
-            if len(resources) == 1:
-                concept = resources[0]
+            if len(concepts) == 1:
+                concept = concepts[0]
                 
             if concept:
                 # Ensure the concept is reachable
@@ -266,6 +264,7 @@ class SparqlDao:
         :returns: a list of the matches found.
         """
         matches = []
+        
         for result in results['results']['bindings']:
             # Strip the namespace from each topic
             match = result[bound_variable]['value'][len(prefix_to_remove):]
