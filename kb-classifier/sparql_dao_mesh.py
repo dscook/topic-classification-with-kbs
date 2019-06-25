@@ -116,9 +116,7 @@ class SparqlDao:
             
             SELECT DISTINCT ?term
             WHERE {{
-                {{{{?term meshv:prefLabel "{phrase}"@en}} UNION {{?term meshv:altLabel "{phrase}"@en}}}} .
-                ?concept ?predicate ?term .
-                ?concept rdf:type meshv:Concept
+                {{{{?term meshv:prefLabel "{phrase}"@en}} UNION {{?term meshv:altLabel "{phrase}"@en}}}}
             }}
             """)
         results = self.sparql_query.query().convert()
@@ -148,7 +146,7 @@ class SparqlDao:
                 }}
                 """)
             results = self.sparql_query.query().convert()
-            resources = self.extract_matches_from_results(results, 'resource', prefix_to_remove=self.NS_MESH)
+            resources = self.extract_matches_from_results(results, 'concept', prefix_to_remove=self.NS_MESH)
         
             if len(resources) > 1:
                 raise Exception('Coding Error: A phrase ({}) should not refer to more than one concept'.format(phrase))
