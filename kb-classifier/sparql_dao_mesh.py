@@ -117,12 +117,8 @@ class SparqlDao:
             SELECT DISTINCT ?concept
             WHERE {{
                 {{{{?term meshv:prefLabel "{phrase}"@en}} UNION {{?term meshv:altLabel "{phrase}"@en}}}} .
-                ?concept ?predicate1 ?term .
-                ?concept rdf:type meshv:Concept .
-                ?descriptor ?predicate2 ?concept .
-                ?descriptor rdf:type meshv:TopicalDescriptor .
-                ?descriptor meshv:treeNumber ?topic .
-                ?topic dsc38:reachable "true"^^xsd:boolean
+                ?concept ?predicate ?term .
+                ?concept rdf:type meshv:Concept
             }}
             """)
         results = self.sparql_query.query().convert()
@@ -131,10 +127,52 @@ class SparqlDao:
         if len(resources) > 1:
             raise Exception('Coding Error: A phrase ({}) should not refer to more than one concept'.format(phrase))
         
-        to_return = None
+        # Get the resource (aka concept)
+        concept = None
         if len(resources) == 1:
-            to_return = resources[0]
-        return to_return
+            concept = resources[0]
+            
+        if concept:
+            # Ensure the concept is reachable
+            self.sparql_query.setQuery(f"""
+                {self.PREFIX_RDF}
+                {self.PREFIX_MESHV}
+                {self.PREFIX_MESH}
+                {self.PREFIX_DSC38}
+                {self.PREFIX_XSD}
+                
+                SELECT DISTINCT ?descriptor
+                WHERE {{
+                    ?descriptor ?predicate mesh:{concept} .
+                    ?descriptor rdf:type meshv:TopicalDescriptor
+                }}
+                """)
+            results = self.sparql_query.query().convert()
+            descriptors = self.extract_matches_from_results(results, 'descriptor', prefix_to_remove=self.NS_MESH)
+            
+            for descriptor in descriptors:
+                self.sparql_query.setQuery(f"""
+                    {self.PREFIX_RDF}
+                    {self.PREFIX_MESHV}
+                    {self.PREFIX_MESH}
+                    {self.PREFIX_DSC38}
+                    {self.PREFIX_XSD}
+                    
+                    SELECT DISTINCT ?topic
+                    WHERE {{
+                        mesh:{descriptor} meshv:treeNumber ?topic .
+                        ?topic dsc38:reachable "true"^^xsd:boolean
+                    }}
+                    """)
+                results = self.sparql_query.query().convert()
+                topics = self.extract_matches_from_results(results, 'topic', prefix_to_remove=self.NS_MESH)
+                
+                # We can reach some topics, return the concept
+                if len(topics) >= 1:
+                    return concept
+            
+        # Could not find a matching concept or it is not reachable
+        return None
 
 
     def get_topics_for_resource(self, resource):
@@ -152,16 +190,34 @@ class SparqlDao:
             {self.PREFIX_DSC38}
             {self.PREFIX_XSD}
             
-            SELECT ?topic
+            SELECT DISTINCT ?descriptor
             WHERE {{
             	    ?descriptor ?predicate mesh:{resource} .
-                ?descriptor rdf:type meshv:TopicalDescriptor .
-                ?descriptor meshv:treeNumber ?topic .
-                ?topic dsc38:reachable "true"^^xsd:boolean
+                ?descriptor rdf:type meshv:TopicalDescriptor
             }}
             """)
         results = self.sparql_query.query().convert()
-        topics = self.extract_matches_from_results(results, 'topic', prefix_to_remove=self.NS_MESH)
+        descriptors = self.extract_matches_from_results(results, 'descriptor', prefix_to_remove=self.NS_MESH)
+        
+        topics = []
+        
+        for descriptor in descriptors:
+            self.sparql_query.setQuery(f"""
+                {self.PREFIX_RDF}
+                {self.PREFIX_MESHV}
+                {self.PREFIX_MESH}
+                {self.PREFIX_DSC38}
+                {self.PREFIX_XSD}
+                
+                SELECT DISTINCT ?topic
+                WHERE {{
+                    mesh:{descriptor} meshv:treeNumber ?topic .
+                    ?topic dsc38:reachable "true"^^xsd:boolean
+                }}
+                """)
+            results = self.sparql_query.query().convert()
+            extracted_topics = self.extract_matches_from_results(results, 'topic', prefix_to_remove=self.NS_MESH)
+            topics.extend(extracted_topics)
         
         if not topics:
             raise Exception('Coding Error: no topics found for resource ({})'.format(resource))
