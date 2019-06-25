@@ -315,6 +315,10 @@ class Classifier:
     def get_all_topic_probabilities(self):
         topic_probabilities = defaultdict(list)
         
+        # Cover case where no phrase matches occurred
+        if not self.traversed_nodes:
+            return {}
+            
         tree_depth = np.max(list(self.traversed_nodes.keys())) + 1
         
         # Do not return the phrase probabilities by default

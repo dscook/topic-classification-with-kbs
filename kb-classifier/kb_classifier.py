@@ -111,7 +111,8 @@ class KnowledgeBasePredictor():
         topic_indexes = set([index for index in wiki_topics_to_actual_topics.values()])
         topic_index_to_prob = np.zeros(shape=len(topic_indexes))
         
-        for topic in wiki_topic_to_prob.keys():
-            topic_index_to_prob[wiki_topics_to_actual_topics[topic]] += wiki_topic_to_prob[topic]
+        if wiki_topic_to_prob:
+            for topic in wiki_topic_to_prob.keys():
+                topic_index_to_prob[wiki_topics_to_actual_topics[topic]] += wiki_topic_to_prob[topic]
                 
         return topic_index_to_prob
