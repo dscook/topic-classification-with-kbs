@@ -19,8 +19,8 @@ from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, looku
 ### LOAD THE DATA
 ###
 
-train_x, train_y = load_preprocessed_data('ohsumed/data/ohsumed_lemmatized_train.csv')
-test_x, test_y = load_preprocessed_data('ohsumed/data/ohsumed_lemmatized_test.csv')
+train_x, train_y = load_preprocessed_data('../ohsumed/data/ohsumed_lemmatized_train.csv')
+test_x, test_y = load_preprocessed_data('../ohsumed/data/ohsumed_lemmatized_test.csv')
 
 x = train_x + test_x
 y = train_y + test_y
@@ -37,7 +37,7 @@ train_y = y
 ###
 
 schema = avro.schema.Parse(open('phrase_embedding.avsc', 'r').read())
-embeddings_writer = DataFileWriter(open('ohsumed/embeddings/phrase-embeddings.avro', 'wb'), DatumWriter(), schema)
+embeddings_writer = DataFileWriter(open('../ohsumed/embeddings/phrase-embeddings.avro', 'wb'), DatumWriter(), schema)
 
 classifier = Classifier(dao=dao_init(),
                         root_topic_names=wiki_topics_to_actual_topics.keys(),
@@ -54,7 +54,7 @@ total_processed = 0
 last_percent_complete = 0
 
 # To write out topic to ID mapping
-with open('ohsumed/embeddings/phrase-topic-id-mapping.csv', 'w', newline='', buffering=1) as csv_mapping_file:
+with open('../ohsumed/embeddings/phrase-topic-id-mapping.csv', 'w', newline='', buffering=1) as csv_mapping_file:
     
     mappings_writer = csv.writer(csv_mapping_file)
 

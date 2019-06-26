@@ -27,7 +27,7 @@ def load_data():
     max_num_sent_in_doc = 0
     sent_embedding_dim = 0
     
-    embedding_files = ['sentences-train.avro']
+    embedding_files = ['documents.avro']
     
     for file in embedding_files:
         with open('embeddings/' + file, 'rb') as avro_file:
