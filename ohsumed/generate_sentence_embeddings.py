@@ -18,8 +18,8 @@ from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, looku
 ### LOAD THE DATA
 ###
 
-train_x, train_y = load_preprocessed_data('data/ohsumed_eos_train.csv')
-test_x, test_y = load_preprocessed_data('data/ohsumed_eos_test.csv')
+train_x, train_y = load_preprocessed_data('data/ohsumed_lemmatized_train.csv')
+test_x, test_y = load_preprocessed_data('data/ohsumed_lemmatized_test.csv')
 
 x = train_x + test_x
 y = train_y + test_y
@@ -29,7 +29,7 @@ y = train_y + test_y
 ###
 
 schema = avro.schema.Parse(open('embeddings/sentence.avsc', 'r').read())
-embeddings_writer = DataFileWriter(open('embeddings/sentences.avro', 'wb'), DatumWriter(), schema)
+embeddings_writer = DataFileWriter(open('embeddings/documents.avro', 'wb'), DatumWriter(), schema)
 
 classifier = Classifier(dao=dao_init(),
                         root_topic_names=wiki_topics_to_actual_topics.keys(),

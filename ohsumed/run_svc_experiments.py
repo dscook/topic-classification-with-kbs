@@ -21,8 +21,8 @@ print('Running Naive Bayes experiments')
 np.random.seed(42)
 
 # Load the already lowercased, lemmatised data
-train_x, train_y = load_preprocessed_data('data/ohsumed_no_stopwords_train.csv')
-test_x, test_y = load_preprocessed_data('data/ohsumed_no_stopwords_test.csv')
+train_x, train_y = load_preprocessed_data('data/ohsumed_titles_train.csv')
+test_x, test_y = load_preprocessed_data('data/ohsumed_titles_test.csv')
 
 # Run the experiments
 print('--------- RUNNING SUPPORT VECTOR CLASSIFIER ---------')

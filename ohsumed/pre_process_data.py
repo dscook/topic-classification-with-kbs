@@ -85,14 +85,14 @@ def remove_duplicates(x, y):
 
 
 def write_data(x, y, file_suffix):
-    path = 'data/ohsumed_eos_{}.csv'.format(file_suffix)
+    path = 'data/ohsumed_titles_{}.csv'.format(file_suffix)
     with open(path, 'w', newline='') as csvfile:
         article_writer = csv.writer(csvfile)
         for i in range(len(y)):
             article_writer.writerow([y[i], x[i]])
 
 
-train_x, train_y, test_x, test_y = load_data('../../../downloads/UVigoMED/single_label/')
+train_x, train_y, test_x, test_y = load_data('../../../downloads/UVigoMED/single_label/', titles_only=True)
 
 # Remove non english articles
 train_x, train_y = remove_non_english_and_empty(train_x, train_y)
@@ -103,7 +103,7 @@ test_x, test_y = remove_non_english_and_empty(test_x, test_y)
 #test_x = list(map(remove_stop_words_and_lemmatize, test_x))
 
 def format_for_kb_classifier(article):
-    return remove_stop_words_and_lemmatize(article, lowercase=True, lemmatize=True, keep_nouns_only=False, eos_indicators=True)
+    return remove_stop_words_and_lemmatize(article, lowercase=True, lemmatize=True, keep_nouns_only=False, eos_indicators=False)
 
 train_x = list(map(format_for_kb_classifier, train_x))
 test_x = list(map(format_for_kb_classifier, test_x))

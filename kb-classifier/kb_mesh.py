@@ -9,62 +9,37 @@ def lookup_cache_init():
 def dao_init():
     return SparqlDao(endpoint_url='http://localhost:3030/MeSH/')
 
-topic_depth=8
+topic_depth=12
 
-wiki_topics_to_index = {
-    'C01': 0,
-    'C02': 1,
-    'C03': 2,
-    'C04': 3,
-    'C05': 4,
-    'C06': 5,
-    'C07': 6,
-    'C08': 7,
-    'C09': 8,
-    'C10': 9,
-    'C11': 10,
-    'C12': 11,
-    'C13': 12,
-    'C14': 13,
-    'C15': 14,
-    'C16': 15,
-    'C17': 16,
-    'C18': 17,
-    'C19': 18,
-    'C20': 19,
-    'C21': 20,
-    'C22': 21,
-    'C23': 22,
-    'C24': 23,
-    'C25': 24,
-    'C26': 25
-}
+def generate_root_topics():
+    wiki_topics_to_index = {}
+    
+    last_index = 0
+    
+    category_to_num_in_cat = { 'A': 21,
+                               'B': 5,
+                               'C': 26,
+                               'D': 27,
+                               'E': 7,
+                               'F': 4,
+                               'G': 17,
+                               'H': 2,
+                               'I': 3,
+                               'J': 3,
+                               'K': 1,
+                               'L': 1,
+                               'M': 1,
+                               'N': 6,
+                               'V': 4,
+                               'Z': 1 }
+    
+    for category, number in category_to_num_in_cat.items():
+        
+        for i in range(1, number+1):
+            wiki_topics_to_index['{}{:02d}'.format(category, i)] = last_index
+            last_index += 1
+        
+    return wiki_topics_to_index
 
-wiki_topics_to_actual_topics = {
-    'C01': 0,
-    'C02': 1,
-    'C03': 2,
-    'C04': 3,
-    'C05': 4,
-    'C06': 5,
-    'C07': 6,
-    'C08': 7,
-    'C09': 8,
-    'C10': 9,
-    'C11': 10,
-    'C12': 11,
-    'C13': 12,
-    'C14': 13,
-    'C15': 14,
-    'C16': 15,
-    'C17': 16,
-    'C18': 17,
-    'C19': 18,
-    'C20': 19,
-    'C21': 20,
-    'C22': 21,
-    'C23': 22,
-    'C24': 23,
-    'C25': 24,
-    'C26': 25
-}
+wiki_topics_to_index = generate_root_topics()
+wiki_topics_to_actual_topics = generate_root_topics()
