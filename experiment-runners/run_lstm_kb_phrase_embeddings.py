@@ -5,6 +5,7 @@
 import sys
 sys.path.append('../common/')
 sys.path.append('../kb-classifier/')
+sys.path.append('../ohsumed/')
 
 import numpy as np
 
@@ -13,7 +14,7 @@ from word_embeddings import DocToIntSequenceConverter
 from lstm_common import split_data, calculate_max_sequence_length
 from lstm import LstmPredictor
 from embeddings import EmbeddingModel
-from lookup_tables import int_to_topic_code, topic_code_to_topic_dict
+from lookup_tables import int_to_topic
 from sklearn.metrics import classification_report
 from sklearn.utils.class_weight import compute_class_weight
 
@@ -54,19 +55,19 @@ print('Word embedding dimension is {}'.format(word_embedding_dim))
 ###
 ### TRAIN THE LSTM
 ###
-#lstm = LstmPredictor(article_to_int_seq_converter.get_word_index(),
-#                     word_embedding_dim,
-#                     max_sequence_length,
-#                     embedding_model,
-#                     len(int_to_topic_code.values()),
-#                     weights_path='models/lstm_kb_embeddings.h5')
+lstm = LstmPredictor(article_to_int_seq_converter.get_word_index(),
+                     word_embedding_dim,
+                     max_sequence_length,
+                     embedding_model,
+                     len(int_to_topic.values()),
+                     weights_path='models/lstm_kb_embeddings.h5')
 
 
-#class_weights = compute_class_weight('balanced', np.unique(train_y), train_y)
-#class_weights_dict = {}
-#for i in range(len(class_weights)):
-#    class_weights_dict[i] = class_weights[i]
-#lstm.train(train_x_seq, train_y, val_x_seq, val_y, class_weights_dict)
+class_weights = compute_class_weight('balanced', np.unique(train_y), train_y)
+class_weights_dict = {}
+for i in range(len(class_weights)):
+    class_weights_dict[i] = class_weights[i]
+lstm.train(train_x_seq, train_y, val_x_seq, val_y, class_weights_dict)
 
 
 ###
@@ -78,8 +79,8 @@ lstm = LstmPredictor(article_to_int_seq_converter.get_word_index(),
                      word_embedding_dim,
                      max_sequence_length,
                      embedding_model,
-                     len(int_to_topic_code.values()),
+                     len(int_to_topic.values()),
                      use_saved_weights=True,
                      weights_path='models/lstm_kb_embeddings.h5')
 test_y_predict = lstm.predict(test_x_seq)
-print(classification_report(test_y, test_y_predict, digits=6, target_names=topic_code_to_topic_dict.values()))
+print(classification_report(test_y, test_y_predict, digits=6, target_names=int_to_topic.values()))

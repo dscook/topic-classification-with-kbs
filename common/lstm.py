@@ -4,7 +4,7 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.layers import Embedding, LSTM, Dense
 from keras.models import Sequential
 from keras.utils import to_categorical
-from keras.optimizers import Adadelta
+from keras.optimizers import Adadelta, Adam
 import numpy as np
 
 
