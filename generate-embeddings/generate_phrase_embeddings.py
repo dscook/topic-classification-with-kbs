@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Make common scripts visible and knowledge base classifier code
@@ -20,10 +19,15 @@ from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, looku
 ### LOAD THE DATA
 ###
 
-#x, y = load_preprocessed_data('data/rcv1_no_stopwords_no_noun_grouping.csv')
-x, y = load_preprocessed_data('data/rcv1_no_stopwords.csv')
+train_x, train_y = load_preprocessed_data('ohsumed/data/ohsumed_lemmatized_train.csv')
+test_x, test_y = load_preprocessed_data('ohsumed/data/ohsumed_lemmatized_test.csv')
+
+x = train_x + test_x
+y = train_y + test_y
+
 x = np.array(x)
 y = np.array(y)
+
 train_x = x
 train_y = y
 
@@ -32,8 +36,8 @@ train_y = y
 ### GENERATE THE WORD EMBEDDINGS
 ###
 
-schema = avro.schema.Parse(open('embeddings/embeddings.avsc', 'r').read())
-embeddings_writer = DataFileWriter(open('embeddings/embeddings-depth-1.avro', 'wb'), DatumWriter(), schema)
+schema = avro.schema.Parse(open('phrase_embedding.avsc', 'r').read())
+embeddings_writer = DataFileWriter(open('ohsumed/embeddings/phrase-embeddings.avro', 'wb'), DatumWriter(), schema)
 
 classifier = Classifier(dao=dao_init(),
                         root_topic_names=wiki_topics_to_actual_topics.keys(),
@@ -50,7 +54,7 @@ total_processed = 0
 last_percent_complete = 0
 
 # To write out topic to ID mapping
-with open('embeddings/topic-id-mapping-depth-1.csv', 'w', newline='', buffering=1) as csv_mapping_file:
+with open('ohsumed/embeddings/phrase-topic-id-mapping.csv', 'w', newline='', buffering=1) as csv_mapping_file:
     
     mappings_writer = csv.writer(csv_mapping_file)
 
@@ -67,17 +71,17 @@ with open('embeddings/topic-id-mapping-depth-1.csv', 'w', newline='', buffering=
         total_processed += 1
                 
         # This stage returns all phrases from the text that are in the knowledge base
-        phrase_to_topic_matches, _ = classifier.identify_leaf_topics(document)
+        phrase_to_node_matches, _ = classifier.identify_leaf_nodes(document)
             
         # For each phrase if we haven't already generated the word embedding then generate it
-        for phrase in phrase_to_topic_matches.keys():
+        for phrase in phrase_to_node_matches.keys():
             if phrase not in written_embeddings:
                 
                 # Classifiy a document containing only the phrase to work out its probability distribution
                 classifier.identify_topic_probabilities(phrase)
                 
-                # Get the probabilities from depth 1 of the tree, should correspond to approximately a dimension of 300
-                probabilities = classifier.get_topic_probabilities(1)
+                # Get the probabilities from a certain depth of the tree
+                probabilities = classifier.get_topic_probabilities(0)
                 
                 # Cover the case where a phrase goes immediately to a root topic
                 if len(probabilities.keys()) == 1 and list(probabilities.keys())[0].startswith('Phrase:'):
