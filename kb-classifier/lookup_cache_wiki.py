@@ -4,9 +4,9 @@
 class LookupCache:
     
     def __init__(self,
-                 resource_path='../kb-classifier/data/resources.txt',
-                 redirect_path='../kb-classifier/data/redirect_resources.txt',
-                 anchor_path='../kb-classifier/data/anchors.txt',
+                 resource_path='../kb-classifier/data-wiki/resources.txt',
+                 redirect_path='../kb-classifier/data-wiki/redirect_resources.txt',
+                 anchor_path='../kb-classifier/data-wiki/anchors.txt',
                  use_anchors_only=False):
         # Prime a cache of all valid phrases to prevent costly DB lookups
         self.resource_cache = self.load_phrase_cache(resource_path)
