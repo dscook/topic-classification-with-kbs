@@ -29,10 +29,17 @@ topic_id_mapping_path = '../ohsumed/embeddings/phrase-topic-id-mapping.csv'
 ###
 
 train_x, train_y = load_preprocessed_data(train_data_path)
-test_x, test_y = load_preprocessed_data(test_data_path)
 
-x = train_x + test_x
-y = train_y + test_y
+x = None
+y = None
+
+if test_data_path:
+    test_x, test_y = load_preprocessed_data(test_data_path)
+    x = train_x + test_x
+    y = train_y + test_y
+else:
+    x = train_x
+    y = train_y
 
 x = np.array(x)
 y = np.array(y)
