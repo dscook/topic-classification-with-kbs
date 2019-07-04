@@ -9,8 +9,11 @@ from sklearn.ensemble import RandomForestClassifier
 from kb_common import wiki_topics_to_actual_topics
 
 
-class KnowledgeBasePredictor():
-    
+class KnowledgeBaseClassifier():
+    """
+    The knowledge base classifier that makes HTTP REST calls to embed documents, trains a Random Forest on these
+    embeddings then is capable of making predictions on new documents.
+    """
     
     def __init__(self, topic_labels, topic_depth, top_level_prediction_number=None):
         self.topic_labels = topic_labels
@@ -18,11 +21,6 @@ class KnowledgeBasePredictor():
         self.top_level_prediction_number = len(self.topic_labels)
         if top_level_prediction_number is not None:
             self.top_level_prediction_number = top_level_prediction_number
-
-
-    def fit_tfidf(self, x):
-        doc = { 'documents': x }
-        requests.post(url = 'http://127.0.0.1:5000/tfidf', json = doc) 
 
         
     def train(self, x, y, balanced_classes=True):

@@ -12,7 +12,7 @@ from avro.datafile import DataFileWriter
 from avro.io import DatumWriter
 
 from loader import load_preprocessed_data
-from classifier import Classifier
+from embedding_algorithm import EmbeddingAlgorithm
 from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, lookup_cache_init
 
 ###
@@ -22,6 +22,9 @@ train_data_path = '../uvigomed/data/uvigomed_lemmatized_train.csv'
 test_data_path = '../uvigomed/data/uvigomed_lemmatized_test.csv'
 phrase_embeddings_path = '../uvigomed/embeddings/phrase_embeddings.avro'
 topic_id_mapping_path = '../uvigomed/embeddings/phrase_topic_id_mapping.csv'
+
+# The depth of the topic tree to get probabilities for, set to 'all' to retrieve all topic probabilities
+topic_depth_to_retrieve = 1 
 
 
 ###
@@ -55,10 +58,10 @@ train_y = y
 schema = avro.schema.Parse(open('phrase_embedding.avsc', 'r').read())
 embeddings_writer = DataFileWriter(open(phrase_embeddings_path, 'wb'), DatumWriter(), schema)
 
-classifier = Classifier(dao=dao_init(),
-                        root_topic_names=wiki_topics_to_actual_topics.keys(),
-                        max_depth=topic_depth,
-                        phrase_cache=lookup_cache_init())
+embedder = EmbeddingAlgorithm(dao=dao_init(),
+                              root_topic_names=wiki_topics_to_actual_topics.keys(),
+                              max_depth=topic_depth,
+                              phrase_cache=lookup_cache_init())
 
 # The written embeddings so far, to ensure we don't write them to the file twice
 written_embeddings = set()
@@ -87,26 +90,28 @@ with open(topic_id_mapping_path, 'w', newline='', buffering=1) as csv_mapping_fi
         total_processed += 1
                 
         # This stage returns all phrases from the text that are in the knowledge base
-        phrase_to_node_matches, _ = classifier.identify_leaf_nodes(document)
+        phrase_to_node_matches, _ = embedder.identify_leaf_nodes(document)
             
         # For each phrase if we haven't already generated the word embedding then generate it
         for phrase in phrase_to_node_matches.keys():
             if phrase not in written_embeddings:
                 
                 # Classifiy a document containing only the phrase to work out its probability distribution
-                classifier.identify_topic_probabilities(phrase)
+                probabilities = embedder.identify_topic_probabilities(phrase)
                 
-                # Get the probabilities from a certain depth of the tree
-                probabilities = classifier.get_topic_probabilities(0)
+                if topic_depth_to_retrieve == 'all':
+                    probabilities = embedder.get_all_topic_probabilities()
+                else:
+                    probabilities = embedder.get_topic_probabilities(topic_depth_to_retrieve)
                 
-                # Cover the case where a phrase goes immediately to a root topic
-                if len(probabilities.keys()) == 1 and list(probabilities.keys())[0].startswith('Phrase:'):
-                    probabilities = classifier.get_topic_probabilities(0)
+                    # Cover the case where a phrase goes immediately to a root topic
+                    if len(probabilities.keys()) == 1 and list(probabilities.keys())[0].startswith('Phrase:'):
+                        probabilities = embedder.get_topic_probabilities(0)
                             
                 # Create topic id, probability pairs
                 topic_id_prob_pairs = []
                 for topic_name, probability in probabilities.items():
-                    topic_id = classifier.topic_name_to_id[topic_name]
+                    topic_id = embedder.topic_name_to_id[topic_name]
                     
                     topic_id_prob_pairs.append({'topic_id': topic_id, 'prob': probability})
                     

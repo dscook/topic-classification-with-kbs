@@ -11,7 +11,7 @@ from avro.datafile import DataFileWriter
 from avro.io import DatumWriter
 
 from loader import load_preprocessed_data
-from classifier import Classifier
+from embedding_algorithm import EmbeddingAlgorithm
 from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, lookup_cache_init
 
 ###
@@ -37,10 +37,10 @@ x, y = load_preprocessed_data(data_path)
 schema = avro.schema.Parse(open('document_embedding.avsc', 'r').read())
 embeddings_writer = DataFileWriter(open(document_embeddings_path, 'wb'), DatumWriter(), schema)
 
-classifier = Classifier(dao=dao_init(),
-                        root_topic_names=wiki_topics_to_actual_topics.keys(),
-                        max_depth=topic_depth,
-                        phrase_cache=lookup_cache_init())
+embedder = EmbeddingAlgorithm(dao=dao_init(),
+                              root_topic_names=wiki_topics_to_actual_topics.keys(),
+                              max_depth=topic_depth,
+                              phrase_cache=lookup_cache_init())
 
 # Maintain topic name to index dictionary for document embeddings
 topic_name_to_index = {}
@@ -63,12 +63,12 @@ for i in range(len(x)):
     
     # Get the topic probabilities for each sentence of the document
     document = x[i]
-    topic_to_prob_dict = classifier.identify_topic_probabilities(document)
+    topic_to_prob_dict = embedder.identify_topic_probabilities(document)
     
     if topic_depth_to_retrieve == 'all':
-        topic_to_prob_dict = classifier.get_all_topic_probabilities()
+        topic_to_prob_dict = embedder.get_all_topic_probabilities()
     else:
-        topic_to_prob_dict = classifier.get_topic_probabilities(topic_depth_to_retrieve)
+        topic_to_prob_dict = embedder.get_topic_probabilities(topic_depth_to_retrieve)
          
     # Add any new topic names 
     for topic_name in topic_to_prob_dict.keys():
