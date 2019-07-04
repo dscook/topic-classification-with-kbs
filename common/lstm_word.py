@@ -8,7 +8,7 @@ from keras.optimizers import Adadelta
 import numpy as np
 
 
-class LstmWord():
+class LstmPredictor():
     """
     Wraps the building of a Keras LSTM as well as methods for training and prediction on word embeddings.
     """

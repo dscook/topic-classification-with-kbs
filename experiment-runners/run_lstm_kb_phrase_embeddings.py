@@ -5,28 +5,49 @@
 import sys
 sys.path.append('../common/')
 sys.path.append('../kb-classifier/')
-sys.path.append('../ohsumed/')
 
 import numpy as np
 
 from loader import load_preprocessed_data
 from word_embeddings import DocToIntSequenceConverter
 from lstm_common import split_data, calculate_max_sequence_length
-from lstm import LstmPredictor
+from lstm_word import LstmPredictor
 from embeddings import EmbeddingModel
-from lookup_tables import int_to_topic
 from sklearn.metrics import classification_report
 from sklearn.utils.class_weight import compute_class_weight
+
+###
+### VARIABLES (update as necessary)
+###
+classification_problem_path = '../ohsumed/'
+train_data_path = '../ohsumed/data/ohsumed_lemmatized_train.csv'
+test_data_path = '../ohsumed/data/ohsumed_lemmatized_test.csv'
+phrase_embedding_path = '../ohsumed/embeddings/phrase_embeddings.avro'
+phrase_topic_id_mapping_path = '../ohsumed/embeddings/phrase_topic_id_mapping.csv'
+
+
+###
+### CLASSIFICATION PROBLEM SPECIFIC IMPORTS
+###
+sys.path.append(classification_problem_path)
+from lookup_tables import int_to_topic
 
 ###
 ### LOAD THE DATA
 ###
 
-train_x, train_y = load_preprocessed_data('../ohsumed/data/ohsumed_lemmatized_train.csv')
-test_x, test_y = load_preprocessed_data('../ohsumed/data/ohsumed_lemmatized_test.csv')
+train_x, train_y = load_preprocessed_data(train_data_path)
 
-x = train_x + test_x
-y = train_y + test_y
+x = None
+y = None
+
+if test_data_path:
+    test_x, test_y = load_preprocessed_data(test_data_path)
+    x = train_x + test_x
+    y = train_y + test_y
+else:
+    x = train_x
+    y = train_y
 
 x = np.array(x)
 y = np.array(y)
@@ -46,8 +67,7 @@ test_x_seq = article_to_int_seq_converter.convert_to_integer_sequences(test_x)
 ###
 ### GET THE CUSTOM KNOWLEDGE BASE WORD EMBEDDINGS
 ###
-embedding_model = EmbeddingModel('../ohsumed/embeddings/phrase-embeddings.avro',
-                                 '../ohsumed/embeddings/phrase-topic-id-mapping.csv')
+embedding_model = EmbeddingModel(phrase_embedding_path, phrase_topic_id_mapping_path)
 word_embedding_dim = embedding_model.get_embedding_dim()
 print('Word embedding dimension is {}'.format(word_embedding_dim))
 
