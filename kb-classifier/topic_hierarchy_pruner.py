@@ -6,12 +6,13 @@ from graph_structures import TopicNode
 
 class TopicHierarchyPruner:
     """
-    Initialises and provides methods to access the topic hierarchy.
+    Provides methods to prune the topic hierarchy so only hyponym topics to a specified depth are reachable.
     """
     
     def __init__(self, max_depth, dao):
         """
         :param max_depth: the maximum depth of the topic tree to keep from the root node.
+        :param dao: the Data Access Object used to do the pruning.
         """
         self.max_depth = max_depth
         self.dao = dao
@@ -19,7 +20,8 @@ class TopicHierarchyPruner:
     
     def prune_from_root_topic(self, root_topic_name):
         """
-        Mark only child topics as accessible from the given root topic.
+        Mark child topics as accessible from the given root topic up to a specified depth, that the class was
+        initialised with.
         
         :param root_topic_name: the root topic name.
         :returns: the number of topics marked as accessible.
