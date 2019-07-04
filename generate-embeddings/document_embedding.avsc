@@ -1,5 +1,5 @@
 {
-    "namespace": "document-embeddings.avro",
+    "namespace": "document_embeddings.avro",
      "type": "record",
      "name": "document_embedding",
      "fields": [

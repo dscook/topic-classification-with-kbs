@@ -1,5 +1,5 @@
 {
-    "namespace": "phrase-embeddings.avro",
+    "namespace": "phrase_embeddings.avro",
      "type": "record",
      "name": "phrase_embedding",
      "fields": [

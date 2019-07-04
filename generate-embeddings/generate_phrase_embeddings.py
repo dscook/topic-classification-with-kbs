@@ -20,8 +20,8 @@ from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, looku
 ###
 train_data_path = '../ohsumed/data/ohsumed_lemmatized_train.csv'
 test_data_path = '../ohsumed/data/ohsumed_lemmatized_test.csv'
-phrase_embeddings_path = '../ohsumed/embeddings/phrase-embeddings.avro'
-topic_id_mapping_path = '../ohsumed/embeddings/phrase-topic-id-mapping.csv'
+phrase_embeddings_path = '../ohsumed/embeddings/phrase_embeddings.avro'
+topic_id_mapping_path = '../ohsumed/embeddings/phrase_topic_id_mapping.csv'
 
 
 ###
