@@ -13,3 +13,5 @@ To setup your Python environment:
 
 ### Knowledge Base Topic Hierarchies
 
+The code expects a SPARQL over HTTP server to be running to access the knowledge base topic hierarchies for DBpedia
+and MeSH.
