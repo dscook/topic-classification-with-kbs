@@ -29,3 +29,4 @@ at http://localhost:3030/:
 1. For DBpedia upload the following datasets downloaded from https://wiki.dbpedia.org/downloads-2016-10 in `ttl`
    format: Anchor Texts, Article Categories and SKOS Categories.
    Note you will need to unbzip them `bzip2 -d <filename>`.
+1. For MeSH upload the `mesh2019.nt` file downloaded from ftp://ftp.nlm.nih.gov/online/mesh/rdf/2019/.
