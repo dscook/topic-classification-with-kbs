@@ -7,7 +7,7 @@ class TermDocumentMatrixCreator():
     Fits a text corpus then can be called to create term document matrices.
     """
     
-    def __init__(self, documents, binary = True, ngram_range = (1,1)):
+    def __init__(self, documents, binary = False, ngram_range = (1,1)):
         """
         :param documents: list of text strings to fit, each word will form part of the possible vocabularly.
         :param binary: Set to True to do presence or absence of word rather than count.
