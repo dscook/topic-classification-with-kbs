@@ -3,16 +3,16 @@
 import numpy as np
 
 # Change the below to the dataset-knowledge base combination in use
-#dataset = 'rcv1_wiki'                    # RCV1 using a DBpedia knowledge base
+dataset = 'rcv1_wiki'                    # RCV1 using a DBpedia knowledge base
 #dataset = 'uvigomed_wiki'                # UVigoMED using a DBpedia knowledge base
-dataset = 'uvigomed_mesh'                # UVigoMED using a MeSH knowledge base
+#dataset = 'uvigomed_mesh'                # UVigoMED using a MeSH knowledge base
 
 if dataset == 'rcv1_wiki':
-    from kb_rcv1_wiki import wiki_topics_to_index, wiki_topics_to_actual_topic, topic_depth, dao_init, lookup_cache_init
+    from kb_rcv1_wiki import wiki_topics_to_index, wiki_topics_to_actual_topics, topic_depth, dao_init, lookup_cache_init
 elif dataset == 'uvigomed_wiki':
     from kb_uvigomed_wiki import wiki_topics_to_index, wiki_topics_to_actual_topics, topic_depth, dao_init, lookup_cache_init
 elif dataset == 'uvigomed_mesh':
-    from kb_mesh import wiki_topics_to_index, wiki_topics_to_actual_topics, topic_depth, dao_init, lookup_cache_init
+    from kb_uvigomed_mesh import wiki_topics_to_index, wiki_topics_to_actual_topics, topic_depth, dao_init, lookup_cache_init
 
 
 def wikipedia_topic_probs_as_array(topic_to_prob):

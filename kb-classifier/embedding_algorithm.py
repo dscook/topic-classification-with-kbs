@@ -198,19 +198,19 @@ class EmbeddingAlgorithm:
                                 
                 # Look for exact phrase match
                 if self.phrase_cache.contains_exact(phrase):
-                    print('Getting exact match for: {}'.format(phrase))
+                    #print('Getting exact match for: {}'.format(phrase))
                     node = self.get_resource(self.phrase_cache.translate(phrase))
                     if node:
                         nodes = [node]
-                        print('Found')
+                        #print('Found')
                 
                 # Look for redirect exact match
                 if nodes is None and self.phrase_cache.contains_redirect(phrase):
-                    print('Getting redirect for: {}'.format(phrase))
+                    #print('Getting redirect for: {}'.format(phrase))
                     node = self.get_resource_from_redirect(self.phrase_cache.translate(phrase))
                     if node:
                         nodes = [node]
-                        print('Found')
+                        #print('Found')
                 
                 # Oherwise look for anchor text matches
                 if nodes is None and self.phrase_cache.contains_anchor(phrase):
