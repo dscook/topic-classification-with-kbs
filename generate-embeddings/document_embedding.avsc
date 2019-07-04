@@ -1,9 +1,10 @@
 {
-    "namespace": "phrase-embeddings.avro",
+    "namespace": "document-embeddings.avro",
      "type": "record",
-     "name": "phrase_embedding",
+     "name": "document_embedding",
      "fields": [
-         {"name": "phrase", "type": "string"},
+         {"name": "doc_id", "type": "int"},
+         {"name": "label", "type": "int"},        
          {"name": "topic_probs",  "type": {
                  "type" : "array",
                  "items" : {
@@ -16,5 +17,5 @@
                  }
              }
          }
-     ]
+    ]
 }
