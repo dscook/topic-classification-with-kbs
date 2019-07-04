@@ -4,13 +4,13 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.layers import Embedding, LSTM, Dense
 from keras.models import Sequential
 from keras.utils import to_categorical
-from keras.optimizers import Adadelta, Adam
+from keras.optimizers import Adadelta
 import numpy as np
 
 
-class LstmPredictor():
+class LstmWord():
     """
-    Wraps the building of a Keras LSTM as well as methods for training and prediction.
+    Wraps the building of a Keras LSTM as well as methods for training and prediction on word embeddings.
     """
     
     def __init__(self,

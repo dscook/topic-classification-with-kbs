@@ -48,30 +48,3 @@ def calculate_max_word_length(train_x):
     print('Percentage of articles exceeding max sequence length limit: {:.4f}%'.format(percentage_articles_exceeding_limit))
     
     return max_sequence_length
-
-
-def calculate_max_sentence_length(train_x):
-    """
-    Caculates the maximum length of a training document in sentences to use in the LSTM.
-    This length is calculated as the mean length plus 3 standard deviations.
-    
-    :param train_x: array of documents each representated as an array of sentences.
-    :returns the max sequence length (in sentences) to use in the LSTM.
-    """
-    # Find the number of sentences in each article
-    article_lengths = np.array([len(sentences) for sentences in train_x])
-    
-    print('Minimum length of article in sentences: {}'.format(np.min(article_lengths)))
-    print('Maximum length of article in sentences: {}'.format(np.max(article_lengths)))
-    print('Mean length of article in sentences: {:.4f}'.format(np.mean(article_lengths)))
-    print('St dev of length of article in sentences: {:.4f}'.format(np.std(article_lengths)))
-    
-    # Set the max sequence length to mean plus 3 standard deviations (99.7% confidence)
-    max_sequence_length = int(np.mean(article_lengths) + np.std(article_lengths)*3)
-    
-    # Confirm not many articles exceed this limit
-    articles_exceeding_limit = [sentences for sentences in train_x if len(sentences) > max_sequence_length]
-    percentage_articles_exceeding_limit = (len(articles_exceeding_limit)/len(train_x))*100
-    print('Percentage of articles exceeding max sequence length limit: {:.4f}%'.format(percentage_articles_exceeding_limit))
-    
-    return max_sequence_length

@@ -98,7 +98,8 @@ def remove_stop_words_and_lemmatize(text,
         
         if simple_keep_nouns:
             # Only keep adjectives and nouns                
-            tokens = [(word, tag) for sent in pos_tags for (word, tag) in sent if tag in set(['NN', 'NNS', 'NNP', 'NNPS', 'JJ'])]
+            tokens = [(word, tag) for sent in pos_tags 
+                      for (word, tag) in sent if tag in set(['NN', 'NNS', 'NNP', 'NNPS', 'JJ'])]
         else:
             # Potential people: key surname, value full name
             potential_people = {}
@@ -135,7 +136,8 @@ def remove_stop_words_and_lemmatize(text,
                             
                             # Add the proper noun phrase to the potential people set if length == 2
                             if len(noun_phrase_tokens) == 2:
-                                # Use the fact news articles refer to people by surname once they have stated their full name
+                                # Use the fact news articles refer to people by surname once they have stated
+                                # their full name
                                 potential_people[noun_phrase_tokens[-1]] = token_so_far
                             
                             # Reset the matching process
@@ -168,7 +170,8 @@ def remove_stop_words_and_lemmatize(text,
                     eos_detected = False
                     
                     # Catch case where new sentence was not started with a space
-                    # Check the length of a word is greater than a limit before splitting to try and avoid splitting acronyms
+                    # Check the length of a word is greater than a limit before
+                    # splitting to try and avoid splitting acronyms
                     if len(word) > 9:
                         eos_split = word.split('.')
                         # Should only be two words if a split at the end of a sentence occurred
@@ -218,7 +221,8 @@ def remove_stop_words_and_lemmatize(text,
         
         # Quite often similar words are separated with a slash, e.g. iphone/android
         # Split these terms into separate words
-        # Also capture the case where a space did not occur between sentences e.g. "end of sentence.start of new sentence ..."
+        # Also capture the case where a space did not occur between sentences 
+        # e.g. "end of sentence.start of new sentence ..."
         words = word.split('/')
         # Check the length of a word is greater than a limit before splitting to try and avoid splitting acronyms
         if len(word) > 9 and len(words) == 1:
