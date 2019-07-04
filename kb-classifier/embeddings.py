@@ -6,8 +6,16 @@ import csv
 import numpy as np
 
 class EmbeddingModel:
+    """
+    Implements the same interface as a Gensim KeyedVectors word embedding model.
+    This enables the knowledge base embeddings to be used with the LSTM in a consistent way.
+    """
     
     def __init__(self, embedding_file_path, topic_id_mapping_path):
+        """
+        :param embedding_file_path: the path to the word embeddings in avro format.
+        :param topic_id_mapping_path: the path to the CSV that contains all valid topic IDs.
+        """
         
         # To store mapping from topic ID to index into embedding vector
         self.topic_id_to_index = {}
@@ -43,7 +51,16 @@ class EmbeddingModel:
         reader.close()
         
     def get_vector(self, word):
+        """
+        Get the word embedding for the given word.
+        
+        :param word: the word to lookup the embedding for.
+        :returns: a vector containing the word embedding.
+        """
         return self.phrase_to_embedding[word]
     
     def get_embedding_dim(self):
+        """
+        :returns: the length of the knowledge base word embeddings.
+        """
         return self.embedding_dim

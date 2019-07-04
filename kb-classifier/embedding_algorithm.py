@@ -491,4 +491,3 @@ class EmbeddingAlgorithm:
             cache[depth][topic_name] = topic
         
         return topic
-            

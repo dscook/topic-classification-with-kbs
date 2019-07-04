@@ -11,8 +11,6 @@ class TopicNode:
         """
         :param name: name of the topic node, must be a unique identifier.
         :param depth: the depth of this node in the tree
-        :param parent_topics: a list of the parent topic nodes.
-        :param child_topics: a list of the child topic nodes.
         """
         self.name = name
         self.depth = depth

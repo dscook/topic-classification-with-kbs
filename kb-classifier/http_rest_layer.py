@@ -25,6 +25,9 @@ classifier = Classifier(dao=dao_init(),
 
 @app.route('/classify', methods=['POST'])
 def classify():
+    """
+    Get the root topic probabilities for the POSTed document.
+    """
     body = request.get_json()
     document = body['text']
     
