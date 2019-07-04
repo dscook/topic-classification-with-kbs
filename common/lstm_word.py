@@ -41,8 +41,8 @@ class LstmWord():
         if use_saved_weights:
             self.model.load_weights(self.weights_path)
         
-        #self.model.compile(optimizer=RMSprop(lr=0.0001), loss='categorical_crossentropy', metrics=['acc'])
         self.model.compile(optimizer=Adadelta(), loss='categorical_crossentropy', metrics=['acc'])
+
 
     def create_embedding_matrix(self,
                                 word_index,
@@ -122,7 +122,7 @@ class LstmWord():
         
         :param x: the documents to train on.  Must be a list of lists of integers.
                   Each integer representing a word in the vocabularly.
-        :param y: the document topics.  Must be one hot encoded.
+        :param y: the document topic labels as integers.
         :param x_val: the validation documents, same format as x param.
         :param y_val: the validation document topics, same format as y param.
         :param class_weight: the class weights to use to pay more attention to under represented classes.
