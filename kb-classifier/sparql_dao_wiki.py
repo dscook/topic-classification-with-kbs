@@ -191,34 +191,6 @@ class SparqlDao:
         return resources
 
 
-    def filter_undesired_types(self, resource):
-        """
-        Returns None if the resource is an undesired type.  Currenty these are:
-            * Places.
-
-        Otherwise returns the resource unchanged.
-        """
-        to_return = resource
-        
-        self.sparql_query.setQuery(f"""
-            {self.PREFIX_RDF}
-            {self.PREFIX_RDFS}
-            {self.PREFIX_DBPEDIA_OWL}
-            
-            SELECT ?type
-            WHERE {{
-                <http://dbpedia.org/resource/{resource}> rdf:type ?type .
-                ?type rdfs:subClassOf+ dbpediaowl:Place
-            }}
-            """)
-        results = self.sparql_query.query().convert()
-        types = self.extract_matches_from_results(results, 'type', prefix_to_remove='')
-        
-        if len(types) > 0:
-            to_return = None
-        return to_return
-
-
     def get_topics_for_resource(self, resource):
         """
         Given a resource, get the list of immediate topics that are associated with that resource.
