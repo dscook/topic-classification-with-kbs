@@ -9,8 +9,10 @@ def lookup_cache_init():
 def dao_init():
     return SparqlDao(endpoint_url='http://localhost:3030/DBpedia/')
 
+# Max depth of the topic hierarchy
 topic_depth=4
 
+# Indexes of wiki root topics
 wiki_topics_to_index = {
     'Anatomy': 0,
     'Health': 1,
@@ -23,6 +25,8 @@ wiki_topics_to_index = {
     'Human_pregnancy': 8
 }
 
+# Mapping from wiki tipics to target classes for classification
+# In the UVigoMED case this is actually irrelevant
 wiki_topics_to_actual_topics = {
     'Anatomy': 0,
     'Health': 1,

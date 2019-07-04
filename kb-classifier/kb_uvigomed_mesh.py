@@ -9,9 +9,16 @@ def lookup_cache_init():
 def dao_init():
     return SparqlDao(endpoint_url='http://localhost:3030/MeSH/')
 
+# Max depth of the topic hierarchy
 topic_depth=12
 
+
 def generate_root_topics():
+    """
+    Helper method to generate root topics so the entire MeSH topic hierarchy is covered.
+    
+    :returns: dict of all root topics in MeSH associated with a unique index.
+    """
     wiki_topics_to_index = {}
     
     last_index = 0
@@ -41,5 +48,9 @@ def generate_root_topics():
         
     return wiki_topics_to_index
 
+# Indexes of wiki root topics
 wiki_topics_to_index = generate_root_topics()
+
+# Mapping from wiki tipics to target classes for classification
+# In the UVigoMED case this is actually irrelevant
 wiki_topics_to_actual_topics = generate_root_topics()

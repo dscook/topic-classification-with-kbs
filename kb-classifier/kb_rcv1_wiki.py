@@ -9,8 +9,10 @@ def lookup_cache_init():
 def dao_init():
     return SparqlDao(endpoint_url='http://localhost:3030/DBpedia/')
 
+# Max depth of the topic hierarchy
 topic_depth=5
 
+# Indexes of wiki root topics
 wiki_topics_to_index = {
     'Crime': 0,
     'Law': 1,
@@ -25,6 +27,7 @@ wiki_topics_to_index = {
     'Sports': 10   
 }
 
+# Mapping from wiki tipics to target classes for classification
 wiki_topics_to_actual_topics = {
     'Crime': 0,
     'Law': 0,
