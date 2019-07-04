@@ -4,9 +4,8 @@ import numpy as np
 
 def split_data(x, y):
     total_examples = len(y)
-    #split_point_1 = int(total_examples * 0.85)
-    split_point_1 = 43972
-    split_point_2 = int(total_examples * 0.9)
+    split_point_1 = int(total_examples * 0.6)
+    split_point_2 = int(total_examples * 0.8)
     train_x = x[:split_point_1]
     train_y = y[:split_point_1]
     val_x = x[split_point_1:split_point_2]
