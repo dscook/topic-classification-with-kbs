@@ -29,8 +29,6 @@ class Classifier:
         # Below is so we can maintain an integer identifier to topic name mapping for generating word embeddings
         self.topic_id = 0
         self.topic_name_to_id = {}
-        # Will be initialised if TFIDF is used
-        self.tfidf = None
         print('Classifier Initialised')
     
     
@@ -79,13 +77,7 @@ class Classifier:
             # Note the phrase has a higher starting vote if it occurs multiple times in the document
             # Split the vote amongst the phrases resources
             split_vote = phrase_to_occurences[phrase] / len(resources)
-            
-            if self.tfidf:
-                # We have the TF-IDF module so we can use TFIDF instead as the starting vote
-                split_vote = (self.tfidf.calculate_tfidf(phrase, 
-                                                         phrase_to_occurences[phrase], 
-                                                         document_length) / len(resources))
-            
+                        
             # Now allocate each resources vote amongst its topics
             for resource in resources:
                 topics = resource_to_topics[resource]

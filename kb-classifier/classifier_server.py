@@ -5,7 +5,6 @@ from flask import Flask, request, jsonify
 import uuid
 
 from classifier import Classifier
-from tfidf import TfIdf
 from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, lookup_cache_init
 
 
@@ -22,15 +21,6 @@ classifier = Classifier(dao=dao_init(),
                         root_topic_names=wiki_topics_to_actual_topics.keys(),
                         max_depth=topic_depth,
                         phrase_cache=lookup_cache_init())
-tfidf_calculator = TfIdf(classifier)
-
-
-@app.route('/tfidf', methods=['POST'])
-def tfidf():
-    body = request.get_json()
-    tfidf_calculator.fit(body['documents'])
-    classifier.tfidf = tfidf_calculator
-    return 'OK'
 
 
 @app.route('/classify', methods=['POST'])
