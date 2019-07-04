@@ -11,11 +11,12 @@ from nltk.stem import WordNetLemmatizer
 import nltk
 import re
 
-
+# Punctuation to remove
 punctuation = ['!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/',
                '\\', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '_', '`', '{', '|',
                '}', '~', '``', '\'\'', '’', '...', '--', 'gt', 'lt', 'amp', '”', '“']
 
+# For expanding of contractions
 contractions = {
     'ca': { "n't": 'not' },
     'can': { "'t": 'not' },
@@ -40,8 +41,8 @@ contractions = {
     'wo': { "n't": 'not' }
 }
 
+# Setup stopwords
 english_stopwords = stopwords.words('english')
-english_stopwords.append('u')    # Add additional stopword that is common for 'you' in tweets
 english_stopwords.append('would')
 english_stopwords.append('could')
 english_stopwords.append('you')
@@ -50,6 +51,12 @@ lemmatizer = WordNetLemmatizer()
 
 
 def wordnet_tag_from_penn_treebank(pos):
+    """
+    Given a Penn Treebank POS tag, converts it to a WordNet tag.
+    
+    :param pos: Penn Treebank POS tag.
+    :returns: WordNet POS tag.
+    """
     if pos.startswith('J'):
         return wordnet.ADJ
     elif pos.startswith('V'):
@@ -72,7 +79,16 @@ def remove_stop_words_and_lemmatize(text,
     Given a string, tokenises the string based on punctuation and whitespace, lowercases
     all tokens if lowercase is True and lemmatizes if lemmatize is True.
     Stopwords and punctuation are also removed as well as phrases split with a slash expanded.
-        
+    
+    :param text: the text string to process.
+    :param lowercase: set to True to lowercase the string.
+    :param lemmatize: set to True to lemmatize the string.
+    :param keep_nouns_only: set to True to keep nouns and adjectives only.
+    :param simple_keep_nouns: by default proper noun phrases will be made inseparable by joining the words with
+                              an underscore, coreference resolution will also be applied to expand surname mentions
+                              back to fullnames (if the fullname appears elsewhere in the text).
+                              Set this flag to True if you do not want this behaviour.
+    :param eos_indicators: set to True to add <EOS> tokens into the text to indicate sentence boundaries.
     :returns: a string with the separate tokens joined back up with a space between them.
     """
     tokens = []
@@ -204,7 +220,6 @@ def remove_stop_words_and_lemmatize(text,
         # Split these terms into separate words
         # Also capture the case where a space did not occur between sentences e.g. "end of sentence.start of new sentence ..."
         words = word.split('/')
-        # BELOW IF WAS ADDED AFTER NEWS CLASSIFICATION EXPERIMENTS, I.E. FOR OHSUMED
         # Check the length of a word is greater than a limit before splitting to try and avoid splitting acronyms
         if len(word) > 9 and len(words) == 1:
             eos_split = word.split('.')
@@ -239,24 +254,6 @@ def remove_stop_words_and_lemmatize(text,
             updated_tokens.append(word)
         prev_word = word.lower()
                      
-    return ' '.join(updated_tokens)
-
-
-def lowercase_all_capital_words(text):
-    """
-    Lowercase words in all caps only with length >1 character.  All uppercase words in tweets are common.
-    
-    :param text: string to convert.
-    :returns: converted string.
-    """
-    # Set of words that should remain uppercase
-    words_to_ignore = set(['UK', 'GB', 'EU', 'USA', 'POTUS', 'BBC', 'UN',
-                           'ISIS', 'UKMO', 'GEFS', 'EXO', 'CNN', 'CBS', 'CBC'])
-    
-    tokens = text.split()
-    updated_tokens = [token.lower() if (token.isupper() and len(token) > 1 and token not in words_to_ignore) 
-                                    else token for token in tokens]
-    
     return ' '.join(updated_tokens)
 
 
