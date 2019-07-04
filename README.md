@@ -9,7 +9,12 @@ To setup your Python environment:
 
 1. `cd <this_directory>`
 1. `python3 -m venv env`
+1. `source env/bin/activate`
 1. `pip install -r requirements.txt`
+
+Before any Python code is run on terminal restarts remember to re-activate the virtual environment:
+
+1. `source env/bin/activate`
 
 ### Knowledge Base Topic Hierarchies
 
@@ -30,3 +35,19 @@ at http://localhost:3030/:
    format: Anchor Texts, Article Categories and SKOS Categories.
    Note you will need to unbzip them `bzip2 -d <filename>`.
 1. For MeSH upload the `mesh2019.nt` file downloaded from ftp://ftp.nlm.nih.gov/online/mesh/rdf/2019/.
+
+### Root Topic Filtering
+
+The RDF topic hierarchies must be pruned so the only topics accessible are those that relate to the classification
+problem at hand.
+This is done for both DBpedia and MeSH, however in the latter case everything is simply marked as accessible as MeSH
+only contains medical topics and does not need filtering like the general purpose knowledge base of DBpedia.
+For DBpedia:
+
+1. Edit `kb-classifier/kb_common.py` so that `dataset = 'rcv1_wiki'`.
+1. Run the topic hierarchy pruner: `cd kb-classifier` then `python prune.py`.
+
+For MeSH:
+
+1. Edit `kb-classifier/kb_common.py` so that `dataset = 'uvigomed_mesh'`.
+1. Run the topic hierarchy pruner: `cd kb-classifier` then `python prune.py`.
