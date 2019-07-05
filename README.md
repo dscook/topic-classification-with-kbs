@@ -64,3 +64,10 @@ For DBpedia:
 Texts, `anchor_text_en.ttl`, from DBpedia were downloaded to earlier.
 1. Execute the cleanup anchors script, `cd kb-classifier/phrase-generation-wiki` followed by
 `python cleanup_anchors.py`.
+
+For MeSH:
+
+1. Edit the `kb-classifier/phrase-generation-mesh/cleanup_mesh.py` file to contain the location where the MeSH RDF
+file, `mesh2019.nt`, was downloaded to earlier.
+1. Execute the cleanup MeSH script, `cd kb-classifier/phrase-generation-mesh` followed by
+`python cleanup_mesh.py`.
