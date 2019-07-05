@@ -74,8 +74,13 @@ file, `mesh2019.nt`, was downloaded to earlier.
 
 ### Running the HTTP REST Server
 
-To enable the phrase cache to be maintained between embeddings of documents, the embedder runs as a server behind a
+To enable the phrase cache to be maintained between the embedding of documents, the embedder runs as a server behind a
 HTTP REST layer.  Start the server like so:
 
 1. `cd kb-classifier`
 1. `python http_rest_layer.py`
+
+
+## RCV1 Experiments
+
+### 
