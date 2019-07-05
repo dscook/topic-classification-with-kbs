@@ -4,10 +4,10 @@ import unittest
 import numpy as np
 
 from lookup_tables import int_to_topic
-from ohsumed_parser import load_data
+from uvigomed_parser import load_data
 
 
-class OhsumedParserTestCase(unittest.TestCase):
+class UvigomedParserTestCase(unittest.TestCase):
 
     
     def test_load_data(self):
