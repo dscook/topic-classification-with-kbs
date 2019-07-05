@@ -13,6 +13,14 @@ from langdetect import detect
 from ohsumed_parser import load_data
 from sentence_utils import remove_stop_words_and_lemmatize
 
+###
+### VARIABLES (update as necessary)
+###
+path_to_uvigomed_data = '../../../downloads/UVigoMED/single_label/'
+
+###
+### START OF CODE
+###
 
 # Used for eliminating duplicate articles
 namespace = uuid.uuid4()
@@ -92,7 +100,7 @@ def write_data(x, y, file_suffix):
             article_writer.writerow([y[i], x[i]])
 
 
-train_x, train_y, test_x, test_y = load_data('../../../downloads/UVigoMED/single_label/', titles_only=True)
+train_x, train_y, test_x, test_y = load_data(path_to_uvigomed_data, titles_only=True)
 
 # Remove non english articles
 train_x, train_y = remove_non_english_and_empty(train_x, train_y)

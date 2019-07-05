@@ -94,4 +94,18 @@ extract.
 
 ### Generating Preprocessed Data
 
+TODO
 
+
+## UVigoMED
+
+### Obtaining the Data
+
+1. The UVigoMED MEDLINE corpus can be obtained from https://data.mendeley.com/datasets/p3jkppwr29/1.
+1. Unzip the data, `unzip UVigoMED.zip`.
+1. Update the `uvigomed/pre_process_data.py` file so the `path_to_uvigomed_data` variable contains the path to the
+UVigoMED extract, specifically the `single_label` directory contained within it.
+
+### Generating Preprocessed Data
+
+TODO
