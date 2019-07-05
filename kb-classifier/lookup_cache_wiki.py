@@ -18,8 +18,9 @@ class LookupCache:
         :param use_anchors_only: set to True if only anchors should be considered and not direct resource or redirect
                                  matches.
         """
-        self.resource_cache = self.load_phrase_cache(resource_path)
-        self.redirect_cache = self.load_phrase_cache(redirect_path)
+        if not use_anchors_only:
+            self.resource_cache = self.load_phrase_cache(resource_path)
+            self.redirect_cache = self.load_phrase_cache(redirect_path)
         self.anchor_cache = self.load_phrase_cache(anchor_path)
         self.use_anchors_only = use_anchors_only
         print('Cache Initialised')

@@ -54,3 +54,13 @@ For MeSH:
 
 ### Phrase Cache Priming
 
+The phrase cache needs primining with the phrases that exist in both the DBpedia and MeSH knowledge bases.
+This enables DB lookups to occur only when it is known a resource exists for the phrase in the knowledge base thus
+avoiding network and disk overhead to try and lookup a phrase that does not exist in the knowledge base.
+
+For DBpedia:
+
+1. Edit the `kb-classifier/phrase-generation-wiki/cleanup_anchors.py` file to contain the location where the Anchor
+Texts, `anchor_text_en.ttl`, from DBpedia were downloaded to earlier.
+1. Execute the cleanup anchors script, `cd kb-classifier/phrase-generation-wiki` followed by
+`python cleanup_anchors.py`.
