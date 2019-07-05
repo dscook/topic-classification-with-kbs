@@ -109,6 +109,14 @@ are correct.  Comments are provided to assist you.
 1. Generate the document embeddings, this can take several hours: `cd embedding-scripts` followed by
 `python generate_document_embeddings.py`.
 
+### Running the Experiments
+
+For the baseline classifiers:
+
+1. `cd rcv1`.
+1. Run `python run_nb_experiments.py` or `python run_svc_experiments.py` if you want to run multinomial naive Bayes
+or the Support Vector Classifier respectively.
+
 
 ## UVigoMED Experiments
 
@@ -134,3 +142,11 @@ Generating the document embeddings is a prerequisite of running the knowledge ba
 are correct.  Comments are provided to assist you.
 1. Generate the document embeddings, this can take several hours: `cd embedding-scripts` followed by
 `python generate_document_embeddings.py`.
+
+### Running the Experiments
+
+For the baseline classifiers:
+
+1. `cd uvigomed`.
+1. Run `python run_nb_experiments.py` or `python run_svc_experiments.py` if you want to run multinomial naive Bayes
+or the Support Vector Classifier respectively.

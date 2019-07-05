@@ -40,7 +40,7 @@ def load_reutuers_data(preprocessed_article_path):
         
     # Get the test set
     total_examples = len(y)
-    split_point = int(total_examples * 0.95)
+    split_point = int(total_examples * 0.8)
     test_x = x[split_point:]
     test_y = y[split_point:]
     print('Size of test set is {}'.format(len(test_y)))
@@ -57,8 +57,7 @@ def load_reutuers_data(preprocessed_article_path):
 
 
 def run_proportional_experiments(classifier_runner, training_data_dict, test_x, test_y, topic_code_to_prior_prob):
-    # Test proportional to prior class probability
-    for train_size in [120, 600, 1200, 6000, 12000, 60000]:
+    for train_size in [12, 60, 120, 600, 1200, 6000, 12000, 60000, 72488]:
         
         article_dict = {}
         
@@ -70,7 +69,7 @@ def run_proportional_experiments(classifier_runner, training_data_dict, test_x, 
         
         train_x, train_y = convert_dictionary_to_array(article_dict, topic_code_to_int)
         
-        predict_y = classifier_runner(train_x, train_y, test_x, test_y, class_priors, balanced=False)
+        predict_y = classifier_runner(train_x, train_y, test_x, class_priors, balanced=False)
         
         print('--------- PROPORTIONAL TRAINING SET SIZE {} ---------'.format(train_size))
         print(classification_report(test_y, predict_y, digits=6, target_names=topic_code_to_topic_dict.values()))
@@ -80,7 +79,7 @@ def run_proportional_experiments(classifier_runner, training_data_dict, test_x, 
 
 def run_balanced_experiments(classifier_runner, training_data_dict, test_x, test_y, topic_code_to_prior_prob):
     # Test balanced classes
-    for train_size in [12, 60, 120, 600, 1200, 6000, 7200]:
+    for train_size in [12, 60, 120, 600, 1200, 6000]:
         
         article_dict = {}
         
@@ -92,7 +91,7 @@ def run_balanced_experiments(classifier_runner, training_data_dict, test_x, test
         
         train_x, train_y = convert_dictionary_to_array(article_dict, topic_code_to_int)
         
-        predict_y = classifier_runner(train_x, train_y, test_x, test_y, class_priors, balanced=True)
+        predict_y = classifier_runner(train_x, train_y, test_x, class_priors, balanced=True)
         
         print('--------- BALANCED TRAINING SET SIZE {} ---------'.format(train_size))
         print(classification_report(test_y, predict_y, digits=6, target_names=topic_code_to_topic_dict.values()))

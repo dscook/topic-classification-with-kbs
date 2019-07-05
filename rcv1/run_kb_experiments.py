@@ -14,7 +14,7 @@ from kb_classifier_copy import KnowledgeBasePredictor
 from lookup_tables import topic_code_to_topic_dict
 
 
-def run_kb_classifier(train_x, train_y, test_x, test_y, class_priors, balanced):
+def run_kb_classifier(train_x, train_y, test_x, class_priors, balanced):
     kb_predictor = KnowledgeBasePredictor(topic_code_to_topic_dict.values(), topic_depth=3)
     kb_predictor.train(train_x, train_y, balanced_classes=balanced)
     predict_y = kb_predictor.predict(test_x)
