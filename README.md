@@ -71,3 +71,11 @@ For MeSH:
 file, `mesh2019.nt`, was downloaded to earlier.
 1. Execute the cleanup MeSH script, `cd kb-classifier/phrase-generation-mesh` followed by
 `python cleanup_mesh.py`.
+
+### Running the HTTP REST Server
+
+To enable the phrase cache to be maintained between embeddings of documents, the embedder runs as a server behind a
+HTTP REST layer.  Start the server like so:
+
+1. `cd kb-classifier`
+1. `python http_rest_layer.py`
