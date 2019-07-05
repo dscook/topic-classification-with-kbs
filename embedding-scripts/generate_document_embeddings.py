@@ -17,12 +17,16 @@ from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, looku
 ###
 ### VARIABLES (update as necessary)
 ###
-data_path = '../rcv1/data/rcv1_no_stopwords_eos_reduced.csv'
-document_embeddings_path = '../rcv1/embeddings/document_embeddings.avro'
+
+# Path to the knowledge base preprocessed data (RCV1 or UVigoMED)
+data_path = '../rcv1/data/rcv1_kb.csv'
+
+# Path where the embeddings should be written to
+document_embeddings_path = '../rcv1/embeddings/document_embeddings_depth_2.avro'
 
 # The depth of the topic tree to get probabilities for, set to 'all' to retrieve all topic probabilities
+# The topic probabilities form the embedding
 topic_depth_to_retrieve = 2         
-
 
 ###
 ### LOAD THE DATA

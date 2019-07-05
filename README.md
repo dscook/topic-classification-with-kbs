@@ -98,6 +98,18 @@ extract.
 or `False` depending on what version the preprocessed data you are generating.
 1. Generate the preprocessed data, `cd rcv1` then `python pre_process_data.py`.
 
+### Generating the Document Embeddings
+
+Generating the document embeddings is a prerequisite of running the knowledge base classifier experiments.
+
+1. Ensure Apache Jena Fuseki and the HTTP REST Server are both still running.
+1. Ensure the RCV1 data has been preprocessed for the knowledge base classifier.
+1. Edit `embedding-scripts/generate_document_embeddings.py` so the configurable variables at the top of the file
+are correct.  Comments are provided to assist you.
+1. Generate the document embeddings, this can take several hours: `cd embedding-scripts` followed by
+`python generate_document_embeddings.py`.
+
+
 ## UVigoMED Experiments
 
 ### Obtaining the Data
@@ -111,3 +123,14 @@ UVigoMED extract, specifically the `single_label` directory contained within it.
 
 1. Generate the preprocessed data, `cd uvigomed` then `python pre_process_data.py`.
 The same preprocessed data is used for both the baseline classifiers and the knowledge base classifier.
+
+### Generating the Document Embeddings
+
+Generating the document embeddings is a prerequisite of running the knowledge base classifier experiments.
+
+1. Ensure Apache Jena Fuseki and the HTTP REST Server are both still running.
+1. Ensure the UVigoMED data has been preprocessed for the knowledge base classifier.
+1. Edit `embedding-scripts/generate_document_embeddings.py` so the configurable variables at the top of the file
+are correct.  Comments are provided to assist you.
+1. Generate the document embeddings, this can take several hours: `cd embedding-scripts` followed by
+`python generate_document_embeddings.py`.
