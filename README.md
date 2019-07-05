@@ -117,6 +117,13 @@ For the baseline classifiers:
 1. Run `python run_nb_experiments.py` or `python run_svc_experiments.py` if you want to run multinomial naive Bayes
 or the Support Vector Classifier respectively.
 
+For the knowledge base classifier:
+
+1. Edit `rcv1/run_kb_experiments.py` so that the `document_embeddings_path` points to the document embeddings
+generated earlier.
+1. `cd rcv1`.
+1. Run `python run_kb_experiments.py`.
+
 
 ## UVigoMED Experiments
 
@@ -150,3 +157,10 @@ For the baseline classifiers:
 1. `cd uvigomed`.
 1. Run `python run_nb_experiments.py` or `python run_svc_experiments.py` if you want to run multinomial naive Bayes
 or the Support Vector Classifier respectively.
+
+For the knowledge base classifier:
+
+1. Edit `uvigomed/run_kb_experiments.py` so that the `document_embeddings_path` points to the document embeddings
+generated earlier.
+1. `cd uvigomed`.
+1. Run `python run_kb_experiments.py`.

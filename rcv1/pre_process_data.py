@@ -19,7 +19,7 @@ from conversion import convert_dictionary_to_array
 ### VARIABLES (update as necessary)
 ###
 path_to_rcv1_data = '../../../downloads/reuters/rcv1/'
-preprocess_for_knowledge_base_classifier = True
+preprocess_for_knowledge_base_classifier = False
 
 ###
 ### START OF CODE
