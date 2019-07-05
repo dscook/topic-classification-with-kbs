@@ -15,6 +15,14 @@ from sentence_utils import remove_stop_words_and_lemmatize
 from lookup_tables import topic_code_to_topic_dict, topic_code_to_int
 from conversion import convert_dictionary_to_array
 
+###
+### VARIABLES (update as necessary)
+###
+path_to_rcv1_data = '../../../downloads/reuters/rcv1/'
+
+###
+### START OF CODE
+###
 
 # Used for eliminating duplicate news articles
 namespace = uuid.uuid4()
@@ -62,8 +70,8 @@ def sanitise_each_topic(dataset):
     return data_sanitised
 
 
-year_data = load_data('19960820', '19970819', '../../../downloads/reuters/rcv1/', topic_code_to_topic_dict)
-#year_data = load_data('19960820', '19960830', '../../../downloads/reuters/rcv1/', topic_code_to_topic_dict)
+year_data = load_data('19960820', '19970819', path_to_rcv1_data, topic_code_to_topic_dict)
+#year_data = load_data('19960820', '19960830', path_to_rcv1_data, topic_code_to_topic_dict)
 
 print_number_of_articles_per_topic(year_data, 'Data for a Year August 96 to August 97')
 

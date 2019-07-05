@@ -83,4 +83,15 @@ HTTP REST layer.  Start the server like so:
 
 ## RCV1 Experiments
 
-### 
+### Obtaining the Data
+
+1. For University of Bath students and staff the RCV1 data can be obtained by completing the individual agreement
+available from https://trec.nist.gov/data/reuters/reuters.html and emailing it to Dr. Tom Fincham Haines 
+(T.S.F.Haines@bath.ac.uk).
+1. Untar the RCV1 file, `tar -xf rcv1.tar.xz`.
+1. Update the `rcv1/pre_process_data.py` file so the `path_to_rcv1_data` variable contains the path to the RCV1
+extract.
+
+### Generating Preprocessed Data
+
+
