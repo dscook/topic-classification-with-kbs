@@ -19,6 +19,10 @@ def support_vector_classifier(train_x, train_y, test_x, class_priors, balanced):
 print('Running Support Vector Classifier experiments')
 np.random.seed(42)
 
-training_data_dict, test_x, test_y, topic_code_to_prior_prob = load_reutuers_data('data/rcv1_baseline.csv')
-run_proportional_experiments(support_vector_classifier, training_data_dict, test_x, test_y, topic_code_to_prior_prob)
+(training_data_dict,
+ train_x, train_y,
+ test_x, test_y,
+ topic_code_to_prior_prob) = load_reutuers_data('data/rcv1_baseline.csv')
+
+run_proportional_experiments(support_vector_classifier, train_x, train_y, test_x, test_y, topic_code_to_prior_prob)
 run_balanced_experiments(support_vector_classifier, training_data_dict, test_x, test_y, topic_code_to_prior_prob)

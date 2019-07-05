@@ -53,23 +53,17 @@ def load_reutuers_data(preprocessed_article_path):
     # Put training data back into dictionary format
     training_data_dict = convert_array_to_dictionary(potential_train_x, potential_train_y, int_to_topic_code)
     
-    return (training_data_dict, test_x, test_y, topic_code_to_prior_prob)
+    return (training_data_dict, potential_train_x, potential_train_y, test_x, test_y, topic_code_to_prior_prob)
 
 
-def run_proportional_experiments(classifier_runner, training_data_dict, test_x, test_y, topic_code_to_prior_prob):
-    for train_size in [12, 60, 120, 600, 1200, 6000, 12000, 60000, 72488]:
-        
-        article_dict = {}
-        
+def run_proportional_experiments(classifier_runner, train_x, train_y, test_x, test_y, topic_code_to_prior_prob):
+    for train_size in [12, 60, 120, 600, 1200, 6000, 12000, 60000, len(train_x)]:
+                
         class_priors = np.zeros(shape=len(topic_code_to_prior_prob.keys()))
         for topic_code, probability in topic_code_to_prior_prob.items():
-            num_to_take_for_topic = int(train_size * probability)
-            article_dict[topic_code] = training_data_dict[topic_code][:num_to_take_for_topic]
             class_priors[topic_code_to_int[topic_code]] = probability
-        
-        train_x, train_y = convert_dictionary_to_array(article_dict, topic_code_to_int)
-        
-        predict_y = classifier_runner(train_x, train_y, test_x, class_priors, balanced=False)
+                
+        predict_y = classifier_runner(train_x[:train_size], train_y[:train_size], test_x, class_priors, balanced=False)
         
         print('--------- PROPORTIONAL TRAINING SET SIZE {} ---------'.format(train_size))
         print(classification_report(test_y, predict_y, digits=6, target_names=topic_code_to_topic_dict.values()))
