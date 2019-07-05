@@ -26,36 +26,20 @@ class SparqlDaoTestCase(unittest.TestCase):
          self.assertEqual(resource, None)
         
 
-    def test_get_resource_for_phrase_from_redirect(self):
-         resource = self.dao.get_resource_for_phrase_from_redirect('U.S.')
-         self.assertEqual(resource, 'United_States')
-         resource = self.dao.get_resource_for_phrase_from_redirect('USA')
-         self.assertEqual(resource, 'United_States')
-         resource = self.dao.get_resource_for_phrase_from_redirect('USAA')
-         self.assertEqual(resource, None)
-
-
     def test_get_resource_for_phrase_from_anchor(self):
         resources = self.dao.get_resources_for_phrase_from_anchor('David Cameron')
         self.assertEqual(resources, ['David_Cameron',
-                                     'Dave_Cameron_(footballer)',
+                                     'Second_Cameron_ministry',
                                      'Premiership_of_David_Cameron',
                                      'Shadow_Cabinet_of_David_Cameron',
+                                     'Dave_Cameron_(footballer)',
                                      'Family_of_David_Cameron',
                                      'David_Cameron_(soccer)',
-                                     'David_Cameron_(darts_player)',
-                                     'Second_Cameron_ministry'])
+                                     'David_Cameron_(darts_player)'])
         resources = self.dao.get_resources_for_phrase_from_anchor('No Match')
         self.assertEqual(resources, [])
-        
 
-    def test_filter_undesired_types(self):
-        resource = self.dao.filter_undesired_types('David_Cameron')
-        self.assertEqual(resource, 'David_Cameron')
-        resource = self.dao.filter_undesired_types('United_States')
-        self.assertEqual(resource, None)
-    
-    
+
     def test_get_topics_for_resource(self):
         topics = self.dao.get_topics_for_resource('David_Cameron')
         self.assertEqual(topics, ['Prime_Ministers_of_the_United_Kingdom',

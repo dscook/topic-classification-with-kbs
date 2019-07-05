@@ -51,3 +51,6 @@ For MeSH:
 
 1. Edit `kb-classifier/kb_common.py` so that `dataset = 'uvigomed_mesh'`.
 1. Run the topic hierarchy pruner: `cd kb-classifier` then `python prune.py`.
+
+### Phrase Cache Priming
+
