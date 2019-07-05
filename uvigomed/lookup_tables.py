@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# Topics to integer indexes
 topic_to_int = {
     'Bacterial Infections and Mycoses': 0,
     'Virus Diseases': 1,
@@ -30,6 +31,7 @@ topic_to_int = {
     'Wounds and Injuries': 25
 }
 
+# Integer indexes to topics
 int_to_topic = {
     0: 'Bacterial Infections and Mycoses',
     1: 'Virus Diseases',

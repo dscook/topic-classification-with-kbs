@@ -5,6 +5,7 @@ import os
 import xml.etree.ElementTree as ET
 from collections import defaultdict
 
+
 def load_data(start_date, end_date, directory, code_to_topic_dict):
     """
     Loads the Reuters RCV1 data between the given date ranges inclusive.

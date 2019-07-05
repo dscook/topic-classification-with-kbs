@@ -13,6 +13,13 @@ seen_so_far = set()
 
 
 def load_articles(directory, titles_only=False):
+    """
+    Loads the UVigoMED articles from the given directory.
+    
+    :param directory: the directory where the UVigoMED articles are located.
+    :param titles_only: use the document titles as the documents rather than the abstracts.
+    :returns: (x - list of abstracts, y - topic codes)
+    """
     x = []
     y = []
     
@@ -47,9 +54,9 @@ def load_articles(directory, titles_only=False):
 
 def load_data(directory, titles_only=False):
     """
-    Loads the OHSUMED dataset.
+    Loads the UVigoMED dataset.
     
-    :param directory: the directory where the OHSUMED articles are located.
+    :param directory: the directory where the UVigoMED articles are located.
     :param titles_only: use the document titles as the documents rather than the abstracts.
     :returns: (train x - list of abstracts, train y - topic codes, test x, test y)
     """

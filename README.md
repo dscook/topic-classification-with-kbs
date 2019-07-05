@@ -94,10 +94,11 @@ extract.
 
 ### Generating Preprocessed Data
 
-TODO
+1. Update the `rcv1/pre_process_data.py` file so the `preprocess_for_knowledge_base_classifier` flag is `True`
+or `False` depending on what version the preprocessed data you are generating.
+1. Generate the preprocessed data, `cd rcv1` then `python pre_process_data.py`.
 
-
-## UVigoMED
+## UVigoMED Experiments
 
 ### Obtaining the Data
 
@@ -108,4 +109,5 @@ UVigoMED extract, specifically the `single_label` directory contained within it.
 
 ### Generating Preprocessed Data
 
-TODO
+1. Generate the preprocessed data, `cd uvigomed` then `python pre_process_data.py`.
+The same preprocessed data is used for both the baseline classifiers and the knowledge base classifier.

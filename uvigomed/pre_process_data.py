@@ -10,7 +10,7 @@ import csv
 import uuid
 from langdetect import detect
 
-from ohsumed_parser import load_data
+from uvigomed_parser import load_data
 from sentence_utils import remove_stop_words_and_lemmatize
 
 ###
@@ -27,7 +27,13 @@ namespace = uuid.uuid4()
 
 
 def shuffle_data(x, y):
+    """
+    Shuffles the data.
     
+    :param x: the features.
+    :param y: the target class labels.
+    :returns: (shuffled x, shuffled y)
+    """
     indices = np.arange(len(y))
     np.random.shuffle(indices)
     
@@ -41,7 +47,13 @@ def shuffle_data(x, y):
 
 
 def remove_non_english_and_empty(x, y):
+    """
+    Remove non English articles, some are French, and empty articles.
     
+    :param x: the articles.
+    :param y: the target class labels.
+    :returns: (filtered x, filtered y)
+    """
     filtered_x = []
     filtered_y = []
     
@@ -69,7 +81,13 @@ def remove_non_english_and_empty(x, y):
 seen_so_far = set()
 
 def remove_duplicates(x, y):
+    """
+    Remove duplicate articles.
     
+    :param x: the articles.
+    :param y: the target class labels.
+    :returns: (filtered x, filtered y)
+    """
     number_of_duplicates = 0
     
     filtered_x = []
@@ -93,28 +111,30 @@ def remove_duplicates(x, y):
 
 
 def write_data(x, y, file_suffix):
-    path = 'data/ohsumed_titles_{}.csv'.format(file_suffix)
+    """
+    Writes the data as a CSV of the format "<topic class label>,<sanitised article>".
+    
+    :param x: the articles.
+    :param y: the target class labels.
+    :param file_suffix: a suffix to attach to the filename, usually 'train' or 'test'.
+    """
+    path = 'data/uvigomed_{}.csv'.format(file_suffix)
+        
     with open(path, 'w', newline='') as csvfile:
         article_writer = csv.writer(csvfile)
         for i in range(len(y)):
             article_writer.writerow([y[i], x[i]])
 
 
-train_x, train_y, test_x, test_y = load_data(path_to_uvigomed_data, titles_only=True)
+train_x, train_y, test_x, test_y = load_data(path_to_uvigomed_data, titles_only=False)
 
 # Remove non english articles
 train_x, train_y = remove_non_english_and_empty(train_x, train_y)
 test_x, test_y = remove_non_english_and_empty(test_x, test_y)
 
-# Remove stopwords and lemmatise - for non-KB classifiers
-#train_x = list(map(remove_stop_words_and_lemmatize, train_x))
-#test_x = list(map(remove_stop_words_and_lemmatize, test_x))
-
-def format_for_kb_classifier(article):
-    return remove_stop_words_and_lemmatize(article, lowercase=True, lemmatize=True, keep_nouns_only=False, eos_indicators=False)
-
-train_x = list(map(format_for_kb_classifier, train_x))
-test_x = list(map(format_for_kb_classifier, test_x))
+# Remove stopwords and lemmatise
+train_x = list(map(remove_stop_words_and_lemmatize, train_x))
+test_x = list(map(remove_stop_words_and_lemmatize, test_x))
 
 # Remove any examples that are duplicates
 train_x, train_y = remove_duplicates(train_x, train_y)
