@@ -77,6 +77,8 @@ file, `mesh2019.nt`, was downloaded to earlier.
 To enable the phrase cache to be maintained between the embedding of documents, the embedder runs as a server behind a
 HTTP REST layer.  Start the server like so:
 
+1. Edit `kb-classifier/kb_common.py` so that `dataset = 'rcv1_wiki'` or `dataset = 'uvigomed_mesh'` depending
+on if you want to run DBpedia for RCV1 or MeSH for UVigoMED.
 1. `cd kb-classifier`
 1. `python http_rest_layer.py`
 
@@ -102,7 +104,7 @@ or `False` depending on what version the preprocessed data you are generating.
 
 Generating the document embeddings is a prerequisite of running the knowledge base classifier experiments.
 
-1. Ensure Apache Jena Fuseki and the HTTP REST Server are both still running.
+1. Ensure Apache Jena Fuseki and the HTTP REST Server, configured for RCV1, are both still running.
 1. Ensure the RCV1 data has been preprocessed for the knowledge base classifier.
 1. Edit `embedding-scripts/generate_document_embeddings.py` so the configurable variables at the top of the file
 are correct.  Comments are provided to assist you.
@@ -143,7 +145,7 @@ The same preprocessed data is used for both the baseline classifiers and the kno
 
 Generating the document embeddings is a prerequisite of running the knowledge base classifier experiments.
 
-1. Ensure Apache Jena Fuseki and the HTTP REST Server are both still running.
+1. Ensure Apache Jena Fuseki and the HTTP REST Server, configured for UVigoMED, are both still running.
 1. Ensure the UVigoMED data has been preprocessed for the knowledge base classifier.
 1. Edit `embedding-scripts/generate_document_embeddings.py` so the configurable variables at the top of the file
 are correct.  Comments are provided to assist you.
