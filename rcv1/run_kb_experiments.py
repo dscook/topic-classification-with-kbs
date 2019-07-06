@@ -48,7 +48,9 @@ test_x = x[split_point:]
 test_y = y[split_point:]
 
 np.random.seed(42)
-training_data_dict = convert_array_to_dictionary(train_x, train_y, int_to_topic_code)
+training_data_dict = convert_array_to_dictionary(np.array(train_x, dtype=np.float32),
+                                                 np.array(train_y),
+                                                 int_to_topic_code)
 
 
 ###
