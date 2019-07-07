@@ -19,12 +19,22 @@ from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, looku
 ###
 ### VARIABLES (update as necessary)
 ###
-train_data_path = '../uvigomed/data/uvigomed_lemmatized_train.csv'
-test_data_path = '../uvigomed/data/uvigomed_lemmatized_test.csv'
+
+# Path to the knowledge base preprocessed data (RCV1 or UVigoMED)
+data_path = '../uvigomed/data/uvigomed_train.csv'
+
+# Additional data path.  Only required for UVigoMED (point to the test set), set to None for RCV1
+additional_data_path = '../uvigomed/data/uvigomed_test.csv'
+
+# Path where the embeddings should be written to
 phrase_embeddings_path = '../uvigomed/embeddings/phrase_embeddings.avro'
+
+# Path where topic to topic id mapping should be written to
+# Enables a human understandable label for each dimension
 topic_id_mapping_path = '../uvigomed/embeddings/phrase_topic_id_mapping.csv'
 
 # The depth of the topic tree to get probabilities for, set to 'all' to retrieve all topic probabilities
+# The topic probabilities form the embedding
 topic_depth_to_retrieve = 1 
 
 
@@ -32,25 +42,18 @@ topic_depth_to_retrieve = 1
 ### LOAD THE DATA
 ###
 
-train_x, train_y = load_preprocessed_data(train_data_path)
+train_x, train_y = load_preprocessed_data(data_path)
 
 x = None
 y = None
 
-if test_data_path:
-    test_x, test_y = load_preprocessed_data(test_data_path)
+if additional_data_path is not None:
+    test_x, test_y = load_preprocessed_data(additional_data_path)
     x = train_x + test_x
     y = train_y + test_y
 else:
     x = train_x
     y = train_y
-
-x = np.array(x)
-y = np.array(y)
-
-train_x = x
-train_y = y
-
 
 ###
 ### GENERATE THE WORD EMBEDDINGS
@@ -79,12 +82,12 @@ with open(topic_id_mapping_path, 'w', newline='', buffering=1) as csv_mapping_fi
     mappings_writer = csv.writer(csv_mapping_file)
 
     # Loop through training set generating word embedding for each phrase
-    for document in train_x:
+    for document in x:
         
         print(total_processed)
         
         # Print current progress
-        percent_complete = int(100 * total_processed / len(train_x))
+        percent_complete = int(100 * total_processed / len(x))
         if percent_complete != last_percent_complete:
             print('Percent complete: {}%'.format(percent_complete))
             last_percent_complete = percent_complete
