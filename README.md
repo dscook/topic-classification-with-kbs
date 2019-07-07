@@ -97,7 +97,8 @@ extract.
 ### Generating Preprocessed Data
 
 1. Update the `rcv1/pre_process_data.py` file so the `preprocess_for_knowledge_base_classifier` flag is `True`
-or `False` depending on what version the preprocessed data you are generating.
+or `False` depending if you are generating preprocessed data for the knowledge base classifier or baseline
+classifiers.
 1. Generate the preprocessed data, `cd rcv1` then `python pre_process_data.py`.
 
 ### Generating the Document Embeddings
