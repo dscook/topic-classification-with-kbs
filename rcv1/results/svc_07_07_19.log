@@ -1,0 +1,341 @@
+Running Support Vector Classifier experiments
+Prior class probabilities are ...
+Topic Code: GCRIM, Probability: 0.3294559099437148
+Topic Code: E11, Probability: 0.09139167862266857
+Topic Code: GVOTE, Probability: 0.11830923739101644
+Topic Code: GHEA, Probability: 0.054044807416399956
+Topic Code: GREL, Probability: 0.02504138616046794
+Topic Code: GSPO, Probability: 0.38175698046573225
+
+Size of test set is 18122
+
+Number of words in vocabulary: 1192
+--------- PROPORTIONAL TRAINING SET SIZE 12 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.574957  0.978654  0.724356      6137
+  ECONOMIC PERFORMANCE   0.692308  0.626651  0.657845      1666
+             ELECTIONS   0.491329  0.039869  0.073753      2132
+                HEALTH   0.725490  0.113497  0.196286       978
+              RELIGION   0.000000  0.000000  0.000000       425
+                SPORTS   0.939918  0.809404  0.869792      6784
+
+              accuracy                       0.702847     18122
+             macro avg   0.570667  0.428012  0.420339     18122
+          weighted avg   0.707170  0.702847  0.650658     18122
+
+[[6006   47   10   12    0   62]
+ [ 508 1044   62    1    0   51]
+ [1548  293   85    6    0  200]
+ [ 780   48   15  111    0   24]
+ [ 382   12    1   16    0   14]
+ [1222   64    0    7    0 5491]]
+
+Number of words in vocabulary: 3422
+--------- PROPORTIONAL TRAINING SET SIZE 60 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.705700  0.966270  0.815681      6137
+  ECONOMIC PERFORMANCE   0.849774  0.791116  0.819397      1666
+             ELECTIONS   0.986992  0.284709  0.441937      2132
+                HEALTH   0.918803  0.219836  0.354785       978
+              RELIGION   0.920000  0.054118  0.102222       425
+                SPORTS   0.890047  0.956958  0.922290      6784
+
+              accuracy                       0.804823     18122
+             macro avg   0.878553  0.545501  0.576052     18122
+          weighted avg   0.837575  0.804823  0.770356     18122
+
+[[5930   39    2   13    1  152]
+ [ 252 1318    1    1    0   94]
+ [1027  137  607    1    1  359]
+ [ 586   53    3  215    0  121]
+ [ 316    4    2    4   23   76]
+ [ 292    0    0    0    0 6492]]
+
+Number of words in vocabulary: 5529
+--------- PROPORTIONAL TRAINING SET SIZE 120 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.767656  0.965292  0.855204      6137
+  ECONOMIC PERFORMANCE   0.863858  0.849340  0.856538      1666
+             ELECTIONS   0.980475  0.541745  0.697885      2132
+                HEALTH   0.894545  0.251534  0.392658       978
+              RELIGION   0.824176  0.176471  0.290698       425
+                SPORTS   0.909733  0.968603  0.938245      6784
+
+              accuracy                       0.849023     18122
+             macro avg   0.873407  0.625497  0.671871     18122
+          weighted avg   0.862898  0.849023  0.829704     18122
+
+[[5924   34   14   27    6  132]
+ [ 126 1415    3    1    2  119]
+ [ 633  123 1155    0    8  213]
+ [ 549   61    2  246    0  120]
+ [ 274    3    4    1   75   68]
+ [ 211    2    0    0    0 6571]]
+
+Number of words in vocabulary: 13479
+--------- PROPORTIONAL TRAINING SET SIZE 600 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.888388  0.963663  0.924496      6137
+  ECONOMIC PERFORMANCE   0.927071  0.953782  0.940237      1666
+             ELECTIONS   0.921785  0.901032  0.911290      2132
+                HEALTH   0.948837  0.625767  0.754159       978
+              RELIGION   0.971014  0.472941  0.636076       425
+                SPORTS   0.970946  0.975383  0.973160      6784
+
+              accuracy                       0.930030     18122
+             macro avg   0.938007  0.815428  0.856570     18122
+          weighted avg   0.931979  0.930030  0.926650     18122
+
+[[5914   44   87   18    5   69]
+ [  37 1589   24    3    0   13]
+ [ 140   46 1921    1    0   24]
+ [ 253   29   23  612    1   60]
+ [ 160    3   24    5  201   32]
+ [ 153    3    5    6    0 6617]]
+
+Number of words in vocabulary: 19867
+--------- PROPORTIONAL TRAINING SET SIZE 1200 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.920531  0.960730  0.940201      6137
+  ECONOMIC PERFORMANCE   0.930287  0.953181  0.941595      1666
+             ELECTIONS   0.931182  0.920263  0.925690      2132
+                HEALTH   0.919154  0.755624  0.829405       978
+              RELIGION   0.921053  0.576471  0.709117       425
+                SPORTS   0.975267  0.982311  0.978777      6784
+
+              accuracy                       0.943273     18122
+             macro avg   0.932912  0.858097  0.887464     18122
+          weighted avg   0.943109  0.943273  0.941664     18122
+
+[[5896   47   84   37   10   63]
+ [  26 1588   25    7    2   18]
+ [  97   46 1962    4    6   17]
+ [ 152   19   19  739    2   47]
+ [ 131    4   12    9  245   24]
+ [ 103    3    5    8    1 6664]]
+
+Number of words in vocabulary: 43783
+--------- PROPORTIONAL TRAINING SET SIZE 6000 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.956333  0.967085  0.961679      6137
+  ECONOMIC PERFORMANCE   0.949941  0.968187  0.958977      1666
+             ELECTIONS   0.947443  0.946998  0.947220      2132
+                HEALTH   0.921136  0.895706  0.908243       978
+              RELIGION   0.910082  0.785882  0.843434       425
+                SPORTS   0.988772  0.986586  0.987678      6784
+
+              accuracy                       0.964022     18122
+             macro avg   0.945618  0.925074  0.934539     18122
+          weighted avg   0.963859  0.964022  0.963805     18122
+
+[[5935   29   68   46   20   39]
+ [  21 1613   21    5    0    6]
+ [  57   36 2019    7    7    6]
+ [  63   13    7  876    3   16]
+ [  61    4    9    8  334    9]
+ [  69    3    7    9    3 6693]]
+
+Number of words in vocabulary: 59851
+--------- PROPORTIONAL TRAINING SET SIZE 12000 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.962081  0.967411  0.964738      6137
+  ECONOMIC PERFORMANCE   0.959099  0.971188  0.965106      1666
+             ELECTIONS   0.950375  0.952158  0.951265      2132
+                HEALTH   0.931866  0.908998  0.920290       978
+              RELIGION   0.903061  0.832941  0.866585       425
+                SPORTS   0.989531  0.989239  0.989385      6784
+
+              accuracy                       0.967829     18122
+             macro avg   0.949335  0.936989  0.942895     18122
+          weighted avg   0.967691  0.967829  0.967713     18122
+
+[[5937   25   63   44   23   45]
+ [  14 1618   26    4    1    3]
+ [  48   29 2030    9   10    6]
+ [  55   12    5  889    3   14]
+ [  57    1    5    5  354    3]
+ [  60    2    7    3    1 6711]]
+
+Number of words in vocabulary: 120745
+--------- PROPORTIONAL TRAINING SET SIZE 60000 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.974694  0.972788  0.973740      6137
+  ECONOMIC PERFORMANCE   0.971856  0.974190  0.973022      1666
+             ELECTIONS   0.957209  0.965291  0.961233      2132
+                HEALTH   0.947262  0.955010  0.951120       978
+              RELIGION   0.923445  0.908235  0.915777       425
+                SPORTS   0.992175  0.990566  0.991370      6784
+
+              accuracy                       0.976217     18122
+             macro avg   0.961107  0.961013  0.961044     18122
+          weighted avg   0.976238  0.976217  0.976222     18122
+
+[[5970   16   54   33   23   41]
+ [  13 1623   24    4    1    1]
+ [  39   20 2058    7    7    1]
+ [  22    7    6  934    0    9]
+ [  29    4    2    3  386    1]
+ [  52    0    6    5    1 6720]]
+
+Number of words in vocabulary: 130560
+--------- PROPORTIONAL TRAINING SET SIZE 72488 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.973603  0.973603  0.973603      6137
+  ECONOMIC PERFORMANCE   0.971223  0.972389  0.971806      1666
+             ELECTIONS   0.956198  0.962477  0.959327      2132
+                HEALTH   0.948012  0.950920  0.949464       978
+              RELIGION   0.927885  0.908235  0.917955       425
+                SPORTS   0.992028  0.990566  0.991297      6784
+
+              accuracy                       0.975775     18122
+             macro avg   0.961491  0.959698  0.960575     18122
+          weighted avg   0.975781  0.975775  0.975774     18122
+
+[[5975   18   50   32   21   41]
+ [  14 1620   26    5    0    1]
+ [  43   21 2052    7    7    2]
+ [  24    6    8  930    1    9]
+ [  30    2    3    3  386    1]
+ [  51    1    7    4    1 6720]]
+
+Number of words in vocabulary: 1250
+--------- BALANCED TRAINING SET SIZE 12 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.883825  0.448753  0.595266      6137
+  ECONOMIC PERFORMANCE   0.402706  0.464586  0.431438      1666
+             ELECTIONS   0.506887  0.604128  0.551252      2132
+                HEALTH   0.203166  0.708589  0.315789       978
+              RELIGION   0.112565  0.404706  0.176139       425
+                SPORTS   0.967345  0.799086  0.875202      6784
+
+              accuracy                       0.612626     18122
+             macro avg   0.512749  0.571641  0.490848     18122
+          weighted avg   0.771694  0.612626  0.654909     18122
+
+[[2754  339  687 1473  786   98]
+ [  13  774  302  524   38   15]
+ [  43  463 1288  100  180   58]
+ [  34   59  116  693   72    4]
+ [  15   28   38  164  172    8]
+ [ 257  259  110  457  280 5421]]
+
+Number of words in vocabulary: 3392
+--------- BALANCED TRAINING SET SIZE 60 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.886952  0.854000  0.870164      6137
+  ECONOMIC PERFORMANCE   0.826822  0.939976  0.879775      1666
+             ELECTIONS   0.853321  0.837711  0.845444      2132
+                HEALTH   0.675258  0.669734  0.672485       978
+              RELIGION   0.550107  0.607059  0.577181       425
+                SPORTS   0.950199  0.950619  0.950409      6784
+
+              accuracy                       0.880422     18122
+             macro avg   0.790443  0.809850  0.799243     18122
+          weighted avg   0.881820  0.880422  0.880640     18122
+
+[[5241  121  218  239  106  212]
+ [  39 1566   25    5    9   22]
+ [ 129  102 1786   13   53   49]
+ [ 159   79   34  655   18   33]
+ [ 111    3   11   20  258   22]
+ [ 230   23   19   38   25 6449]]
+
+Number of words in vocabulary: 5090
+--------- BALANCED TRAINING SET SIZE 120 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.913767  0.868503  0.890560      6137
+  ECONOMIC PERFORMANCE   0.887892  0.950780  0.918261      1666
+             ELECTIONS   0.881567  0.897280  0.889354      2132
+                HEALTH   0.680713  0.858896  0.759494       978
+              RELIGION   0.649160  0.727059  0.685905       425
+                SPORTS   0.969358  0.946639  0.957864      6784
+
+              accuracy                       0.904867     18122
+             macro avg   0.830409  0.874859  0.850239     18122
+          weighted avg   0.909628  0.904867  0.906287     18122
+
+[[5330   97  178  289  104  139]
+ [  27 1584   22   11    8   14]
+ [ 101   67 1913   16   15   20]
+ [  64   21   28  840   11   14]
+ [  71    4   13   12  309   16]
+ [ 240   11   16   66   29 6422]]
+
+Number of words in vocabulary: 13118
+--------- BALANCED TRAINING SET SIZE 600 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.954674  0.878605  0.915062      6137
+  ECONOMIC PERFORMANCE   0.920277  0.956182  0.937886      1666
+             ELECTIONS   0.916549  0.916979  0.916764      2132
+                HEALTH   0.694850  0.924335  0.793330       978
+              RELIGION   0.570783  0.891765  0.696051       425
+                SPORTS   0.987359  0.967129  0.977139      6784
+
+              accuracy                       0.926167     18122
+             macro avg   0.840749  0.922499  0.872706     18122
+          weighted avg   0.936237  0.926167  0.928893     18122
+
+[[5392   65  130  301  188   61]
+ [  15 1593   28   10    9   11]
+ [  63   50 1955   31   25    8]
+ [  29   14    9  904   18    4]
+ [  29    3    6    8  379    0]
+ [ 120    6    5   47   45 6561]]
+
+Number of words in vocabulary: 19257
+--------- BALANCED TRAINING SET SIZE 1200 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.962597  0.889034  0.924354      6137
+  ECONOMIC PERFORMANCE   0.920933  0.971789  0.945678      1666
+             ELECTIONS   0.920628  0.935741  0.928123      2132
+                HEALTH   0.732327  0.942740  0.824318       978
+              RELIGION   0.611285  0.917647  0.733772       425
+                SPORTS   0.992310  0.970077  0.981067      6784
+
+              accuracy                       0.936045     18122
+             macro avg   0.856680  0.937838  0.889552     18122
+          weighted avg   0.944286  0.936045  0.938120     18122
+
+[[5456   71  132  255  182   41]
+ [  11 1619   18   12    4    2]
+ [  38   54 1995   15   29    1]
+ [  21   10    7  922   12    6]
+ [  22    1    4    7  390    1]
+ [ 120    3   11   48   21 6581]]
+
+Number of words in vocabulary: 42375
+--------- BALANCED TRAINING SET SIZE 6000 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.972497  0.927652  0.949545      6137
+  ECONOMIC PERFORMANCE   0.942609  0.975990  0.959009      1666
+             ELECTIONS   0.934592  0.951689  0.943063      2132
+                HEALTH   0.848816  0.952965  0.897881       978
+              RELIGION   0.712281  0.955294  0.816080       425
+                SPORTS   0.992542  0.980837  0.986655      6784
+
+              accuracy                       0.956848     18122
+             macro avg   0.900556  0.957405  0.925372     18122
+          weighted avg   0.960016  0.956848  0.957627     18122
+
+[[5693   48  110  133  117   36]
+ [   7 1626   18    5    7    3]
+ [  31   37 2029   10   21    4]
+ [  19    9    3  932    8    7]
+ [  13    1    1    4  406    0]
+ [  91    4   10   14   11 6654]]
+

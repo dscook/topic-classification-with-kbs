@@ -1,0 +1,356 @@
+Running Knowledge Base experiments
+Prior class probabilities are ...
+Topic Code: GCRIM, Probability: 0.3294559099437148
+Topic Code: E11, Probability: 0.09139167862266857
+Topic Code: GVOTE, Probability: 0.11830923739101644
+Topic Code: GHEA, Probability: 0.054044807416399956
+Topic Code: GREL, Probability: 0.02504138616046794
+Topic Code: GSPO, Probability: 0.38175698046573225
+
+Size of test set is 18122
+
+Dimensions of training set before zero feature filtering: (12, 313)
+Dimensions of training set after zero feature filtering: (12, 286)
+--------- PROPORTIONAL TRAINING SET SIZE 12 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.613506  0.978491  0.754160      6137
+  ECONOMIC PERFORMANCE   0.614536  0.568427  0.590583      1666
+             ELECTIONS   0.000000  0.000000  0.000000      2132
+                HEALTH   0.928571  0.039877  0.076471       978
+              RELIGION   0.000000  0.000000  0.000000       425
+                SPORTS   0.947563  0.942954  0.945253      6784
+
+              accuracy                       0.738771     18122
+             macro avg   0.517363  0.421625  0.394411     18122
+          weighted avg   0.669094  0.738771  0.667673     18122
+
+[[6005   63    0    0    0   69]
+ [ 542  947    0    0    0  177]
+ [1912  180    0    1    0   39]
+ [ 592  290    0   39    0   57]
+ [ 367   44    0    2    0   12]
+ [ 370   17    0    0    0 6397]]
+
+Dimensions of training set before zero feature filtering: (60, 313)
+Dimensions of training set after zero feature filtering: (60, 298)
+--------- PROPORTIONAL TRAINING SET SIZE 60 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.642202  0.992342  0.779770      6137
+  ECONOMIC PERFORMANCE   0.969731  0.519208  0.676310      1666
+             ELECTIONS   0.991342  0.107411  0.193821      2132
+                HEALTH   0.899160  0.547035  0.680229       978
+              RELIGION   1.000000  0.004706  0.009368       425
+                SPORTS   0.952305  0.971256  0.961687      6784
+
+              accuracy                       0.789648     18122
+             macro avg   0.909123  0.523659  0.550197     18122
+          weighted avg   0.851734  0.789648  0.745985     18122
+
+[[6090    1    0   15    0   31]
+ [ 590  865    1    1    0  209]
+ [1819   23  229    1    0   60]
+ [ 429    2    0  535    0   12]
+ [ 368    0    1   36    2   18]
+ [ 187    1    0    7    0 6589]]
+
+Dimensions of training set before zero feature filtering: (120, 313)
+Dimensions of training set after zero feature filtering: (120, 299)
+--------- PROPORTIONAL TRAINING SET SIZE 120 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.704530  0.988431  0.822676      6137
+  ECONOMIC PERFORMANCE   0.984300  0.489196  0.653569      1666
+             ELECTIONS   0.981571  0.474672  0.639899      2132
+                HEALTH   0.901325  0.625767  0.738684       978
+              RELIGION   0.989796  0.228235  0.370937       425
+                SPORTS   0.963060  0.976120  0.969546      6784
+
+              accuracy                       0.840084     18122
+             macro avg   0.920764  0.630403  0.699218     18122
+          weighted avg   0.876935  0.840084  0.825480     18122
+
+[[6066    3    3   24    0   41]
+ [ 685  815    8    0    0  158]
+ [1082    5 1012    0    1   32]
+ [ 347    3    4  612    0   12]
+ [ 279    0    4   34   97   11]
+ [ 151    2    0    9    0 6622]]
+
+Dimensions of training set before zero feature filtering: (600, 313)
+Dimensions of training set after zero feature filtering: (600, 305)
+--------- PROPORTIONAL TRAINING SET SIZE 600 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.869856  0.974743  0.919318      6137
+  ECONOMIC PERFORMANCE   0.946286  0.856543  0.899181      1666
+             ELECTIONS   0.931188  0.882270  0.906069      2132
+                HEALTH   0.924855  0.654397  0.766467       978
+              RELIGION   0.938776  0.649412  0.767733       425
+                SPORTS   0.983361  0.975678  0.979504      6784
+
+              accuracy                       0.928430     18122
+             macro avg   0.932387  0.832174  0.873045     18122
+          weighted avg   0.931173  0.928430  0.926635     18122
+
+[[5982   26   57   26   13   33]
+ [ 133 1427   43    0    1   62]
+ [ 201   38 1881    1    2    9]
+ [ 305   13   17  640    0    3]
+ [ 112    0   15   17  276    5]
+ [ 144    4    7    8    2 6619]]
+
+Dimensions of training set before zero feature filtering: (1200, 313)
+Dimensions of training set after zero feature filtering: (1200, 306)
+--------- PROPORTIONAL TRAINING SET SIZE 1200 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.884821  0.968877  0.924944      6137
+  ECONOMIC PERFORMANCE   0.934437  0.881152  0.907013      1666
+             ELECTIONS   0.937282  0.883208  0.909442      2132
+                HEALTH   0.924731  0.703476  0.799071       978
+              RELIGION   0.888545  0.675294  0.767380       425
+                SPORTS   0.983124  0.978921  0.981018      6784
+
+              accuracy                       0.933286     18122
+             macro avg   0.925490  0.848488  0.881478     18122
+          weighted avg   0.934595  0.933286  0.931975     18122
+
+[[5946   35   63   26   26   41]
+ [ 110 1468   32    0    1   55]
+ [ 181   49 1883    1    8   10]
+ [ 262   12   12  688    0    4]
+ [ 101    0   16   17  287    4]
+ [ 120    7    3   12    1 6641]]
+
+Dimensions of training set before zero feature filtering: (6000, 313)
+Dimensions of training set after zero feature filtering: (6000, 307)
+--------- PROPORTIONAL TRAINING SET SIZE 6000 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.900091  0.968877  0.933218      6137
+  ECONOMIC PERFORMANCE   0.931818  0.910564  0.921069      1666
+             ELECTIONS   0.940535  0.890244  0.914699      2132
+                HEALTH   0.931931  0.769939  0.843225       978
+              RELIGION   0.917431  0.705882  0.797872       425
+                SPORTS   0.988567  0.981427  0.984984      6784
+
+              accuracy                       0.942059     18122
+             macro avg   0.935062  0.871156  0.899178     18122
+          weighted avg   0.943012  0.942059  0.941270     18122
+
+[[5946   36   65   39   15   36]
+ [  98 1517   26    0    1   24]
+ [ 158   57 1898    1    9    9]
+ [ 194   13   13  753    0    5]
+ [ 105    1   12    4  300    3]
+ [ 105    4    4   11    2 6658]]
+
+Dimensions of training set before zero feature filtering: (12000, 313)
+Dimensions of training set after zero feature filtering: (12000, 308)
+--------- PROPORTIONAL TRAINING SET SIZE 12000 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.906126  0.968877  0.936452      6137
+  ECONOMIC PERFORMANCE   0.945129  0.920168  0.932482      1666
+             ELECTIONS   0.938139  0.903377  0.920430      2132
+                HEALTH   0.929440  0.781186  0.848889       978
+              RELIGION   0.927052  0.717647  0.809019       425
+                SPORTS   0.990347  0.983048  0.986684      6784
+
+              accuracy                       0.945977     18122
+             macro avg   0.939372  0.879051  0.905659     18122
+          weighted avg   0.946755  0.945977  0.945292     18122
+
+[[5946   29   63   45   15   39]
+ [  83 1533   32    0    1   17]
+ [ 150   42 1926    2    8    4]
+ [ 189   12   11  764    0    2]
+ [  98    1   15    3  305    3]
+ [  96    5    6    8    0 6669]]
+
+Dimensions of training set before zero feature filtering: (60000, 313)
+Dimensions of training set after zero feature filtering: (60000, 311)
+--------- PROPORTIONAL TRAINING SET SIZE 60000 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.923950  0.968063  0.945492      6137
+  ECONOMIC PERFORMANCE   0.949297  0.932773  0.940963      1666
+             ELECTIONS   0.942113  0.916041  0.928894      2132
+                HEALTH   0.943807  0.841513  0.889730       978
+              RELIGION   0.902703  0.785882  0.840252       425
+                SPORTS   0.990356  0.983933  0.987134      6784
+
+              accuracy                       0.953537     18122
+             macro avg   0.942038  0.904701  0.922077     18122
+          weighted avg   0.953850  0.953537  0.953234     18122
+
+[[5941   30   57   39   23   47]
+ [  65 1554   36    1    1    9]
+ [ 125   38 1953    3    9    4]
+ [ 130    9   12  823    1    3]
+ [  78    0   10    1  334    2]
+ [  91    6    5    5    2 6675]]
+
+Dimensions of training set before zero feature filtering: (72488, 313)
+Dimensions of training set after zero feature filtering: (72488, 312)
+--------- PROPORTIONAL TRAINING SET SIZE 72488 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.924693  0.968388  0.946036      6137
+  ECONOMIC PERFORMANCE   0.951100  0.933974  0.942459      1666
+             ELECTIONS   0.942843  0.920732  0.931656      2132
+                HEALTH   0.945539  0.834356  0.886475       978
+              RELIGION   0.895722  0.788235  0.838548       425
+                SPORTS   0.990801  0.984375  0.987578      6784
+
+              accuracy                       0.954144     18122
+             macro avg   0.941783  0.905010  0.922125     18122
+          weighted avg   0.954449  0.954144  0.953832     18122
+
+[[5943   28   60   38   23   45]
+ [  69 1556   33    0    1    7]
+ [ 115   37 1963    3   11    3]
+ [ 134   11   10  816    2    5]
+ [  76    0   11    1  335    2]
+ [  90    4    5    5    2 6678]]
+
+Dimensions of training set before zero feature filtering: (12, 313)
+Dimensions of training set after zero feature filtering: (12, 288)
+--------- BALANCED TRAINING SET SIZE 12 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.883467  0.592961  0.709633      6137
+  ECONOMIC PERFORMANCE   0.522071  0.738295  0.611636      1666
+             ELECTIONS   0.589009  0.588180  0.588594      2132
+                HEALTH   0.474143  0.778119  0.589237       978
+              RELIGION   0.202040  0.745882  0.317954       425
+                SPORTS   0.962957  0.900501  0.930683      6784
+
+              accuracy                       0.734466     18122
+             macro avg   0.605615  0.723990  0.624623     18122
+          weighted avg   0.807287  0.734466  0.753451     18122
+
+[[3639  576  572  613  689   48]
+ [  51 1230  114   26   83  162]
+ [ 191  333 1254   37  307   10]
+ [  48   96   42  761   17   14]
+ [   8   30   11   58  317    1]
+ [ 182   91  136  110  156 6109]]
+
+Dimensions of training set before zero feature filtering: (60, 313)
+Dimensions of training set after zero feature filtering: (60, 298)
+--------- BALANCED TRAINING SET SIZE 60 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.969153  0.783282  0.866360      6137
+  ECONOMIC PERFORMANCE   0.801661  0.926771  0.859688      1666
+             ELECTIONS   0.796576  0.938555  0.861757      2132
+                HEALTH   0.606124  0.890593  0.721325       978
+              RELIGION   0.549337  0.877647  0.675725       425
+                SPORTS   0.990920  0.965212  0.977897      6784
+
+              accuracy                       0.890851     18122
+             macro avg   0.785629  0.897010  0.827125     18122
+          weighted avg   0.912163  0.890851  0.894661     18122
+
+[[4807  259  370  441  224   36]
+ [  16 1544   61   10   15   20]
+ [  31   50 2001    7   42    1]
+ [  28   33   38  871    6    2]
+ [  10    2   13   26  373    1]
+ [  68   38   29   82   19 6548]]
+
+Dimensions of training set before zero feature filtering: (120, 313)
+Dimensions of training set after zero feature filtering: (120, 299)
+--------- BALANCED TRAINING SET SIZE 120 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.962159  0.816197  0.883188      6137
+  ECONOMIC PERFORMANCE   0.841786  0.916567  0.877586      1666
+             ELECTIONS   0.866016  0.915572  0.890105      2132
+                HEALTH   0.618690  0.927403  0.742226       978
+              RELIGION   0.547307  0.884706  0.676259       425
+                SPORTS   0.986408  0.973467  0.979895      6784
+
+              accuracy                       0.903598     18122
+             macro avg   0.803728  0.905652  0.841543     18122
+          weighted avg   0.920594  0.903598  0.907229     18122
+
+[[5009  170  219  481  212   46]
+ [  21 1527   42   11   29   36]
+ [  48   67 1952    8   53    4]
+ [  30   19   15  907    4    3]
+ [  18    0   12   17  376    2]
+ [  80   31   14   42   13 6604]]
+
+Dimensions of training set before zero feature filtering: (600, 313)
+Dimensions of training set after zero feature filtering: (600, 306)
+--------- BALANCED TRAINING SET SIZE 600 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.963278  0.867688  0.912988      6137
+  ECONOMIC PERFORMANCE   0.857376  0.945378  0.899229      1666
+             ELECTIONS   0.877551  0.927767  0.901961      2132
+                HEALTH   0.729384  0.931493  0.818141       978
+              RELIGION   0.642496  0.896471  0.748527       425
+                SPORTS   0.989941  0.971993  0.980885      6784
+
+              accuracy                       0.925063     18122
+             macro avg   0.843338  0.923465  0.876955     18122
+          weighted avg   0.933292  0.925063  0.926867     18122
+
+[[5325  143  197  281  155   36]
+ [  17 1575   33    7    8   26]
+ [  42   69 1978    9   33    1]
+ [  30   14   18  911    3    2]
+ [  20    3   15    4  381    2]
+ [  94   33   13   37   13 6594]]
+
+Dimensions of training set before zero feature filtering: (1200, 313)
+Dimensions of training set after zero feature filtering: (1200, 306)
+--------- BALANCED TRAINING SET SIZE 1200 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.958587  0.871273  0.912847      6137
+  ECONOMIC PERFORMANCE   0.864984  0.945978  0.903670      1666
+             ELECTIONS   0.887741  0.927298  0.907089      2132
+                HEALTH   0.765152  0.929448  0.839335       978
+              RELIGION   0.596651  0.922353  0.724584       425
+                SPORTS   0.991429  0.971846  0.981539      6784
+
+              accuracy                       0.926719     18122
+             macro avg   0.844091  0.928033  0.878177     18122
+          weighted avg   0.935014  0.926719  0.928658     18122
+
+[[5347  138  177  229  209   37]
+ [  27 1576   35    5    7   16]
+ [  52   67 1977    6   29    1]
+ [  29   16   15  909    7    2]
+ [  18    0   10    4  392    1]
+ [ 105   25   13   35   13 6593]]
+
+Dimensions of training set before zero feature filtering: (6000, 313)
+Dimensions of training set after zero feature filtering: (6000, 307)
+--------- BALANCED TRAINING SET SIZE 6000 ---------
+                        precision    recall  f1-score   support
+
+CRIME, LAW ENFORCEMENT   0.962135  0.890174  0.924757      6137
+  ECONOMIC PERFORMANCE   0.879691  0.956783  0.916619      1666
+             ELECTIONS   0.898367  0.928705  0.913284      2132
+                HEALTH   0.797733  0.935583  0.861176       978
+              RELIGION   0.633758  0.936471  0.755935       425
+                SPORTS   0.993687  0.974499  0.983999      6784
+
+              accuracy                       0.935934     18122
+             macro avg   0.860895  0.937036  0.892628     18122
+          weighted avg   0.942291  0.935934  0.937446     18122
+
+[[5463  113  162  189  177   33]
+ [  25 1594   33    4    6    4]
+ [  49   64 1980    7   30    2]
+ [  31   15   10  915    5    2]
+ [  17    0    7    2  398    1]
+ [  93   26   12   30   12 6611]]
+

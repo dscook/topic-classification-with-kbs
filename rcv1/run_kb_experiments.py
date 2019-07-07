@@ -18,7 +18,7 @@ from load_embeddings import load_document_embeddings
 ###
 ### VARIABLES (update as necessary)
 ###
-document_embeddings_path = 'embeddings/document_embeddings_depth_2.avro'
+document_embeddings_path = 'embeddings/document_embeddings_depth_0.avro'
 
 
 ###
