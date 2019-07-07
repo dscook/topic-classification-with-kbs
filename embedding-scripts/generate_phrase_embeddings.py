@@ -6,7 +6,6 @@ import sys
 sys.path.append('../common/')
 sys.path.append('../kb-classifier/')
 
-import numpy as np
 import csv
 import avro.schema
 from avro.datafile import DataFileWriter
