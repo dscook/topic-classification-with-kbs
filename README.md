@@ -105,8 +105,9 @@ classifiers.
 
 Generating the document embeddings is a prerequisite of running the knowledge base classifier experiments.
 
-1. Ensure Apache Jena Fuseki and the HTTP REST Server, configured for RCV1, are both still running.
+1. Ensure Apache Jena Fuseki is still running.
 1. Ensure the RCV1 data has been preprocessed for the knowledge base classifier.
+1. Edit `kb-classifier/kb_common.py` so that `dataset = 'rcv1_wiki'`.
 1. Edit `embedding-scripts/generate_document_embeddings.py` so the configurable variables at the top of the file
 are correct.  Comments are provided to assist you.
 1. Generate the document embeddings, this can take several hours: `cd embedding-scripts` followed by
@@ -146,8 +147,9 @@ The same preprocessed data is used for both the baseline classifiers and the kno
 
 Generating the document embeddings is a prerequisite of running the knowledge base classifier experiments.
 
-1. Ensure Apache Jena Fuseki and the HTTP REST Server, configured for UVigoMED, are both still running.
+1. Ensure Apache Jena Fuseki is still running.
 1. Ensure the UVigoMED data has been preprocessed for the knowledge base classifier.
+1. Edit `kb-classifier/kb_common.py` so that `dataset = 'uvigomed_mesh'`.
 1. Edit `embedding-scripts/generate_document_embeddings.py` so the configurable variables at the top of the file
 are correct.  Comments are provided to assist you.
 1. Generate the document embeddings, this can take several hours: `cd embedding-scripts` followed by
