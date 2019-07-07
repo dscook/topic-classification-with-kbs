@@ -19,20 +19,34 @@ from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, looku
 ###
 
 # Path to the knowledge base preprocessed data (RCV1 or UVigoMED)
-data_path = '../rcv1/data/rcv1_kb.csv'
+data_path = '../uvigomed/data/uvigomed_train.csv'
+
+# Additional data path.  Only required for UVigoMED (point to the test set), set to None for RCV1
+additional_data_path = '../uvigomed/data/uvigomed_test.csv'
 
 # Path where the embeddings should be written to
-document_embeddings_path = '../rcv1/embeddings/document_embeddings_depth_2.avro'
+document_embeddings_path = '../uvigomed/embeddings/document_embeddings_depth_all.avro'
 
 # The depth of the topic tree to get probabilities for, set to 'all' to retrieve all topic probabilities
 # The topic probabilities form the embedding
-topic_depth_to_retrieve = 2         
+topic_depth_to_retrieve = 'all'
 
 ###
 ### LOAD THE DATA
 ###
 
-x, y = load_preprocessed_data(data_path)
+train_x, train_y = load_preprocessed_data(data_path)
+
+x = None
+y = None
+
+if additional_data_path is not None:
+    test_x, test_y = load_preprocessed_data(additional_data_path)
+    x = train_x + test_x
+    y = train_y + test_y
+else:
+    x = train_x
+    y = train_y
 
 ###
 ### GENERATE THE SENTENCE EMBEDDINGS
