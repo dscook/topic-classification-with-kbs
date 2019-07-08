@@ -20,7 +20,7 @@ document_embeddings_path = 'embeddings/document_embeddings_depth_all.avro'
 ### CODE
 ###
 
-def run_kb_classifier(train_x, train_y, test_x, class_priors, balanced):
+def run_kb_classifier(train_x, train_y, test_x):
     classifier = RandomForestClassifier(n_estimators=200, random_state=42, class_weight='balanced')
     
     # Obtain non zero dimensions for this training set size, i.e. some topics will not be present

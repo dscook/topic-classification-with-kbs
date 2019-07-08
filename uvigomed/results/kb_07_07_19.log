@@ -1,0 +1,482 @@
+Running Knowledge Base experiments
+Dimensions of training set before zero feature filtering: (5, 37658)
+Dimensions of training set after zero feature filtering: (5, 289)
+--------- TRAINING SET SIZE 5 ---------
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.000000  0.000000  0.000000      1069
+                                               Virus Diseases   0.000000  0.000000  0.000000        91
+                                           Parasitic Diseases   0.000000  0.000000  0.000000       328
+                                                    Neoplasms   0.050288  1.000000  0.095760       533
+                                     Musculoskeletal Diseases   0.000000  0.000000  0.000000        56
+                                    Digestive System Diseases   0.000000  0.000000  0.000000      1021
+                                      Stomatognathic Diseases   0.000000  0.000000  0.000000       388
+                                   Respiratory Tract Diseases   0.000000  0.000000  0.000000       286
+                                Otorhinolaryngologic Diseases   0.000000  0.000000  0.000000       243
+                                      Nervous System Diseases   0.000000  0.000000  0.000000       104
+                                                 Eye Diseases   0.000000  0.000000  0.000000       355
+                                     Male Urogenital Diseases   0.000000  0.000000  0.000000       818
+       Female Urogenital Diseases and Pregnancy Complications   0.000000  0.000000  0.000000       107
+                                      Cardiovascular Diseases   0.000000  0.000000  0.000000       165
+                                 Hemic and Lymphatic Diseases   0.000000  0.000000  0.000000       634
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.000000  0.000000  0.000000       745
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.000000  0.000000  0.000000       173
+                                    Endocrine System Diseases   0.000000  0.000000  0.000000       716
+                                       Immune System Diseases   0.000000  0.000000  0.000000        34
+                            Disorders of Environmental Origin   0.000000  0.000000  0.000000         5
+                                              Animal Diseases   0.000000  0.000000  0.000000       880
+               Pathological Conditions and Signs and Symptoms   0.000000  0.000000  0.000000       275
+                                        Occupational Diseases   0.000000  0.000000  0.000000        56
+                                 Chemically-Induced Disorders   0.000000  0.000000  0.000000       504
+                                          Wounds and Injuries   0.000000  0.000000  0.000000       980
+
+                                                     accuracy                       0.050288     10599
+                                                    macro avg   0.001934  0.038462  0.003683     10599
+                                                 weighted avg   0.002529  0.050288  0.004816     10599
+
+
+Dimensions of training set before zero feature filtering: (10, 37658)
+Dimensions of training set after zero feature filtering: (10, 556)
+--------- TRAINING SET SIZE 10 ---------
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.000000  0.000000  0.000000      1069
+                                               Virus Diseases   0.000000  0.000000  0.000000        91
+                                           Parasitic Diseases   0.000000  0.000000  0.000000       328
+                                                    Neoplasms   0.051514  0.833021  0.097028       533
+                                     Musculoskeletal Diseases   0.000000  0.000000  0.000000        56
+                                    Digestive System Diseases   0.115152  0.223310  0.151949      1021
+                                      Stomatognathic Diseases   0.000000  0.000000  0.000000       388
+                                   Respiratory Tract Diseases   0.000000  0.000000  0.000000       286
+                                Otorhinolaryngologic Diseases   0.000000  0.000000  0.000000       243
+                                      Nervous System Diseases   0.000000  0.000000  0.000000       104
+                                                 Eye Diseases   0.000000  0.000000  0.000000       355
+                                     Male Urogenital Diseases   0.000000  0.000000  0.000000       818
+       Female Urogenital Diseases and Pregnancy Complications   0.000000  0.000000  0.000000       107
+                                      Cardiovascular Diseases   0.000000  0.000000  0.000000       165
+                                 Hemic and Lymphatic Diseases   0.000000  0.000000  0.000000       634
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.000000  0.000000  0.000000       745
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.000000  0.000000  0.000000       173
+                                    Endocrine System Diseases   0.000000  0.000000  0.000000       716
+                                       Immune System Diseases   0.000000  0.000000  0.000000        34
+                            Disorders of Environmental Origin   0.000000  0.000000  0.000000         5
+                                              Animal Diseases   0.000000  0.000000  0.000000       880
+               Pathological Conditions and Signs and Symptoms   0.000000  0.000000  0.000000       275
+                                        Occupational Diseases   0.000000  0.000000  0.000000        56
+                                 Chemically-Induced Disorders   0.000000  0.000000  0.000000       504
+                                          Wounds and Injuries   0.000000  0.000000  0.000000       980
+
+                                                     accuracy                       0.063402     10599
+                                                    macro avg   0.006410  0.040628  0.009576     10599
+                                                 weighted avg   0.013683  0.063402  0.019517     10599
+
+
+Dimensions of training set before zero feature filtering: (20, 37658)
+Dimensions of training set after zero feature filtering: (20, 983)
+--------- TRAINING SET SIZE 20 ---------
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.000000  0.000000  0.000000      1069
+                                               Virus Diseases   0.000000  0.000000  0.000000        91
+                                           Parasitic Diseases   0.857143  0.073171  0.134831       328
+                                                    Neoplasms   0.075714  0.497186  0.131416       533
+                                     Musculoskeletal Diseases   0.000000  0.000000  0.000000        56
+                                    Digestive System Diseases   0.101603  0.682664  0.176881      1021
+                                      Stomatognathic Diseases   0.000000  0.000000  0.000000       388
+                                   Respiratory Tract Diseases   0.016667  0.003497  0.005780       286
+                                Otorhinolaryngologic Diseases   0.000000  0.000000  0.000000       243
+                                      Nervous System Diseases   0.000000  0.000000  0.000000       104
+                                                 Eye Diseases   0.000000  0.000000  0.000000       355
+                                     Male Urogenital Diseases   0.000000  0.000000  0.000000       818
+       Female Urogenital Diseases and Pregnancy Complications   0.000000  0.000000  0.000000       107
+                                      Cardiovascular Diseases   0.000000  0.000000  0.000000       165
+                                 Hemic and Lymphatic Diseases   0.000000  0.000000  0.000000       634
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.000000  0.000000  0.000000       745
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.000000  0.000000  0.000000       173
+                                    Endocrine System Diseases   0.000000  0.000000  0.000000       716
+                                       Immune System Diseases   0.000000  0.000000  0.000000        34
+                            Disorders of Environmental Origin   0.000000  0.000000  0.000000         5
+                                              Animal Diseases   1.000000  0.009091  0.018018       880
+               Pathological Conditions and Signs and Symptoms   0.000000  0.000000  0.000000       275
+                                        Occupational Diseases   0.000000  0.000000  0.000000        56
+                                 Chemically-Induced Disorders   0.304348  0.083333  0.130841       504
+                                          Wounds and Injuries   0.500000  0.002041  0.004065       980
+
+                                                     accuracy                       0.098028     10599
+                                                    macro avg   0.109826  0.051961  0.023147     10599
+                                                 weighted avg   0.184300  0.098028  0.036070     10599
+
+
+Dimensions of training set before zero feature filtering: (50, 37658)
+Dimensions of training set after zero feature filtering: (50, 2027)
+--------- TRAINING SET SIZE 50 ---------
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.865385  0.042095  0.080285      1069
+                                               Virus Diseases   0.000000  0.000000  0.000000        91
+                                           Parasitic Diseases   0.245902  0.228659  0.236967       328
+                                                    Neoplasms   0.167070  0.258912  0.203091       533
+                                     Musculoskeletal Diseases   0.000000  0.000000  0.000000        56
+                                    Digestive System Diseases   0.117450  0.891283  0.207549      1021
+                                      Stomatognathic Diseases   0.388889  0.036082  0.066038       388
+                                   Respiratory Tract Diseases   0.015267  0.006993  0.009592       286
+                                Otorhinolaryngologic Diseases   0.000000  0.000000  0.000000       243
+                                      Nervous System Diseases   0.500000  0.009615  0.018868       104
+                                                 Eye Diseases   0.428571  0.160563  0.233607       355
+                                     Male Urogenital Diseases   0.423112  0.568460  0.485133       818
+       Female Urogenital Diseases and Pregnancy Complications   0.000000  0.000000  0.000000       107
+                                      Cardiovascular Diseases   0.070866  0.054545  0.061644       165
+                                 Hemic and Lymphatic Diseases   0.333333  0.001577  0.003140       634
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.090909  0.002685  0.005215       745
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.000000  0.000000  0.000000       173
+                                    Endocrine System Diseases   0.359551  0.044693  0.079503       716
+                                       Immune System Diseases   0.000000  0.000000  0.000000        34
+                            Disorders of Environmental Origin   0.000000  0.000000  0.000000         5
+                                              Animal Diseases   0.500000  0.004545  0.009009       880
+               Pathological Conditions and Signs and Symptoms   0.000000  0.000000  0.000000       275
+                                        Occupational Diseases   0.000000  0.000000  0.000000        56
+                                 Chemically-Induced Disorders   0.833333  0.009921  0.019608       504
+                                          Wounds and Injuries   0.000000  0.000000  0.000000       980
+
+                                                     accuracy                       0.166053     10599
+                                                    macro avg   0.205371  0.089255  0.066125     10599
+                                                 weighted avg   0.314031  0.166053  0.102329     10599
+
+
+Dimensions of training set before zero feature filtering: (100, 37658)
+Dimensions of training set after zero feature filtering: (100, 3250)
+--------- TRAINING SET SIZE 100 ---------
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.597113  0.425631  0.496996      1069
+                                               Virus Diseases   0.000000  0.000000  0.000000        91
+                                           Parasitic Diseases   0.782609  0.054878  0.102564       328
+                                                    Neoplasms   0.251485  0.238274  0.244701       533
+                                     Musculoskeletal Diseases   0.000000  0.000000  0.000000        56
+                                    Digestive System Diseases   0.127484  0.848188  0.221653      1021
+                                      Stomatognathic Diseases   0.250000  0.007732  0.015000       388
+                                   Respiratory Tract Diseases   0.000000  0.000000  0.000000       286
+                                Otorhinolaryngologic Diseases   1.000000  0.004115  0.008197       243
+                                      Nervous System Diseases   0.000000  0.000000  0.000000       104
+                                                 Eye Diseases   0.695502  0.566197  0.624224       355
+                                     Male Urogenital Diseases   0.789474  0.660147  0.719041       818
+       Female Urogenital Diseases and Pregnancy Complications   0.333333  0.009346  0.018182       107
+                                      Cardiovascular Diseases   0.145833  0.042424  0.065728       165
+                                 Hemic and Lymphatic Diseases   0.000000  0.000000  0.000000       634
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.303030  0.013423  0.025707       745
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.000000  0.000000  0.000000       173
+                                    Endocrine System Diseases   0.556391  0.103352  0.174323       716
+                                       Immune System Diseases   0.000000  0.000000  0.000000        34
+                            Disorders of Environmental Origin   0.000000  0.000000  0.000000         5
+                                              Animal Diseases   0.384051  0.476136  0.425165       880
+               Pathological Conditions and Signs and Symptoms   0.166667  0.003636  0.007117       275
+                                        Occupational Diseases   0.000000  0.000000  0.000000        56
+                                 Chemically-Induced Disorders   0.899160  0.212302  0.343499       504
+                                          Wounds and Injuries   0.690141  0.050000  0.093245       980
+
+                                                     accuracy                       0.271629     10599
+                                                    macro avg   0.306626  0.142915  0.137898     10599
+                                                 weighted avg   0.432973  0.271629  0.239326     10599
+
+
+Dimensions of training set before zero feature filtering: (200, 37658)
+Dimensions of training set after zero feature filtering: (200, 4891)
+--------- TRAINING SET SIZE 200 ---------
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.593706  0.794200  0.679472      1069
+                                               Virus Diseases   0.000000  0.000000  0.000000        91
+                                           Parasitic Diseases   0.893491  0.460366  0.607646       328
+                                                    Neoplasms   0.630952  0.198874  0.302425       533
+                                     Musculoskeletal Diseases   0.000000  0.000000  0.000000        56
+                                    Digestive System Diseases   0.199000  0.896180  0.325681      1021
+                                      Stomatognathic Diseases   0.449664  0.172680  0.249534       388
+                                   Respiratory Tract Diseases   0.396825  0.087413  0.143266       286
+                                Otorhinolaryngologic Diseases   0.176471  0.012346  0.023077       243
+                                      Nervous System Diseases   0.290323  0.086538  0.133333       104
+                                                 Eye Diseases   0.699346  0.602817  0.647504       355
+                                     Male Urogenital Diseases   0.710337  0.722494  0.716364       818
+       Female Urogenital Diseases and Pregnancy Complications   0.555556  0.046729  0.086207       107
+                                      Cardiovascular Diseases   0.200000  0.072727  0.106667       165
+                                 Hemic and Lymphatic Diseases   0.836590  0.742902  0.786967       634
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.517241  0.100671  0.168539       745
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.000000  0.000000  0.000000       173
+                                    Endocrine System Diseases   0.365079  0.256983  0.301639       716
+                                       Immune System Diseases   0.000000  0.000000  0.000000        34
+                            Disorders of Environmental Origin   0.000000  0.000000  0.000000         5
+                                              Animal Diseases   0.433754  0.312500  0.363276       880
+               Pathological Conditions and Signs and Symptoms   0.250000  0.003636  0.007168       275
+                                        Occupational Diseases   0.000000  0.000000  0.000000        56
+                                 Chemically-Induced Disorders   0.640244  0.416667  0.504808       504
+                                          Wounds and Injuries   0.485217  0.284694  0.358842       980
+
+                                                     accuracy                       0.419096     10599
+                                                    macro avg   0.358608  0.241208  0.250478     10599
+                                                 weighted avg   0.488330  0.419096  0.395088     10599
+
+
+Dimensions of training set before zero feature filtering: (500, 37658)
+Dimensions of training set after zero feature filtering: (500, 7794)
+--------- TRAINING SET SIZE 500 ---------
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.634684  0.835360  0.721325      1069
+                                               Virus Diseases   0.125000  0.043956  0.065041        91
+                                           Parasitic Diseases   0.907080  0.625000  0.740072       328
+                                                    Neoplasms   0.469945  0.645403  0.543874       533
+                                     Musculoskeletal Diseases   0.000000  0.000000  0.000000        56
+                                    Digestive System Diseases   0.583911  0.824682  0.683719      1021
+                                      Stomatognathic Diseases   0.789137  0.636598  0.704708       388
+                                   Respiratory Tract Diseases   0.618557  0.209790  0.313316       286
+                                Otorhinolaryngologic Diseases   0.965116  0.341564  0.504559       243
+                                      Nervous System Diseases   0.454545  0.048077  0.086957       104
+                                                 Eye Diseases   0.665138  0.816901  0.733249       355
+                                     Male Urogenital Diseases   0.788387  0.746944  0.767106       818
+       Female Urogenital Diseases and Pregnancy Complications   0.500000  0.056075  0.100840       107
+                                      Cardiovascular Diseases   0.328571  0.139394  0.195745       165
+                                 Hemic and Lymphatic Diseases   0.798691  0.769716  0.783936       634
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.744027  0.585235  0.655147       745
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.487500  0.225434  0.308300       173
+                                    Endocrine System Diseases   0.452852  0.543296  0.493968       716
+                                       Immune System Diseases   0.000000  0.000000  0.000000        34
+                            Disorders of Environmental Origin   0.000000  0.000000  0.000000         5
+                                              Animal Diseases   0.480908  0.529545  0.504056       880
+               Pathological Conditions and Signs and Symptoms   0.000000  0.000000  0.000000       275
+                                        Occupational Diseases   0.000000  0.000000  0.000000        56
+                                 Chemically-Induced Disorders   0.732394  0.515873  0.605355       504
+                                          Wounds and Injuries   0.495251  0.744898  0.594947       980
+
+                                                     accuracy                       0.605812     10599
+                                                    macro avg   0.462373  0.380144  0.388701     10599
+                                                 weighted avg   0.597658  0.605812  0.580916     10599
+
+
+Dimensions of training set before zero feature filtering: (1000, 37658)
+Dimensions of training set after zero feature filtering: (1000, 11226)
+--------- TRAINING SET SIZE 1000 ---------
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.723440  0.802619  0.760976      1069
+                                               Virus Diseases   0.131579  0.054945  0.077519        91
+                                           Parasitic Diseases   0.895765  0.838415  0.866142       328
+                                                    Neoplasms   0.501538  0.611632  0.551141       533
+                                     Musculoskeletal Diseases   0.000000  0.000000  0.000000        56
+                                    Digestive System Diseases   0.758325  0.780607  0.769305      1021
+                                      Stomatognathic Diseases   0.822086  0.690722  0.750700       388
+                                   Respiratory Tract Diseases   0.616034  0.510490  0.558317       286
+                                Otorhinolaryngologic Diseases   0.921053  0.432099  0.588235       243
+                                      Nervous System Diseases   0.537037  0.278846  0.367089       104
+                                                 Eye Diseases   0.705736  0.797183  0.748677       355
+                                     Male Urogenital Diseases   0.785982  0.767726  0.776747       818
+       Female Urogenital Diseases and Pregnancy Complications   0.380952  0.074766  0.125000       107
+                                      Cardiovascular Diseases   0.402913  0.503030  0.447439       165
+                                 Hemic and Lymphatic Diseases   0.799674  0.774448  0.786859       634
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.741935  0.586577  0.655172       745
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.543860  0.179191  0.269565       173
+                                    Endocrine System Diseases   0.545571  0.593575  0.568562       716
+                                       Immune System Diseases   0.000000  0.000000  0.000000        34
+                            Disorders of Environmental Origin   0.000000  0.000000  0.000000         5
+                                              Animal Diseases   0.457096  0.629545  0.529637       880
+               Pathological Conditions and Signs and Symptoms   0.176471  0.010909  0.020548       275
+                                        Occupational Diseases   0.000000  0.000000  0.000000        56
+                                 Chemically-Induced Disorders   0.724796  0.527778  0.610792       504
+                                          Wounds and Injuries   0.474490  0.759184  0.583987       980
+
+                                                     accuracy                       0.637985     10599
+                                                    macro avg   0.486397  0.430934  0.438939     10599
+                                                 weighted avg   0.634189  0.637985  0.622404     10599
+
+
+Dimensions of training set before zero feature filtering: (2000, 37658)
+Dimensions of training set after zero feature filtering: (2000, 15261)
+--------- TRAINING SET SIZE 2000 ---------
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.744570  0.801684  0.772072      1069
+                                               Virus Diseases   0.171429  0.065934  0.095238        91
+                                           Parasitic Diseases   0.890323  0.841463  0.865204       328
+                                                    Neoplasms   0.548387  0.701689  0.615638       533
+                                     Musculoskeletal Diseases   0.666667  0.035714  0.067797        56
+                                    Digestive System Diseases   0.778727  0.803134  0.790743      1021
+                                      Stomatognathic Diseases   0.829912  0.729381  0.776406       388
+                                   Respiratory Tract Diseases   0.623016  0.548951  0.583643       286
+                                Otorhinolaryngologic Diseases   0.937500  0.493827  0.646900       243
+                                      Nervous System Diseases   0.608696  0.269231  0.373333       104
+                                                 Eye Diseases   0.731765  0.876056  0.797436       355
+                                     Male Urogenital Diseases   0.835781  0.765281  0.798979       818
+       Female Urogenital Diseases and Pregnancy Complications   0.500000  0.345794  0.408840       107
+                                      Cardiovascular Diseases   0.355556  0.581818  0.441379       165
+                                 Hemic and Lymphatic Diseases   0.823333  0.779180  0.800648       634
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.677563  0.612081  0.643159       745
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.479167  0.265896  0.342007       173
+                                    Endocrine System Diseases   0.703764  0.600559  0.648078       716
+                                       Immune System Diseases   0.181818  0.058824  0.088889        34
+                            Disorders of Environmental Origin   0.000000  0.000000  0.000000         5
+                                              Animal Diseases   0.464856  0.661364  0.545966       880
+               Pathological Conditions and Signs and Symptoms   0.583333  0.025455  0.048780       275
+                                        Occupational Diseases   0.222222  0.035714  0.061538        56
+                                 Chemically-Induced Disorders   0.686275  0.555556  0.614035       504
+                                          Wounds and Injuries   0.526652  0.756122  0.620863       980
+
+                                                     accuracy                       0.663553     10599
+                                                    macro avg   0.560435  0.469643  0.478753     10599
+                                                 weighted avg   0.673543  0.663553  0.651260     10599
+
+
+Dimensions of training set before zero feature filtering: (5000, 37658)
+Dimensions of training set after zero feature filtering: (5000, 21145)
+--------- TRAINING SET SIZE 5000 ---------
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.771806  0.819457  0.794918      1069
+                                               Virus Diseases   0.714286  0.219780  0.336134        91
+                                           Parasitic Diseases   0.859195  0.911585  0.884615       328
+                                                    Neoplasms   0.549107  0.692308  0.612448       533
+                                     Musculoskeletal Diseases   0.000000  0.000000  0.000000        56
+                                    Digestive System Diseases   0.794626  0.810970  0.802714      1021
+                                      Stomatognathic Diseases   0.809783  0.768041  0.788360       388
+                                   Respiratory Tract Diseases   0.639216  0.569930  0.602588       286
+                                Otorhinolaryngologic Diseases   0.890173  0.633745  0.740385       243
+                                      Nervous System Diseases   0.540541  0.384615  0.449438       104
+                                                 Eye Diseases   0.742092  0.859155  0.796345       355
+                                     Male Urogenital Diseases   0.822251  0.786064  0.803750       818
+       Female Urogenital Diseases and Pregnancy Complications   0.519481  0.373832  0.434783       107
+                                      Cardiovascular Diseases   0.375510  0.557576  0.448780       165
+                                 Hemic and Lymphatic Diseases   0.836207  0.764984  0.799012       634
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.715805  0.632215  0.671418       745
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.461538  0.277457  0.346570       173
+                                    Endocrine System Diseases   0.717496  0.624302  0.667662       716
+                                       Immune System Diseases   0.833333  0.147059  0.250000        34
+                            Disorders of Environmental Origin   0.000000  0.000000  0.000000         5
+                                              Animal Diseases   0.484545  0.659091  0.558498       880
+               Pathological Conditions and Signs and Symptoms   0.265306  0.047273  0.080247       275
+                                        Occupational Diseases   0.666667  0.071429  0.129032        56
+                                 Chemically-Induced Disorders   0.693364  0.601190  0.643996       504
+                                          Wounds and Injuries   0.566265  0.767347  0.651646       980
+
+                                                     accuracy                       0.682612     10599
+                                                    macro avg   0.587254  0.499208  0.511282     10599
+                                                 weighted avg   0.681707  0.682612  0.671703     10599
+
+
+Dimensions of training set before zero feature filtering: (10000, 37658)
+Dimensions of training set after zero feature filtering: (10000, 25847)
+--------- TRAINING SET SIZE 10000 ---------
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.783902  0.838167  0.810127      1069
+                                               Virus Diseases   0.466667  0.230769  0.308824        91
+                                           Parasitic Diseases   0.877143  0.935976  0.905605       328
+                                                    Neoplasms   0.547445  0.703565  0.615764       533
+                                     Musculoskeletal Diseases   1.000000  0.035714  0.068966        56
+                                    Digestive System Diseases   0.800000  0.830558  0.814993      1021
+                                      Stomatognathic Diseases   0.811321  0.775773  0.793149       388
+                                   Respiratory Tract Diseases   0.610345  0.618881  0.614583       286
+                                Otorhinolaryngologic Diseases   0.858586  0.699588  0.770975       243
+                                      Nervous System Diseases   0.521277  0.471154  0.494949       104
+                                                 Eye Diseases   0.754300  0.864789  0.805774       355
+                                     Male Urogenital Diseases   0.835669  0.801956  0.818465       818
+       Female Urogenital Diseases and Pregnancy Complications   0.495413  0.504673  0.500000       107
+                                      Cardiovascular Diseases   0.417062  0.533333  0.468085       165
+                                 Hemic and Lymphatic Diseases   0.855634  0.766562  0.808652       634
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.771901  0.626846  0.691852       745
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.490385  0.294798  0.368231       173
+                                    Endocrine System Diseases   0.733846  0.666201  0.698389       716
+                                       Immune System Diseases   0.600000  0.176471  0.272727        34
+                            Disorders of Environmental Origin   0.000000  0.000000  0.000000         5
+                                              Animal Diseases   0.520362  0.653409  0.579345       880
+               Pathological Conditions and Signs and Symptoms   0.375000  0.054545  0.095238       275
+                                        Occupational Diseases   0.636364  0.125000  0.208955        56
+                                 Chemically-Induced Disorders   0.700935  0.595238  0.643777       504
+                                          Wounds and Injuries   0.564006  0.764286  0.649047       980
+
+                                                     accuracy                       0.696669     10599
+                                                    macro avg   0.616445  0.521856  0.531018     10599
+                                                 weighted avg   0.699029  0.696669  0.686229     10599
+
+
+Dimensions of training set before zero feature filtering: (20000, 37658)
+Dimensions of training set after zero feature filtering: (20000, 31053)
+--------- TRAINING SET SIZE 20000 ---------
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.790925  0.831618  0.810762      1069
+                                               Virus Diseases   0.595745  0.307692  0.405797        91
+                                           Parasitic Diseases   0.867978  0.942073  0.903509       328
+                                                    Neoplasms   0.567809  0.714822  0.632890       533
+                                     Musculoskeletal Diseases   0.250000  0.017857  0.033333        56
+                                    Digestive System Diseases   0.809701  0.850147  0.829431      1021
+                                      Stomatognathic Diseases   0.820580  0.801546  0.810952       388
+                                   Respiratory Tract Diseases   0.631944  0.636364  0.634146       286
+                                Otorhinolaryngologic Diseases   0.865979  0.691358  0.768879       243
+                                      Nervous System Diseases   0.556701  0.519231  0.537313       104
+                                                 Eye Diseases   0.769424  0.864789  0.814324       355
+                                     Male Urogenital Diseases   0.840852  0.820293  0.830446       818
+       Female Urogenital Diseases and Pregnancy Complications   0.489796  0.448598  0.468293       107
+                                      Cardiovascular Diseases   0.464789  0.600000  0.523810       165
+                                 Hemic and Lymphatic Diseases   0.853448  0.780757  0.815486       634
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.762997  0.669799  0.713367       745
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.486111  0.404624  0.441640       173
+                                    Endocrine System Diseases   0.738602  0.678771  0.707424       716
+                                       Immune System Diseases   0.500000  0.235294  0.320000        34
+                            Disorders of Environmental Origin   1.000000  0.200000  0.333333         5
+                                              Animal Diseases   0.551859  0.640909  0.593060       880
+               Pathological Conditions and Signs and Symptoms   0.418182  0.083636  0.139394       275
+                                        Occupational Diseases   0.818182  0.160714  0.268657        56
+                                 Chemically-Induced Disorders   0.725400  0.628968  0.673751       504
+                                          Wounds and Injuries   0.605777  0.791837  0.686422       980
+
+                                                     accuracy                       0.713652     10599
+                                                    macro avg   0.645492  0.550835  0.565247     10599
+                                                 weighted avg   0.710958  0.713652  0.703950     10599
+
+
+Dimensions of training set before zero feature filtering: (43972, 37658)
+Dimensions of training set after zero feature filtering: (43972, 36274)
+--------- TRAINING SET SIZE 43972 ---------
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.793582  0.855940  0.823582      1069
+                                               Virus Diseases   0.627907  0.296703  0.402985        91
+                                           Parasitic Diseases   0.881020  0.948171  0.913363       328
+                                                    Neoplasms   0.595129  0.733583  0.657143       533
+                                     Musculoskeletal Diseases   0.400000  0.035714  0.065574        56
+                                    Digestive System Diseases   0.821429  0.856024  0.838369      1021
+                                      Stomatognathic Diseases   0.860215  0.824742  0.842105       388
+                                   Respiratory Tract Diseases   0.661871  0.643357  0.652482       286
+                                Otorhinolaryngologic Diseases   0.893939  0.728395  0.802721       243
+                                      Nervous System Diseases   0.582418  0.509615  0.543590       104
+                                                 Eye Diseases   0.776942  0.873239  0.822281       355
+                                     Male Urogenital Diseases   0.844636  0.837408  0.841007       818
+       Female Urogenital Diseases and Pregnancy Complications   0.536364  0.551402  0.543779       107
+                                      Cardiovascular Diseases   0.469388  0.557576  0.509695       165
+                                 Hemic and Lymphatic Diseases   0.859060  0.807571  0.832520       634
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.774194  0.676510  0.722063       745
+                          Skin and Connective Tissue Diseases   0.000000  0.000000  0.000000        33
+                           Nutritional and Metabolic Diseases   0.496644  0.427746  0.459627       173
+                                    Endocrine System Diseases   0.759317  0.682961  0.719118       716
+                                       Immune System Diseases   0.526316  0.294118  0.377358        34
+                            Disorders of Environmental Origin   1.000000  0.200000  0.333333         5
+                                              Animal Diseases   0.562741  0.662500  0.608559       880
+               Pathological Conditions and Signs and Symptoms   0.534483  0.112727  0.186186       275
+                                        Occupational Diseases   0.800000  0.214286  0.338028        56
+                                 Chemically-Induced Disorders   0.734066  0.662698  0.696559       504
+                                          Wounds and Injuries   0.630522  0.801020  0.705618       980
+
+                                                     accuracy                       0.729786     10599
+                                                    macro avg   0.670084  0.569000  0.586063     10599
+                                                 weighted avg   0.728742  0.729786  0.720496     10599
+
+
