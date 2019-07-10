@@ -10,7 +10,7 @@ from collections import defaultdict
 
 
 document_to_debug = """
-estimated Singaporeans time music mass outdoor aerobic workout nation fit red white clothing colour national flag participant Prime_Minister_Goh_Chok_Tong several member cabinet part km two-mile walk Officials Great_Singapore_Workout participant previous year State television total attendance similar event World_Guiness record aerobics gymnastics display participant Goh reporter workout large number young people part youth lead habit open fresh air sun director Ministry Health Healthy_Lifestyle_Unit K._Vijaya workout event fitness Singaporeans Reuters number Singaporeans sort regular exercise level obesity child annual workout
+allegation mounting trouble Volkswagen week VW GM lawsuit charging former GM executive Jose_Ignacio_Lopez thousand secret document VW
 """
 
 print('')
