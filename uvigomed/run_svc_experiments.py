@@ -25,4 +25,4 @@ train_x, train_y = load_preprocessed_data('data/uvigomed_train.csv')
 test_x, test_y = load_preprocessed_data('data/uvigomed_test.csv')
 
 # Run the experiments
-run_experiments(support_vector_classifier, train_x, train_y, test_x, test_y)
+run_experiments(support_vector_classifier, train_x, train_y, test_x, test_y, 'svc_proportional')
