@@ -52,4 +52,4 @@ test_x = np.array(x[split_point:], dtype=np.float32)
 test_y = np.array(y[split_point:])
 
 # Run the experiments
-run_experiments(run_kb_classifier, train_x, train_y, test_x, test_y)
+run_experiments(run_kb_classifier, train_x, train_y, test_x, test_y, 'kb_proportional')
