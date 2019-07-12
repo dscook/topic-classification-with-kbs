@@ -29,7 +29,7 @@ repeats = 1
 ###
 
 def run_kb_classifier(train_x, train_y, test_x, class_priors, balanced):
-    classifier = RandomForestClassifier(n_estimators=200, random_state=42, class_weight='balanced')
+    classifier = RandomForestClassifier(n_estimators=200, class_weight='balanced')
     
     # Obtain non zero dimensions for this training set size, i.e. some topics will not be present
     # given this size of training set.  Remove them so the random subspace method of the Random Forest is
@@ -46,7 +46,8 @@ def run_kb_classifier(train_x, train_y, test_x, class_priors, balanced):
     return predict_y
 
 print('Running Knowledge Base experiments')
-np.random.seed(42)
+if repeats == 1:
+    np.random.seed(42)
 
 # We only require the topic codes but calculate the topic prior probability to keep experiments common simple
 _, _, _, _, _, topic_code_to_prior_prob = load_reutuers_data('data/rcv1_kb.csv')

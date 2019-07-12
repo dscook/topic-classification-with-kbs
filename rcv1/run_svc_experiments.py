@@ -27,7 +27,8 @@ def support_vector_classifier(train_x, train_y, test_x, class_priors, balanced):
 
 
 print('Running Support Vector Classifier experiments')
-np.random.seed(42)
+if repeats == 1:
+    np.random.seed(42)
 
 for i in range(repeats):
     (training_data_dict,

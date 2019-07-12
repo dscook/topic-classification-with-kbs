@@ -23,7 +23,7 @@ repeats = 1
 ###
 
 def run_kb_classifier(train_x, train_y, test_x):
-    classifier = RandomForestClassifier(n_estimators=200, random_state=42, class_weight='balanced')
+    classifier = RandomForestClassifier(n_estimators=200, class_weight='balanced')
     
     # Obtain non zero dimensions for this training set size, i.e. some topics will not be present
     # given this size of training set.  Remove them so the random subspace method of the Random Forest is
@@ -41,7 +41,8 @@ def run_kb_classifier(train_x, train_y, test_x):
 
 
 print('Running Knowledge Base experiments')
-np.random.seed(42)
+if repeats == 1:
+    np.random.seed(42)
 
 # Load the document embeddings
 x, y = load_document_embeddings(document_embeddings_path)

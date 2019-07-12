@@ -31,7 +31,8 @@ def run_naive_bayes(train_x, train_y, test_x, class_priors, balanced):
     return predict_y
 
 print('Running Naive Bayes experiments')
-np.random.seed(42)
+if repeats == 1:
+    np.random.seed(42)
 
 for i in range(repeats):
     (training_data_dict,
