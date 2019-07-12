@@ -6,17 +6,31 @@ import sys
 sys.path.append('../common/')
 
 import os
+import csv
 import numpy as np
-from sklearn.metrics import classification_report, confusion_matrix
+from datetime import datetime
+from sklearn.metrics import classification_report, confusion_matrix, f1_score
 
 from loader import load_preprocessed_data
 from lookup_tables import topic_code_to_topic_dict, topic_code_to_int, int_to_topic_code
 from conversion import convert_dictionary_to_array, convert_array_to_dictionary
 
+# Directory to store results
+today = datetime.today().strftime('%Y-%m-%d')
+results_dir = './results/{}/'.format(today)
+
 
 def create_results_directory():
-    if not os.path.exists(dirName):
-        os.mkdir(dirName)
+    if not os.path.exists(results_dir):
+        os.mkdir(results_dir)
+
+
+def write_result(file_prefix, train_size, micro, macro):
+    file_path = results_dir + file_prefix + '.csv'
+    with open(file_path, 'a', newline='') as csvfile:
+        result_writer = csv.writer(csvfile)
+        result_writer.writerow([train_size, micro, macro])
+
 
 def load_reutuers_data(preprocessed_article_path):
     # Load the train and test data
@@ -73,7 +87,12 @@ def run_proportional_experiments(classifier_runner, train_x, train_y, test_x, te
         print(classification_report(test_y, predict_y, digits=6, target_names=topic_code_to_topic_dict.values()))
         print(confusion_matrix(test_y, predict_y))
         print('')
-
+        
+        # Write result into log file.  CSV format with name {name}.csv, entries {train_size},{micro F1},{macro F1}
+        micro = f1_score(test_y, predict_y, average='micro')
+        macro = f1_score(test_y, predict_y, average='macro')
+        write_result(name, train_size, micro, macro)
+        
 
 def run_balanced_experiments(classifier_runner, training_data_dict, test_x, test_y, topic_code_to_prior_prob, name):
     # Test balanced classes
@@ -95,3 +114,8 @@ def run_balanced_experiments(classifier_runner, training_data_dict, test_x, test
         print(classification_report(test_y, predict_y, digits=6, target_names=topic_code_to_topic_dict.values()))
         print(confusion_matrix(test_y, predict_y))
         print('')
+        
+        # Write result into log file.  CSV format with name {name}.csv, entries {train_size},{micro F1},{macro F1}
+        micro = f1_score(test_y, predict_y, average='micro')
+        macro = f1_score(test_y, predict_y, average='macro')
+        write_result(name, train_size, micro, macro)

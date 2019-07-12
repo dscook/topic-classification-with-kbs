@@ -39,21 +39,21 @@ np.random.seed(42)
 # Create the directory to store the results
 create_results_directory()
 
-#(training_data_dict,
-# train_x, train_y,
-# test_x, test_y,
-# topic_code_to_prior_prob) = load_reutuers_data('data/rcv1_baseline.csv')
+(training_data_dict,
+ train_x, train_y,
+ test_x, test_y,
+ topic_code_to_prior_prob) = load_reutuers_data('data/rcv1_baseline.csv')
 
-#run_proportional_experiments(run_naive_bayes,
-#                             train_x,
-#                             train_y,
-#                             test_x,
-#                             test_y,
-#                             topic_code_to_prior_prob,
-#                             'nb_proportional')
-#run_balanced_experiments(run_naive_bayes,
-#                         training_data_dict,
-#                         test_x,
-#                         test_y,
-#                         topic_code_to_prior_prob,
-#                         'nb_balanced')
+run_proportional_experiments(run_naive_bayes,
+                             train_x,
+                             train_y,
+                             test_x,
+                             test_y,
+                             topic_code_to_prior_prob,
+                             'nb_proportional')
+run_balanced_experiments(run_naive_bayes,
+                         training_data_dict,
+                         test_x,
+                         test_y,
+                         topic_code_to_prior_prob,
+                         'nb_balanced')

@@ -49,9 +49,10 @@ def run_kb_classifier(train_x, train_y, test_x, class_priors, balanced):
     return predict_y
 
 print('Running Knowledge Base experiments')
+np.random.seed(42)
 
 # Create the directory to store the results
-#create_results_directory()
+create_results_directory()
 
 # We only require the topic codes but calculate the topic prior probability to keep experiments common simple
 _, _, _, _, _, topic_code_to_prior_prob = load_reutuers_data('data/rcv1_kb.csv')
@@ -67,7 +68,6 @@ train_y = np.array(y[:split_point])
 test_x = np.array(x[split_point:], dtype=np.float32)
 test_y = np.array(y[split_point:])
 
-np.random.seed(42)
 training_data_dict = convert_array_to_dictionary(np.array(train_x, dtype=np.float32),
                                                  np.array(train_y),
                                                  int_to_topic_code)
