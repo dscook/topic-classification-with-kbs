@@ -10,10 +10,7 @@ sys.path.append('../embedding-scripts/')
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
-from experiments_common import (load_reutuers_data,
-                                run_proportional_experiments,
-                                run_balanced_experiments,
-                                create_results_directory)
+from experiments_common import load_reutuers_data, run_proportional_experiments, run_balanced_experiments
 from lookup_tables import int_to_topic_code
 from conversion import convert_array_to_dictionary
 from load_embeddings import load_document_embeddings
@@ -50,9 +47,6 @@ def run_kb_classifier(train_x, train_y, test_x, class_priors, balanced):
 
 print('Running Knowledge Base experiments')
 np.random.seed(42)
-
-# Create the directory to store the results
-create_results_directory()
 
 # We only require the topic codes but calculate the topic prior probability to keep experiments common simple
 _, _, _, _, _, topic_code_to_prior_prob = load_reutuers_data('data/rcv1_kb.csv')

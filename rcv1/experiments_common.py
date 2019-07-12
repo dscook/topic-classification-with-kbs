@@ -76,6 +76,7 @@ def load_reutuers_data(preprocessed_article_path):
 
 
 def run_proportional_experiments(classifier_runner, train_x, train_y, test_x, test_y, topic_code_to_prior_prob, name):
+    create_results_directory()
     for train_size in [12, 60, 120, 600, 1200, 6000, 12000, 60000, len(train_x)]:                
         class_priors = np.zeros(shape=len(topic_code_to_prior_prob.keys()))
         for topic_code, probability in topic_code_to_prior_prob.items():
@@ -95,7 +96,7 @@ def run_proportional_experiments(classifier_runner, train_x, train_y, test_x, te
         
 
 def run_balanced_experiments(classifier_runner, training_data_dict, test_x, test_y, topic_code_to_prior_prob, name):
-    # Test balanced classes
+    create_results_directory()
     for train_size in [12, 60, 120, 600, 1200, 6000]:
         
         article_dict = {}
