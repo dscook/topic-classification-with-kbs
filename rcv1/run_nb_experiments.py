@@ -7,9 +7,22 @@ sys.path.append('../common/')
 
 import numpy as np
 
-from experiments_common import load_reutuers_data, run_proportional_experiments, run_balanced_experiments
+from experiments_common import (load_reutuers_data,
+                                run_proportional_experiments,
+                                run_balanced_experiments,
+                                create_results_directory)
 from classification import run_multinomial_naive_bayes 
 
+###
+### VARIABLES (update as necessary)
+###
+
+# Number of times to repeat the experiment for mean and stdev of accuracy
+repeats = 1
+
+###
+### CODE
+###
 
 def run_naive_bayes(train_x, train_y, test_x, class_priors, balanced):
     
@@ -23,10 +36,24 @@ def run_naive_bayes(train_x, train_y, test_x, class_priors, balanced):
 print('Running Naive Bayes experiments')
 np.random.seed(42)
 
-(training_data_dict,
- train_x, train_y,
- test_x, test_y,
- topic_code_to_prior_prob) = load_reutuers_data('data/rcv1_baseline.csv')
+# Create the directory to store the results
+create_results_directory()
 
-run_proportional_experiments(run_naive_bayes, train_x, train_y, test_x, test_y, topic_code_to_prior_prob)
-run_balanced_experiments(run_naive_bayes, training_data_dict, test_x, test_y, topic_code_to_prior_prob)
+#(training_data_dict,
+# train_x, train_y,
+# test_x, test_y,
+# topic_code_to_prior_prob) = load_reutuers_data('data/rcv1_baseline.csv')
+
+#run_proportional_experiments(run_naive_bayes,
+#                             train_x,
+#                             train_y,
+#                             test_x,
+#                             test_y,
+#                             topic_code_to_prior_prob,
+#                             'nb_proportional')
+#run_balanced_experiments(run_naive_bayes,
+#                         training_data_dict,
+#                         test_x,
+#                         test_y,
+#                         topic_code_to_prior_prob,
+#                         'nb_balanced')

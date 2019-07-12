@@ -5,6 +5,7 @@
 import sys
 sys.path.append('../common/')
 
+import os
 import numpy as np
 from sklearn.metrics import classification_report, confusion_matrix
 
@@ -12,6 +13,10 @@ from loader import load_preprocessed_data
 from lookup_tables import topic_code_to_topic_dict, topic_code_to_int, int_to_topic_code
 from conversion import convert_dictionary_to_array, convert_array_to_dictionary
 
+
+def create_results_directory():
+    if not os.path.exists(dirName):
+        os.mkdir(dirName)
 
 def load_reutuers_data(preprocessed_article_path):
     # Load the train and test data
@@ -56,9 +61,8 @@ def load_reutuers_data(preprocessed_article_path):
     return (training_data_dict, potential_train_x, potential_train_y, test_x, test_y, topic_code_to_prior_prob)
 
 
-def run_proportional_experiments(classifier_runner, train_x, train_y, test_x, test_y, topic_code_to_prior_prob):
-    for train_size in [12, 60, 120, 600, 1200, 6000, 12000, 60000, len(train_x)]:
-                
+def run_proportional_experiments(classifier_runner, train_x, train_y, test_x, test_y, topic_code_to_prior_prob, name):
+    for train_size in [12, 60, 120, 600, 1200, 6000, 12000, 60000, len(train_x)]:                
         class_priors = np.zeros(shape=len(topic_code_to_prior_prob.keys()))
         for topic_code, probability in topic_code_to_prior_prob.items():
             class_priors[topic_code_to_int[topic_code]] = probability
@@ -71,7 +75,7 @@ def run_proportional_experiments(classifier_runner, train_x, train_y, test_x, te
         print('')
 
 
-def run_balanced_experiments(classifier_runner, training_data_dict, test_x, test_y, topic_code_to_prior_prob):
+def run_balanced_experiments(classifier_runner, training_data_dict, test_x, test_y, topic_code_to_prior_prob, name):
     # Test balanced classes
     for train_size in [12, 60, 120, 600, 1200, 6000]:
         

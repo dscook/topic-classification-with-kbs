@@ -10,7 +10,10 @@ sys.path.append('../embedding-scripts/')
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
-from experiments_common import load_reutuers_data, run_proportional_experiments, run_balanced_experiments
+from experiments_common import (load_reutuers_data,
+                                run_proportional_experiments,
+                                run_balanced_experiments,
+                                create_results_directory)
 from lookup_tables import int_to_topic_code
 from conversion import convert_array_to_dictionary
 from load_embeddings import load_document_embeddings
@@ -18,8 +21,11 @@ from load_embeddings import load_document_embeddings
 ###
 ### VARIABLES (update as necessary)
 ###
-document_embeddings_path = 'embeddings/document_embeddings_depth_0.avro'
+embedding_depth = 0
+document_embeddings_path = 'embeddings/document_embeddings_depth_{}.avro'.format(embedding_depth)
 
+# Number of times to repeat the experiment for mean and stdev of accuracy
+repeats = 1
 
 ###
 ### CODE
@@ -43,6 +49,9 @@ def run_kb_classifier(train_x, train_y, test_x, class_priors, balanced):
     return predict_y
 
 print('Running Knowledge Base experiments')
+
+# Create the directory to store the results
+#create_results_directory()
 
 # We only require the topic codes but calculate the topic prior probability to keep experiments common simple
 _, _, _, _, _, topic_code_to_prior_prob = load_reutuers_data('data/rcv1_kb.csv')
@@ -68,5 +77,16 @@ training_data_dict = convert_array_to_dictionary(np.array(train_x, dtype=np.floa
 ### RUN THE EXPERIMENTS
 ###
 
-run_proportional_experiments(run_kb_classifier, train_x, train_y, test_x, test_y, topic_code_to_prior_prob)
-run_balanced_experiments(run_kb_classifier, training_data_dict, test_x, test_y, topic_code_to_prior_prob)
+run_proportional_experiments(run_kb_classifier,
+                             train_x,
+                             train_y,
+                             test_x,
+                             test_y,
+                             topic_code_to_prior_prob,
+                             'kb{}_proportional'.format(embedding_depth))
+run_balanced_experiments(run_kb_classifier,
+                         training_data_dict,
+                         test_x,
+                         test_y,
+                         topic_code_to_prior_prob,
+                         'kb{}_balanced'.format(embedding_depth))
