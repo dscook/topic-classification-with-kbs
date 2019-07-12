@@ -18,11 +18,11 @@ from load_embeddings import load_document_embeddings
 ###
 ### VARIABLES (update as necessary)
 ###
-embedding_depth = 0
+embedding_depth = 2
 document_embeddings_path = 'embeddings/document_embeddings_depth_{}.avro'.format(embedding_depth)
 
 # Number of times to repeat the experiment for mean and stdev of accuracy
-repeats = 1
+repeats = 100
 
 ###
 ### CODE
