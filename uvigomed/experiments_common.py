@@ -16,7 +16,7 @@ from lookup_tables import topic_to_int
 
 # Directory to store results
 today = datetime.today().strftime('%Y-%m-%d')
-results_dir = './results/{}/uvigomed/'.format(today)
+results_dir = './results/{}/'.format(today)
 
 
 def create_results_directory():

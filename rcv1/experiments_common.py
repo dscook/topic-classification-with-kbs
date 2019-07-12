@@ -17,7 +17,7 @@ from conversion import convert_dictionary_to_array, convert_array_to_dictionary
 
 # Directory to store results
 today = datetime.today().strftime('%Y-%m-%d')
-results_dir = './results/{}/rcv1/'.format(today)
+results_dir = './results/{}/'.format(today)
 
 
 def create_results_directory():
