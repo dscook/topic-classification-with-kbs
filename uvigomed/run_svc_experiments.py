@@ -7,7 +7,7 @@ sys.path.append('../common/')
 
 import numpy as np
 
-from experiments_common import run_experiments, shuffle_data
+from experiments_common import run_experiments, shuffled_train_test_split
 from classification import run_support_vector_classifier
 from loader import load_preprocessed_data
 
@@ -34,8 +34,11 @@ for i in range(repeats):
     # Load the already lowercased, lemmatised data
     train_x, train_y = load_preprocessed_data('data/uvigomed_train.csv')
     test_x, test_y = load_preprocessed_data('data/uvigomed_test.csv')
-    train_x, train_y = shuffle_data(train_x, train_y)
-    test_x, test_y = shuffle_data(test_x, test_y)
+    
+    # Join the data back together and obtain a train/test split
+    x = train_x + test_x
+    y = train_y + test_y
+    train_x, train_y, test_x, test_y = shuffled_train_test_split(x, y)
 
     # Run the experiments
     run_experiments(support_vector_classifier, train_x, train_y, test_x, test_y, 'svc_proportional')

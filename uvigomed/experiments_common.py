@@ -31,13 +31,26 @@ def write_result(file_prefix, train_size, micro, macro):
         result_writer.writerow([train_size, micro, macro])
         
         
-def shuffle_data(x, y):
+def shuffled_train_test_split(x, y):
+    
+    x = np.array(x)
+    y = np.array(y)
+    
     # Randomly shuffle the dataset
     indices = np.arange(len(y))
     np.random.shuffle(indices)    
     x = x[indices]
     y = y[indices]
-    return x, y
+    
+    # Get the train and test sets
+    total_examples = len(y)
+    split_point = int(total_examples * 0.8)
+    train_x = x[:split_point]
+    train_y = y[:split_point]
+    test_x = x[split_point:]
+    test_y = y[split_point:]
+    
+    return train_x, train_y, test_x, test_y
 
 
 def run_experiments(classifier_runner, train_x, train_y, test_x, test_y, name):
