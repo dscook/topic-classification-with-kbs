@@ -11,6 +11,16 @@ from experiments_common import run_experiments
 from classification import run_support_vector_classifier
 from loader import load_preprocessed_data
 
+###
+### VARIABLES (update as necessary)
+###
+
+# Number of times to repeat the experiment for mean and stdev of accuracy
+repeats = 1
+
+###
+### CODE
+###
 
 def support_vector_classifier(train_x, train_y, test_x):
     predict_y = run_support_vector_classifier(train_x, train_y, test_x, C=0.01)

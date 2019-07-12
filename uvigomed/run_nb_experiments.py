@@ -11,6 +11,16 @@ from experiments_common import run_experiments
 from classification import run_multinomial_naive_bayes
 from loader import load_preprocessed_data
 
+###
+### VARIABLES (update as necessary)
+###
+
+# Number of times to repeat the experiment for mean and stdev of accuracy
+repeats = 1
+
+###
+### CODE
+###
 
 def multinomial_naive_bayes(train_x, train_y, test_x):
     predict_y = run_multinomial_naive_bayes(train_x, train_y, test_x, class_priors=None)

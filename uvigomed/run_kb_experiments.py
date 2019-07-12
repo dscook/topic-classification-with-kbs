@@ -15,6 +15,8 @@ from load_embeddings import load_document_embeddings
 ###
 document_embeddings_path = 'embeddings/document_embeddings_depth_all.avro'
 
+# Number of times to repeat the experiment for mean and stdev of accuracy
+repeats = 1
 
 ###
 ### CODE
