@@ -54,7 +54,7 @@ _, _, _, _, _, topic_code_to_prior_prob = load_reutuers_data('data/rcv1_kb.csv')
 # Load the document embeddings, train and test are concatenated so split them back out afterwards
 x, y = load_document_embeddings(document_embeddings_path)
 x = np.array(x, dtype=np.float32)
-y = np.array(y, dtype=np.float32)
+y = np.array(y)
 
 for i in range(repeats):
     

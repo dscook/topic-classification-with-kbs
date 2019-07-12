@@ -43,15 +43,26 @@ def run_kb_classifier(train_x, train_y, test_x):
 print('Running Knowledge Base experiments')
 np.random.seed(42)
 
-# Load the document embeddings, train and test are concatenated so split them back out afterwards
+# Load the document embeddings
 x, y = load_document_embeddings(document_embeddings_path)
+x = np.array(x, dtype=np.float32)
+y = np.array(y)
 
-# Separate back out into train and test sets
-split_point = 43972
-train_x = np.array(x[:split_point], dtype=np.float32)
-train_y = np.array(y[:split_point])
-test_x = np.array(x[split_point:], dtype=np.float32)
-test_y = np.array(y[split_point:])
+for i in range(repeats):
+    
+    # Randomly shuffle the dataset
+    indices = np.arange(len(y))
+    np.random.shuffle(indices)    
+    shuffled_x = x[indices]
+    shuffled_y = y[indices]
 
-# Run the experiments
-run_experiments(run_kb_classifier, train_x, train_y, test_x, test_y, 'kb_proportional')
+    # Separate back out into train and test sets
+    total_examples = len(y)
+    split_point = int(total_examples * 0.8)
+    train_x = shuffled_x[:split_point]
+    train_y = shuffled_y[:split_point]
+    test_x = shuffled_x[split_point:]
+    test_y = shuffled_y[split_point:]
+    
+    # Run the experiments
+    run_experiments(run_kb_classifier, train_x, train_y, test_x, test_y, 'kb_proportional')
