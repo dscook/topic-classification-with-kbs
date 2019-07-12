@@ -8,6 +8,7 @@ sys.path.append('../common/')
 import os
 import csv
 from datetime import datetime
+import numpy as np
 from sklearn.metrics import classification_report, f1_score
 
 from lookup_tables import topic_to_int
@@ -28,6 +29,15 @@ def write_result(file_prefix, train_size, micro, macro):
     with open(file_path, 'a', newline='') as csvfile:
         result_writer = csv.writer(csvfile)
         result_writer.writerow([train_size, micro, macro])
+        
+        
+def shuffle_data(x, y):
+    # Randomly shuffle the dataset
+    indices = np.arange(len(y))
+    np.random.shuffle(indices)    
+    x = x[indices]
+    y = y[indices]
+    return x, y
 
 
 def run_experiments(classifier_runner, train_x, train_y, test_x, test_y, name):

@@ -7,7 +7,7 @@ sys.path.append('../common/')
 
 import numpy as np
 
-from experiments_common import run_experiments
+from experiments_common import run_experiments, shuffle_data
 from classification import run_support_vector_classifier
 from loader import load_preprocessed_data
 
@@ -30,9 +30,12 @@ def support_vector_classifier(train_x, train_y, test_x):
 print('Running Support Vector Classifier experiments')
 np.random.seed(42)
 
-# Load the already lowercased, lemmatised data
-train_x, train_y = load_preprocessed_data('data/uvigomed_train.csv')
-test_x, test_y = load_preprocessed_data('data/uvigomed_test.csv')
+for i in range(repeats):
+    # Load the already lowercased, lemmatised data
+    train_x, train_y = load_preprocessed_data('data/uvigomed_train.csv')
+    test_x, test_y = load_preprocessed_data('data/uvigomed_test.csv')
+    train_x, train_y = shuffle_data(train_x, train_y)
+    test_x, test_y = shuffle_data(test_x, test_y)
 
-# Run the experiments
-run_experiments(support_vector_classifier, train_x, train_y, test_x, test_y, 'svc_proportional')
+    # Run the experiments
+    run_experiments(support_vector_classifier, train_x, train_y, test_x, test_y, 'svc_proportional')

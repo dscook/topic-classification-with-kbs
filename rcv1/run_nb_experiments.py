@@ -15,7 +15,7 @@ from classification import run_multinomial_naive_bayes
 ###
 
 # Number of times to repeat the experiment for mean and stdev of accuracy
-repeats = 1
+repeats = 100
 
 ###
 ### CODE
@@ -33,21 +33,22 @@ def run_naive_bayes(train_x, train_y, test_x, class_priors, balanced):
 print('Running Naive Bayes experiments')
 np.random.seed(42)
 
-(training_data_dict,
- train_x, train_y,
- test_x, test_y,
- topic_code_to_prior_prob) = load_reutuers_data('data/rcv1_baseline.csv')
-
-run_proportional_experiments(run_naive_bayes,
-                             train_x,
-                             train_y,
+for i in range(repeats):
+    (training_data_dict,
+     train_x, train_y,
+     test_x, test_y,
+     topic_code_to_prior_prob) = load_reutuers_data('data/rcv1_baseline.csv')
+    
+    run_proportional_experiments(run_naive_bayes,
+                                 train_x,
+                                 train_y,
+                                 test_x,
+                                 test_y,
+                                 topic_code_to_prior_prob,
+                                 'nb_proportional')
+    run_balanced_experiments(run_naive_bayes,
+                             training_data_dict,
                              test_x,
                              test_y,
                              topic_code_to_prior_prob,
-                             'nb_proportional')
-run_balanced_experiments(run_naive_bayes,
-                         training_data_dict,
-                         test_x,
-                         test_y,
-                         topic_code_to_prior_prob,
-                         'nb_balanced')
+                             'nb_balanced')

@@ -38,6 +38,12 @@ def load_reutuers_data(preprocessed_article_path):
     x = np.array(x)
     y = np.array(y)
     
+    # Randomly shuffle the dataset
+    indices = np.arange(len(y))
+    np.random.shuffle(indices)    
+    x = x[indices]
+    y = y[indices]
+    
     # Work out the prior class probabilities
     unique, counts = np.unique(y, return_counts=True)
     topic_index_to_count = dict(zip(unique, counts))
