@@ -141,5 +141,20 @@ for f1_type in ['micro', 'macro']:
                 for j in range(i+1, len(classifiers)):
                     _, p = ttest_ind(sample_dict[f1_type][classifiers[i]][train_size],
                                      sample_dict[f1_type][classifiers[j]][train_size])
+                    
+                    # Write out the result
+                    result_writer.writerow([classifiers[i], classifiers[j], p])
+                    
+                    if p < smallest_p_value:
+                        smallest_p_value = p
+                    
+                    if p > largest_p_value:
+                        largest_p_value = p
+                    
+            # Write out some debug
+            print('---------------------------')
+            print('Results for F1: {}, training set size {}'.format(f1_type, train_size))
+            print('Smallest p value: {}, largest p value: {}'.format(smallest_p_value, largest_p_value))
+            print('')
         
         
