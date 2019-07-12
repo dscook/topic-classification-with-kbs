@@ -15,12 +15,12 @@ from lookup_tables import topic_to_int
 
 # Directory to store results
 today = datetime.today().strftime('%Y-%m-%d')
-results_dir = './results/{}/'.format(today)
+results_dir = './results/{}/uvigomed/'.format(today)
 
 
 def create_results_directory():
     if not os.path.exists(results_dir):
-        os.mkdir(results_dir)
+        os.makedirs(results_dir)
 
 
 def write_result(file_prefix, train_size, micro, macro):
@@ -30,7 +30,7 @@ def write_result(file_prefix, train_size, micro, macro):
         result_writer.writerow([train_size, micro, macro])
 
 
-def run_experiments(classifier_runner, train_x, train_y, test_x, test_y):
+def run_experiments(classifier_runner, train_x, train_y, test_x, test_y, name):
     create_results_directory()
     for train_size in [5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, len(train_x)]:
                 

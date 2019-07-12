@@ -17,12 +17,12 @@ from conversion import convert_dictionary_to_array, convert_array_to_dictionary
 
 # Directory to store results
 today = datetime.today().strftime('%Y-%m-%d')
-results_dir = './results/{}/'.format(today)
+results_dir = './results/{}/rcv1/'.format(today)
 
 
 def create_results_directory():
     if not os.path.exists(results_dir):
-        os.mkdir(results_dir)
+        os.makedirs(results_dir)
 
 
 def write_result(file_prefix, train_size, micro, macro):
