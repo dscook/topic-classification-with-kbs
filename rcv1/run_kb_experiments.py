@@ -53,34 +53,42 @@ _, _, _, _, _, topic_code_to_prior_prob = load_reutuers_data('data/rcv1_kb.csv')
 
 # Load the document embeddings, train and test are concatenated so split them back out afterwards
 x, y = load_document_embeddings(document_embeddings_path)
+x = np.array(x, dtype=np.float32)
+y = np.array(y, dtype=np.float32)
 
-# Separate back out into train and test sets
-total_examples = len(y)
-split_point = int(total_examples * 0.8)
-train_x = np.array(x[:split_point], dtype=np.float32)
-train_y = np.array(y[:split_point])
-test_x = np.array(x[split_point:], dtype=np.float32)
-test_y = np.array(y[split_point:])
+for i in range(repeats):
+    
+    # Randomly shuffle the dataset
+    indices = np.arange(len(y))
+    np.random.shuffle(indices)    
+    shuffled_x = x[indices]
+    shuffled_y = y[indices]
 
-training_data_dict = convert_array_to_dictionary(np.array(train_x, dtype=np.float32),
-                                                 np.array(train_y),
-                                                 int_to_topic_code)
-
-
-###
-### RUN THE EXPERIMENTS
-###
-
-run_proportional_experiments(run_kb_classifier,
-                             train_x,
-                             train_y,
+    # Separate back out into train and test sets
+    total_examples = len(y)
+    split_point = int(total_examples * 0.8)
+    train_x = shuffled_x[:split_point]
+    train_y = shuffled_y[:split_point]
+    test_x = shuffled_x[split_point:]
+    test_y = shuffled_y[split_point:]
+    
+    training_data_dict = convert_array_to_dictionary(train_x, train_y, int_to_topic_code)
+    
+    
+    ###
+    ### RUN THE EXPERIMENTS
+    ###
+    
+    run_proportional_experiments(run_kb_classifier,
+                                 train_x,
+                                 train_y,
+                                 test_x,
+                                 test_y,
+                                 topic_code_to_prior_prob,
+                                 'kb{}_proportional'.format(embedding_depth))
+    run_balanced_experiments(run_kb_classifier,
+                             training_data_dict,
                              test_x,
                              test_y,
                              topic_code_to_prior_prob,
-                             'kb{}_proportional'.format(embedding_depth))
-run_balanced_experiments(run_kb_classifier,
-                         training_data_dict,
-                         test_x,
-                         test_y,
-                         topic_code_to_prior_prob,
-                         'kb{}_balanced'.format(embedding_depth))
+                             'kb{}_balanced'.format(embedding_depth))
