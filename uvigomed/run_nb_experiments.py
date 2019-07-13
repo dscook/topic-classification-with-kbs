@@ -31,7 +31,7 @@ print('Running multinomial naive Bayes experiments')
 
 # To ensure each experiment uses the same train/test split at each repeat
 np.random.seed(42)
-seeds = np.random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max, size=repeats)
+seeds = np.random.randint(0, np.iinfo(np.int32).max, size=repeats)
 
 for i in range(repeats):
     
