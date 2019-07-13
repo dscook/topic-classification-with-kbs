@@ -31,10 +31,16 @@ def run_naive_bayes(train_x, train_y, test_x, class_priors, balanced):
     return predict_y
 
 print('Running Naive Bayes experiments')
-if repeats == 1:
-    np.random.seed(42)
+
+# To ensure each experiment uses the same train/test split at each repeat
+np.random.seed(42)
+seeds = np.random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max, size=repeats)
 
 for i in range(repeats):
+    
+    # Ensure each experiment uses the same train/test split at each repeat
+    np.random.seed(seeds[i])
+    
     (training_data_dict,
      train_x, train_y,
      test_x, test_y,

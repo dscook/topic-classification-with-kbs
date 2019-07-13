@@ -46,8 +46,10 @@ def run_kb_classifier(train_x, train_y, test_x, class_priors, balanced):
     return predict_y
 
 print('Running Knowledge Base experiments')
-if repeats == 1:
-    np.random.seed(42)
+
+# To ensure each experiment uses the same train/test split at each repeat
+np.random.seed(42)
+seeds = np.random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max, size=repeats)
 
 # We only require the topic codes but calculate the topic prior probability to keep experiments common simple
 _, _, _, _, _, topic_code_to_prior_prob = load_reutuers_data('data/rcv1_kb.csv')
@@ -58,6 +60,9 @@ x = np.array(x, dtype=np.float32)
 y = np.array(y)
 
 for i in range(repeats):
+    
+    # Ensure each experiment uses the same train/test split at each repeat
+    np.random.seed(seeds[i])
     
     # Randomly shuffle the dataset
     indices = np.arange(len(y))
