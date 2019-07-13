@@ -4,7 +4,7 @@ import csv
 import os
 from collections import defaultdict
 import numpy as np
-from scipy.stats import ttest_ind
+from scipy.stats import ttest_rel
 
 ###
 ### VARIABLES (update as necessary)
@@ -18,7 +18,7 @@ data_to_analyse_path = '../{}/results/2019-07-12/'.format(dataset)
 ### CODE
 ###
 
-# To keep tabs on training set sizes and classifiers when performing a Student's t-test later
+# To keep tabs on training set sizes and classifiers when performing a paired t-test later
 train_sizes = {}
 classifiers = []
 
@@ -26,7 +26,7 @@ classifiers = []
 mean_dict = {}
 stdev_dict = {}
 
-# To store all samples for Student's t-test keyed by micro/macro then classifier type then training set size
+# To store all samples for paired t-test keyed by micro/macro then classifier type then training set size
 sample_dict = {}
 sample_dict['micro'] = {}
 sample_dict['macro'] = {}
@@ -126,7 +126,7 @@ def print_results():
 
 print_results()
 
-# Perform a Student t-test between classifiers
+# Perform a paired t-test between classifiers
 for f1_type in ['micro', 'macro']:
     for train_size in train_sizes.keys():
 
@@ -139,7 +139,7 @@ for f1_type in ['micro', 'macro']:
             # Get the p-value between all classifiers
             for i in range(len(classifiers)):
                 for j in range(i+1, len(classifiers)):
-                    _, p = ttest_ind(sample_dict[f1_type][classifiers[i]][train_size],
+                    _, p = ttest_rel(sample_dict[f1_type][classifiers[i]][train_size],
                                      sample_dict[f1_type][classifiers[j]][train_size])
                     
                     # Write out the result
