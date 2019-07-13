@@ -28,10 +28,16 @@ def support_vector_classifier(train_x, train_y, test_x):
 
 
 print('Running Support Vector Classifier experiments')
-if repeats == 1:
-    np.random.seed(42)
+
+# To ensure each experiment uses the same train/test split at each repeat
+np.random.seed(42)
+seeds = np.random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max, size=repeats)
 
 for i in range(repeats):
+    
+    # Ensure each experiment uses the same train/test split at each repeat
+    np.random.seed(seeds[i])
+    
     # Load the already lowercased, lemmatised data
     train_x, train_y = load_preprocessed_data('data/uvigomed_train.csv')
     test_x, test_y = load_preprocessed_data('data/uvigomed_test.csv')

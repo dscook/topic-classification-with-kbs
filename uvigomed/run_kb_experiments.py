@@ -41,8 +41,10 @@ def run_kb_classifier(train_x, train_y, test_x):
 
 
 print('Running Knowledge Base experiments')
-if repeats == 1:
-    np.random.seed(42)
+
+# To ensure each experiment uses the same train/test split at each repeat
+np.random.seed(42)
+seeds = np.random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max, size=repeats)
 
 # Load the document embeddings
 x, y = load_document_embeddings(document_embeddings_path)
@@ -50,6 +52,9 @@ x = np.array(x, dtype=np.float32)
 y = np.array(y)
 
 for i in range(repeats):
+    
+    # Ensure each experiment uses the same train/test split at each repeat
+    np.random.seed(seeds[i])
     
     # Randomly shuffle the dataset
     indices = np.arange(len(y))
