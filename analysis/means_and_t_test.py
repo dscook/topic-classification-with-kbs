@@ -11,7 +11,7 @@ from scipy.stats import ttest_rel
 ###
 
 dataset = 'rcv1'
-data_to_analyse_path = '../{}/results/2019-07-12/'.format(dataset)
+data_to_analyse_path = '../{}/results/2019-07-13/'.format(dataset)
 
 
 ###
@@ -139,17 +139,23 @@ for f1_type in ['micro', 'macro']:
             # Get the p-value between all classifiers
             for i in range(len(classifiers)):
                 for j in range(i+1, len(classifiers)):
-                    _, p = ttest_rel(sample_dict[f1_type][classifiers[i]][train_size],
-                                     sample_dict[f1_type][classifiers[j]][train_size])
+                                        
+                    # Proportional training sets are sometimes larger than the maximum balanced training set size
+                    # In this case we cannot calculate a p value for the pairwise comparison
+                    if (len(sample_dict[f1_type][classifiers[i]][train_size]) != 0 and
+                        len(sample_dict[f1_type][classifiers[j]][train_size]) != 0):
                     
-                    # Write out the result
-                    result_writer.writerow([classifiers[i], classifiers[j], p])
-                    
-                    if p < smallest_p_value:
-                        smallest_p_value = p
-                    
-                    if p > largest_p_value:
-                        largest_p_value = p
+                        _, p = ttest_rel(sample_dict[f1_type][classifiers[i]][train_size][:30],
+                                         sample_dict[f1_type][classifiers[j]][train_size][:30])
+                        
+                        # Write out the result
+                        result_writer.writerow([classifiers[i], classifiers[j], p])
+                        
+                        if p < smallest_p_value:
+                            smallest_p_value = p
+                        
+                        if p > largest_p_value:
+                            largest_p_value = p
                     
             # Write out some debug
             print('---------------------------')
