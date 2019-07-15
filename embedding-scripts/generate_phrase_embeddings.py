@@ -20,21 +20,21 @@ from kb_common import wiki_topics_to_actual_topics, topic_depth, dao_init, looku
 ###
 
 # Path to the knowledge base preprocessed data (RCV1 or UVigoMED)
-data_path = '../rcv1/data/rcv1_kb.csv'
+data_path = '../uvigomed/data/uvigomed_train.csv'
 
 # Additional data path.  Only required for UVigoMED (point to the test set), set to None for RCV1
-additional_data_path = None
+additional_data_path = '../uvigomed/data/uvigomed_test.csv'
 
 # Path where the embeddings should be written to
-phrase_embeddings_path = '../rcv1/embeddings/phrase_embeddings.avro'
+phrase_embeddings_path = '../uvigomed/embeddings/phrase_embeddings.avro'
 
 # Path where topic to topic id mapping should be written to
 # Enables a human understandable label for each dimension
-topic_id_mapping_path = '../rcv1/embeddings/phrase_topic_id_mapping.csv'
+topic_id_mapping_path = '../uvigomed/embeddings/phrase_topic_id_mapping.csv'
 
 # The depth of the topic tree to get probabilities for, set to 'all' to retrieve all topic probabilities
 # The topic probabilities form the embedding
-topic_depth_to_retrieve = 1 
+topic_depth_to_retrieve = 'all'
 
 
 ###
