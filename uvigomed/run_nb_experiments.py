@@ -16,7 +16,7 @@ from loader import load_preprocessed_data
 ###
 
 # Number of times to repeat the experiment for mean and stdev of accuracy
-repeats = 1
+repeats = 100
 
 ###
 ### CODE

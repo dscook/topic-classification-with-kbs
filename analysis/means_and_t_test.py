@@ -10,8 +10,8 @@ from scipy.stats import ttest_rel
 ### VARIABLES (update as necessary)
 ###
 
-dataset = 'rcv1'
-data_to_analyse_path = '../{}/results/2019-07-13/'.format(dataset)
+dataset = 'uvigomed'
+data_to_analyse_path = '../{}/results/2019-07-15/'.format(dataset)
 
 
 ###
