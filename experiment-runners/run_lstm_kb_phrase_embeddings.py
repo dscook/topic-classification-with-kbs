@@ -113,7 +113,6 @@ def convert_to_valid_phrases(x):
                 
                 try:
                     embedding_model.get_vector(phrase)
-                    print('Matched {}'.format(phrase))
                     phrase_tokens.append(phrase)
                     break
                 except:
@@ -129,7 +128,6 @@ def convert_to_valid_phrases(x):
             # Reset phrase length for processing next index
             phrase_length = 3
         
-        print(' '.join(phrase_tokens))
         updated_x.append(' '.join(phrase_tokens))
     
     return updated_x
@@ -151,19 +149,19 @@ test_x_seq = article_to_int_seq_converter.convert_to_integer_sequences(test_x)
 ###
 ### TRAIN THE LSTM
 ###
-#lstm = LstmPredictor(article_to_int_seq_converter.get_word_index(),
-#                     word_embedding_dim,
-#                     max_sequence_length,
-#                     embedding_model,
-#                     len(int_to_topic.values()),
-#                     weights_path='models/lstm_kb_embeddings.h5')
+lstm = LstmPredictor(article_to_int_seq_converter.get_word_index(),
+                     word_embedding_dim,
+                     max_sequence_length,
+                     embedding_model,
+                     len(int_to_topic.values()),
+                     weights_path='models/lstm_kb_embeddings.h5')
 
 
-#class_weights = compute_class_weight('balanced', np.unique(train_y), train_y)
-#class_weights_dict = {}
-#for i in range(len(class_weights)):
-#    class_weights_dict[i] = class_weights[i]
-#lstm.train(train_x_seq, train_y, val_x_seq, val_y, class_weights_dict)
+class_weights = compute_class_weight('balanced', np.unique(train_y), train_y)
+class_weights_dict = {}
+for i in range(len(class_weights)):
+    class_weights_dict[i] = class_weights[i]
+lstm.train(train_x_seq, train_y, val_x_seq, val_y, class_weights_dict)
 
 
 ###
@@ -171,12 +169,12 @@ test_x_seq = article_to_int_seq_converter.convert_to_integer_sequences(test_x)
 ###
 
 # Re-initialise the LSTM, will use weights from the previous training run.
-#lstm = LstmPredictor(article_to_int_seq_converter.get_word_index(),
-#                     word_embedding_dim,
-#                     max_sequence_length,
-#                     embedding_model,
-#                     len(int_to_topic.values()),
-#                     use_saved_weights=True,
-#                     weights_path='models/lstm_kb_embeddings.h5')
-#test_y_predict = lstm.predict(test_x_seq)
-#print(classification_report(test_y, test_y_predict, digits=6, target_names=int_to_topic.values()))
+lstm = LstmPredictor(article_to_int_seq_converter.get_word_index(),
+                     word_embedding_dim,
+                     max_sequence_length,
+                     embedding_model,
+                     len(int_to_topic.values()),
+                     use_saved_weights=True,
+                     weights_path='models/lstm_kb_embeddings.h5')
+test_y_predict = lstm.predict(test_x_seq)
+print(classification_report(test_y, test_y_predict, digits=6, target_names=int_to_topic.values()))
