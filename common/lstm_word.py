@@ -102,9 +102,8 @@ class LstmPredictor():
         
         model = Sequential()
         model.add(Embedding(num_words_in_vocab, word_embedding_dim, input_length=max_words_in_document))
-        model.add(LSTM(128))
-        model.add(Dense(64, activation='relu'))
-        model.add(Dense(32, activation='relu'))
+        model.add(LSTM(64))
+        model.add(Dense(16, activation='relu'))
         model.add(Dense(num_topics, activation='softmax'))
             
         # Initialise the word embedding layer with pre-trained word vectors
@@ -132,7 +131,7 @@ class LstmPredictor():
         y_val_cat = to_categorical(y_val)
         
         callbacks_list = [
-                EarlyStopping(monitor='val_loss', patience=20),
+                EarlyStopping(monitor='val_loss', patience=50),
                 ModelCheckpoint(filepath=self.weights_path, monitor='val_loss', save_best_only=True)]
         self.model.fit(x, y_cat, epochs=100, callbacks=callbacks_list, 
                        batch_size=32, validation_data=(x_val, y_val_cat), class_weight=class_weight)
