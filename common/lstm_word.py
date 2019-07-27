@@ -6,6 +6,7 @@ from keras.models import Sequential
 from keras.utils import to_categorical
 from keras.optimizers import Adadelta
 import numpy as np
+from keras.utils import multi_gpu_model
 
 
 class LstmPredictor():
@@ -112,7 +113,7 @@ class LstmPredictor():
         model.layers[0].set_weights([embedding_matrix])
         model.layers[0].trainable = False
         
-        return model
+        return multi_gpu_model(model, gpus=2)
     
     
     def train(self, x, y, x_val, y_val, class_weight=None):
@@ -134,7 +135,7 @@ class LstmPredictor():
                 EarlyStopping(monitor='val_loss', patience=50),
                 ModelCheckpoint(filepath=self.weights_path, monitor='val_loss', save_best_only=True)]
         self.model.fit(x, y_cat, epochs=100, callbacks=callbacks_list, 
-                       batch_size=32, validation_data=(x_val, y_val_cat), class_weight=class_weight)
+                       batch_size=512, validation_data=(x_val, y_val_cat), class_weight=class_weight)
    
     
     def predict(self, x):
