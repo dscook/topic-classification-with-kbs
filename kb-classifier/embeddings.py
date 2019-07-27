@@ -11,10 +11,11 @@ class EmbeddingModel:
     This enables the knowledge base embeddings to be used with the LSTM in a consistent way.
     """
     
-    def __init__(self, embedding_file_path, topic_id_mapping_path):
+    def __init__(self, embedding_file_path, topic_id_mapping_path, underscored_phrase=False):
         """
         :param embedding_file_path: the path to the word embeddings in avro format.
         :param topic_id_mapping_path: the path to the CSV that contains all valid topic IDs.
+        :param underscored_phrase: set to True if phrase should be stored with an underscore rather than a space.
         """
         
         # To store mapping from topic ID to index into embedding vector
@@ -46,6 +47,10 @@ class EmbeddingModel:
         reader = DataFileReader(open(embedding_file_path, 'rb'), DatumReader())
         for phrase_topic_mappings in reader:
             phrase = phrase_topic_mappings['phrase']
+            
+            if underscored_phrase:
+                phrase = '_'.join(phrase.split())
+            
             topic_probs = phrase_topic_mappings['topic_probs']
             
             embedding = np.zeros(shape=self.embedding_dim)
