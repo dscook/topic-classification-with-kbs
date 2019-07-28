@@ -19,11 +19,11 @@ from sklearn.utils.class_weight import compute_class_weight
 ###
 ### VARIABLES (update as necessary)
 ###
-classification_problem_path = '../rcv1/'
-train_data_path = '../rcv1/data/rcv1_kb.csv'
-test_data_path = None
-phrase_embedding_path = '../rcv1/embeddings/phrase_embeddings.avro'
-phrase_topic_id_mapping_path = '../rcv1/embeddings/phrase_topic_id_mapping.csv'
+classification_problem_path = '../uvigomed/'
+train_data_path = '../uvigomed/data/uvigomed_train.csv'
+test_data_path = '../uvigomed/data/uvigomed_test.csv'
+phrase_embedding_path = '../uvigomed/embeddings/phrase_embeddings.avro'
+phrase_topic_id_mapping_path = '../uvigomed/embeddings/phrase_topic_id_mapping.csv'
 
 
 ###
