@@ -25,6 +25,9 @@ test_data_path = '../uvigomed/data/uvigomed_test.csv'
 phrase_embedding_path = '../uvigomed/embeddings/phrase_embeddings.avro'
 phrase_topic_id_mapping_path = '../uvigomed/embeddings/phrase_topic_id_mapping.csv'
 
+# Set below to True to remove phrase embedding features that occur in less than 0.1% of the phrases.
+reduce_phrase_embedding_dimensions = True
+
 
 ###
 ### CLASSIFICATION PROBLEM SPECIFIC IMPORTS
@@ -43,7 +46,8 @@ else:
 ###
 embedding_model = EmbeddingModel(phrase_embedding_path,
                                  phrase_topic_id_mapping_path,
-                                 underscored_phrase=True)
+                                 underscored_phrase=True,
+                                 filter_low_occur_features=reduce_phrase_embedding_dimensions)
 word_embedding_dim = embedding_model.get_embedding_dim()
 print('Word embedding dimension is {}'.format(word_embedding_dim))
 

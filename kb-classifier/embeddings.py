@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from avro.datafile import DataFileReader
 from avro.io import DatumReader
+from collections import defaultdict
 import csv
 import numpy as np
 
@@ -11,16 +12,21 @@ class EmbeddingModel:
     This enables the knowledge base embeddings to be used with the LSTM in a consistent way.
     """
     
-    def __init__(self, embedding_file_path, topic_id_mapping_path, underscored_phrase=False):
+    def __init__(self,
+                 embedding_file_path,
+                 topic_id_mapping_path,
+                 underscored_phrase=False,
+                 filter_low_occur_features=False):
         """
         :param embedding_file_path: the path to the word embeddings in avro format.
         :param topic_id_mapping_path: the path to the CSV that contains all valid topic IDs.
         :param underscored_phrase: set to True if phrase should be stored with an underscore rather than a space.
+        :param filter_low_occur_features: removes any features that occur in less than 0.1% of the phrases.
         """
         
         # To store mapping from topic ID to index into embedding vector
         self.topic_id_to_index = {}
-        
+                
         # Determine topics involved in the embeddings
         self.topic_id_to_name = {}
         self.topic_name_to_id = {}
@@ -43,6 +49,9 @@ class EmbeddingModel:
         # To store phrase to embedding vector
         self.phrase_to_embedding = {}
         
+        # Maint count of number of times there is an entry in each dimension of the embedding
+        self.embedding_dim_to_count = defaultdict(int)
+        
         # Create the phrase embedding vectors
         reader = DataFileReader(open(embedding_file_path, 'rb'), DatumReader())
         for phrase_topic_mappings in reader:
@@ -60,10 +69,23 @@ class EmbeddingModel:
                 topic_id = topic_prob['topic_id']
                 prob = topic_prob['prob']
                 embedding[self.topic_id_to_index[topic_id]] = prob
+                self.embedding_dim_to_count[self.topic_id_to_index[topic_id]] += 1
                             
             self.phrase_to_embedding[phrase] = embedding
             
         reader.close()
+        
+        # If we are filtering features that don't occur very often then calculate what features we should keep
+        self.filter_low_occur_features = filter_low_occur_features
+        if filter_low_occur_features:
+            
+            self.features_to_keep = []
+            
+            num_phrases = len(self.phrase_to_embedding.keys())
+            
+            for feature, count in self.embedding_dim_to_count.items():
+                if count/num_phrases >= 0.001:
+                    self.features_to_keep.append(feature)
 
 
     def get_vector(self, word):
@@ -73,14 +95,20 @@ class EmbeddingModel:
         :param word: the word to lookup the embedding for.
         :returns: a vector containing the word embedding.
         """
-        return self.phrase_to_embedding[word]
+        if self.filter_low_occur_features:
+            return self.phrase_to_embedding[word][self.features_to_keep]
+        else:
+            return self.phrase_to_embedding[word]
 
 
     def get_embedding_dim(self):
         """
         :returns: the length of the knowledge base word embeddings.
         """
-        return self.embedding_dim
+        if self.filter_low_occur_features:
+            return len(self.features_to_keep)
+        else:
+            return self.embedding_dim
 
 
     def get_topic_for_index(self, index):
