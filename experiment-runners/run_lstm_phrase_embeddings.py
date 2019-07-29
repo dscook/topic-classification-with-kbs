@@ -5,14 +5,16 @@
 import sys
 sys.path.append('../common/')
 
+from gensim.models import KeyedVectors
 import numpy as np
+import gensim.downloader as api
+from sklearn.metrics import classification_report
+from sklearn.utils.class_weight import compute_class_weight
 
 from loader import load_preprocessed_data
 from word_embeddings import DocToIntSequenceConverter
 from lstm_common import split_data, calculate_max_word_length
 from lstm_word import LstmPredictor
-from sklearn.metrics import classification_report
-from sklearn.utils.class_weight import compute_class_weight
 
 
 ###
@@ -21,6 +23,21 @@ from sklearn.utils.class_weight import compute_class_weight
 classification_problem_path = '../uvigomed/'
 train_data_path = '../uvigomed/data/uvigomed_train.csv'
 test_data_path = '../uvigomed/data/uvigomed_test.csv'
+
+use_word2vec = True    # Set to False to use GloVe embeddings
+
+
+###
+### GET THE WORD EMBEDDINGS
+###
+word_embedding_dim = 300
+embedding_model = None
+
+if use_word2vec:
+    embedding_model = KeyedVectors.load_word2vec_format('embeddings/GoogleNews-vectors-negative300.bin.gz',
+                                                        binary=True)
+else:
+    embedding_model = api.load("glove-wiki-gigaword-300")
 
 
 ###
