@@ -16,6 +16,7 @@ from embeddings import EmbeddingModel
 from sklearn.metrics import classification_report
 from sklearn.utils.class_weight import compute_class_weight
 
+
 ###
 ### VARIABLES (update as necessary)
 ###
@@ -71,6 +72,13 @@ else:
 
 x = np.array(x)
 y = np.array(y)
+
+# Randomly shuffle the dataset
+np.random.seed(42)
+indices = np.arange(len(y))
+np.random.shuffle(indices)    
+x = x[indices]
+y = y[indices]
 
 # Split data into 60% train, 20% validation, 20% test
 train_x, train_y, val_x, val_y, test_x, test_y = split_data(x, y)
