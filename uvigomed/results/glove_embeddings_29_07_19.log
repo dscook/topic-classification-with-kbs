@@ -1,0 +1,282 @@
+Number of training examples: 32742
+Minimum length of article in words: 6
+Maximum length of article in words: 835
+Mean length of article in words: 128.5500
+St dev of length of article in words: 48.2493
+Percentage of articles exceeding max sequence length limit: 0.5925%
+WARNING:tensorflow:From /home/dsc38/topic-classification-with-kbs/env/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+2019-07-29 12:46:30.228489: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 AVX512F FMA
+2019-07-29 12:46:32.133988: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x1e9c9c0 executing computations on platform CUDA. Devices:
+2019-07-29 12:46:32.134071: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): GeForce RTX 2080, Compute Capability 7.5
+2019-07-29 12:46:32.134093: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (1): GeForce RTX 2080, Compute Capability 7.5
+2019-07-29 12:46:32.134117: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (2): GeForce RTX 2080, Compute Capability 7.5
+2019-07-29 12:46:32.134137: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (3): GeForce RTX 2080, Compute Capability 7.5
+2019-07-29 12:46:32.134157: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (4): GeForce RTX 2080, Compute Capability 7.5
+2019-07-29 12:46:32.134179: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (5): GeForce RTX 2080, Compute Capability 7.5
+2019-07-29 12:46:32.165347: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2100000000 Hz
+2019-07-29 12:46:32.169240: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x1ccf120 executing computations on platform Host. Devices:
+2019-07-29 12:46:32.169309: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+2019-07-29 12:46:32.169909: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 0 with properties: 
+name: GeForce RTX 2080 major: 7 minor: 5 memoryClockRate(GHz): 1.71
+pciBusID: 0000:1a:00.0
+totalMemory: 7.77GiB freeMemory: 7.65GiB
+2019-07-29 12:46:32.170267: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 1 with properties: 
+name: GeForce RTX 2080 major: 7 minor: 5 memoryClockRate(GHz): 1.71
+pciBusID: 0000:1b:00.0
+totalMemory: 7.77GiB freeMemory: 7.65GiB
+2019-07-29 12:46:32.170602: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 2 with properties: 
+name: GeForce RTX 2080 major: 7 minor: 5 memoryClockRate(GHz): 1.71
+pciBusID: 0000:b1:00.0
+totalMemory: 7.77GiB freeMemory: 7.65GiB
+2019-07-29 12:46:32.170945: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 3 with properties: 
+name: GeForce RTX 2080 major: 7 minor: 5 memoryClockRate(GHz): 1.71
+pciBusID: 0000:b2:00.0
+totalMemory: 7.77GiB freeMemory: 436.56MiB
+2019-07-29 12:46:32.171281: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 4 with properties: 
+name: GeForce RTX 2080 major: 7 minor: 5 memoryClockRate(GHz): 1.71
+pciBusID: 0000:da:00.0
+totalMemory: 7.77GiB freeMemory: 5.07GiB
+2019-07-29 12:46:32.171616: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 5 with properties: 
+name: GeForce RTX 2080 major: 7 minor: 5 memoryClockRate(GHz): 1.71
+pciBusID: 0000:db:00.0
+totalMemory: 7.77GiB freeMemory: 5.07GiB
+2019-07-29 12:46:32.174089: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1512] Adding visible gpu devices: 0, 1, 2, 3, 4, 5
+2019-07-29 12:46:32.196246: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-07-29 12:46:32.196273: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990]      0 1 2 3 4 5 
+2019-07-29 12:46:32.196283: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 0:   N N N N N N 
+2019-07-29 12:46:32.196290: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 1:   N N N N N N 
+2019-07-29 12:46:32.196296: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 2:   N N N N N N 
+2019-07-29 12:46:32.196303: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 3:   N N N N N N 
+2019-07-29 12:46:32.196310: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 4:   N N N N N N 
+2019-07-29 12:46:32.196316: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 5:   N N N N N N 
+2019-07-29 12:46:32.197313: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 7438 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2080, pci bus id: 0000:1a:00.0, compute capability: 7.5)
+2019-07-29 12:46:32.197792: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 7438 MB memory) -> physical GPU (device: 1, name: GeForce RTX 2080, pci bus id: 0000:1b:00.0, compute capability: 7.5)
+2019-07-29 12:46:32.198145: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 7438 MB memory) -> physical GPU (device: 2, name: GeForce RTX 2080, pci bus id: 0000:b1:00.0, compute capability: 7.5)
+2019-07-29 12:46:32.198640: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 211 MB memory) -> physical GPU (device: 3, name: GeForce RTX 2080, pci bus id: 0000:b2:00.0, compute capability: 7.5)
+2019-07-29 12:46:32.199421: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:4 with 4896 MB memory) -> physical GPU (device: 4, name: GeForce RTX 2080, pci bus id: 0000:da:00.0, compute capability: 7.5)
+2019-07-29 12:46:32.200136: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:5 with 4896 MB memory) -> physical GPU (device: 5, name: GeForce RTX 2080, pci bus id: 0000:db:00.0, compute capability: 7.5)
+WARNING:tensorflow:From /home/dsc38/topic-classification-with-kbs/env/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+Train on 32742 samples, validate on 10914 samples
+Epoch 1/500
+2019-07-29 12:46:36.430007: I tensorflow/stream_executor/dso_loader.cc:152] successfully opened CUDA library libcublas.so.10.0 locally
+32742/32742 [==============================] - 43s 1ms/step - loss: 3.2293 - acc: 0.0655 - val_loss: 3.1529 - val_acc: 0.0847
+Epoch 2/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 3.0561 - acc: 0.1165 - val_loss: 2.9227 - val_acc: 0.1527
+Epoch 3/500
+32742/32742 [==============================] - 41s 1ms/step - loss: 2.8617 - acc: 0.1586 - val_loss: 2.9607 - val_acc: 0.1012
+Epoch 4/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 2.6755 - acc: 0.1628 - val_loss: 2.6794 - val_acc: 0.1736
+Epoch 5/500
+32742/32742 [==============================] - 41s 1ms/step - loss: 2.4655 - acc: 0.1890 - val_loss: 2.5250 - val_acc: 0.2138
+Epoch 6/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 2.3211 - acc: 0.2206 - val_loss: 2.5133 - val_acc: 0.2226
+Epoch 7/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 2.1881 - acc: 0.2528 - val_loss: 2.4078 - val_acc: 0.2465
+Epoch 8/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 2.0869 - acc: 0.2767 - val_loss: 2.3570 - val_acc: 0.2686
+Epoch 9/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.9607 - acc: 0.3120 - val_loss: 2.2334 - val_acc: 0.3211
+Epoch 10/500
+32742/32742 [==============================] - 41s 1ms/step - loss: 1.8804 - acc: 0.3441 - val_loss: 2.2031 - val_acc: 0.3310
+Epoch 11/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.8401 - acc: 0.3549 - val_loss: 2.1798 - val_acc: 0.3483
+Epoch 12/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.7442 - acc: 0.3859 - val_loss: 2.0933 - val_acc: 0.3735
+Epoch 13/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.6686 - acc: 0.4090 - val_loss: 2.0389 - val_acc: 0.3978
+Epoch 14/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.6107 - acc: 0.4308 - val_loss: 2.0003 - val_acc: 0.4113
+Epoch 15/500
+32742/32742 [==============================] - 41s 1ms/step - loss: 1.5385 - acc: 0.4559 - val_loss: 1.9278 - val_acc: 0.4414
+Epoch 16/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.4729 - acc: 0.4813 - val_loss: 1.8453 - val_acc: 0.4715
+Epoch 17/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.4366 - acc: 0.4987 - val_loss: 1.8578 - val_acc: 0.4668
+Epoch 18/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.3404 - acc: 0.5221 - val_loss: 1.7723 - val_acc: 0.4998
+Epoch 19/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.3021 - acc: 0.5347 - val_loss: 1.7743 - val_acc: 0.5018
+Epoch 20/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.2618 - acc: 0.5496 - val_loss: 1.7623 - val_acc: 0.5081
+Epoch 21/500
+32742/32742 [==============================] - 41s 1ms/step - loss: 1.2007 - acc: 0.5693 - val_loss: 1.7372 - val_acc: 0.5176
+Epoch 22/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.1723 - acc: 0.5846 - val_loss: 1.6185 - val_acc: 0.5500
+Epoch 23/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.1002 - acc: 0.6013 - val_loss: 1.5809 - val_acc: 0.5605
+Epoch 24/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.0608 - acc: 0.6147 - val_loss: 1.7933 - val_acc: 0.5178
+Epoch 25/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 1.0414 - acc: 0.6229 - val_loss: 1.6683 - val_acc: 0.5405
+Epoch 26/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.9976 - acc: 0.6376 - val_loss: 1.5290 - val_acc: 0.5856
+Epoch 27/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.9649 - acc: 0.6470 - val_loss: 1.5303 - val_acc: 0.5827
+Epoch 28/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.9205 - acc: 0.6612 - val_loss: 1.4762 - val_acc: 0.5935
+Epoch 29/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.9245 - acc: 0.6674 - val_loss: 1.4483 - val_acc: 0.6093
+Epoch 30/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.8542 - acc: 0.6821 - val_loss: 1.4379 - val_acc: 0.6112
+Epoch 31/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.8337 - acc: 0.6869 - val_loss: 1.4440 - val_acc: 0.6082
+Epoch 32/500
+32742/32742 [==============================] - 41s 1ms/step - loss: 0.8121 - acc: 0.6943 - val_loss: 1.5373 - val_acc: 0.5923
+Epoch 33/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.7947 - acc: 0.7022 - val_loss: 1.4025 - val_acc: 0.6297
+Epoch 34/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.7595 - acc: 0.7103 - val_loss: 1.3859 - val_acc: 0.6288
+Epoch 35/500
+32742/32742 [==============================] - 39s 1ms/step - loss: 0.7421 - acc: 0.7166 - val_loss: 1.3732 - val_acc: 0.6339
+Epoch 36/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.7283 - acc: 0.7198 - val_loss: 1.3554 - val_acc: 0.6461
+Epoch 37/500
+32742/32742 [==============================] - 41s 1ms/step - loss: 0.6970 - acc: 0.7265 - val_loss: 1.3446 - val_acc: 0.6461
+Epoch 38/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.6817 - acc: 0.7349 - val_loss: 1.3716 - val_acc: 0.6405
+Epoch 39/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.6665 - acc: 0.7401 - val_loss: 1.4222 - val_acc: 0.6194
+Epoch 40/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.6524 - acc: 0.7424 - val_loss: 1.3288 - val_acc: 0.6515
+Epoch 41/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.6095 - acc: 0.7557 - val_loss: 1.3738 - val_acc: 0.6477
+Epoch 42/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.6048 - acc: 0.7563 - val_loss: 1.3408 - val_acc: 0.6542
+Epoch 43/500
+32742/32742 [==============================] - 41s 1ms/step - loss: 0.5906 - acc: 0.7612 - val_loss: 1.3423 - val_acc: 0.6557
+Epoch 44/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.5755 - acc: 0.7679 - val_loss: 1.3490 - val_acc: 0.6542
+Epoch 45/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.5653 - acc: 0.7690 - val_loss: 1.3461 - val_acc: 0.6591
+Epoch 46/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.5414 - acc: 0.7772 - val_loss: 1.3167 - val_acc: 0.6684
+Epoch 47/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.5377 - acc: 0.7805 - val_loss: 1.3292 - val_acc: 0.6636
+Epoch 48/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.5207 - acc: 0.7837 - val_loss: 1.3792 - val_acc: 0.6568
+Epoch 49/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.4961 - acc: 0.7897 - val_loss: 1.3614 - val_acc: 0.6619
+Epoch 50/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.5419 - acc: 0.7769 - val_loss: 1.3486 - val_acc: 0.6576
+Epoch 51/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.4819 - acc: 0.7993 - val_loss: 1.3448 - val_acc: 0.6670
+Epoch 52/500
+32742/32742 [==============================] - 41s 1ms/step - loss: 0.4601 - acc: 0.8044 - val_loss: 1.3695 - val_acc: 0.6638
+Epoch 53/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.4809 - acc: 0.7984 - val_loss: 1.3473 - val_acc: 0.6678
+Epoch 54/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.4306 - acc: 0.8155 - val_loss: 1.3650 - val_acc: 0.6690
+Epoch 55/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.4372 - acc: 0.8131 - val_loss: 1.4703 - val_acc: 0.6464
+Epoch 56/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.4388 - acc: 0.8112 - val_loss: 1.3725 - val_acc: 0.6675
+Epoch 57/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.4204 - acc: 0.8185 - val_loss: 1.3936 - val_acc: 0.6664
+Epoch 58/500
+32742/32742 [==============================] - 39s 1ms/step - loss: 0.4539 - acc: 0.8072 - val_loss: 1.4049 - val_acc: 0.6654
+Epoch 59/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.4028 - acc: 0.8241 - val_loss: 1.3772 - val_acc: 0.6744
+Epoch 60/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.4089 - acc: 0.8215 - val_loss: 1.4292 - val_acc: 0.6635
+Epoch 61/500
+32742/32742 [==============================] - 37s 1ms/step - loss: 0.3905 - acc: 0.8300 - val_loss: 1.4168 - val_acc: 0.6673
+Epoch 62/500
+32742/32742 [==============================] - 37s 1ms/step - loss: 0.3714 - acc: 0.8354 - val_loss: 1.4036 - val_acc: 0.6724
+Epoch 63/500
+32742/32742 [==============================] - 39s 1ms/step - loss: 0.3805 - acc: 0.8331 - val_loss: 1.4039 - val_acc: 0.6671
+Epoch 64/500
+32742/32742 [==============================] - 39s 1ms/step - loss: 0.3666 - acc: 0.8386 - val_loss: 1.4106 - val_acc: 0.6783
+Epoch 65/500
+32742/32742 [==============================] - 39s 1ms/step - loss: 0.3425 - acc: 0.8457 - val_loss: 1.4361 - val_acc: 0.6727
+Epoch 66/500
+32742/32742 [==============================] - 39s 1ms/step - loss: 0.3583 - acc: 0.8426 - val_loss: 1.4624 - val_acc: 0.6644
+Epoch 67/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.3334 - acc: 0.8507 - val_loss: 1.4822 - val_acc: 0.6663
+Epoch 68/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.3387 - acc: 0.8467 - val_loss: 1.4586 - val_acc: 0.6682
+Epoch 69/500
+32742/32742 [==============================] - 39s 1ms/step - loss: 0.3325 - acc: 0.8510 - val_loss: 1.4708 - val_acc: 0.6712
+Epoch 70/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.3164 - acc: 0.8543 - val_loss: 1.4861 - val_acc: 0.6719
+Epoch 71/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.3459 - acc: 0.8491 - val_loss: 1.5004 - val_acc: 0.6613
+Epoch 72/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.3037 - acc: 0.8599 - val_loss: 1.4936 - val_acc: 0.6697
+Epoch 73/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.3089 - acc: 0.8605 - val_loss: 1.5332 - val_acc: 0.6659
+Epoch 74/500
+32742/32742 [==============================] - 39s 1ms/step - loss: 0.2841 - acc: 0.8690 - val_loss: 1.5178 - val_acc: 0.6712
+Epoch 75/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.2849 - acc: 0.8677 - val_loss: 1.5168 - val_acc: 0.6730
+Epoch 76/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.3082 - acc: 0.8606 - val_loss: 1.5287 - val_acc: 0.6726
+Epoch 77/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.2678 - acc: 0.8746 - val_loss: 1.5269 - val_acc: 0.6760
+Epoch 78/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.2804 - acc: 0.8699 - val_loss: 1.5511 - val_acc: 0.6684
+Epoch 79/500
+32742/32742 [==============================] - 37s 1ms/step - loss: 0.2848 - acc: 0.8688 - val_loss: 1.5492 - val_acc: 0.6703
+Epoch 80/500
+32742/32742 [==============================] - 39s 1ms/step - loss: 0.2473 - acc: 0.8844 - val_loss: 1.6538 - val_acc: 0.6526
+Epoch 81/500
+32742/32742 [==============================] - 40s 1ms/step - loss: 0.2615 - acc: 0.8773 - val_loss: 1.5730 - val_acc: 0.6743
+Epoch 82/500
+32742/32742 [==============================] - 39s 1ms/step - loss: 0.2412 - acc: 0.8858 - val_loss: 1.5869 - val_acc: 0.6734
+Epoch 83/500
+32742/32742 [==============================] - 39s 1ms/step - loss: 0.2502 - acc: 0.8827 - val_loss: 1.6441 - val_acc: 0.6630
+Epoch 84/500
+32742/32742 [==============================] - 39s 1ms/step - loss: 0.2782 - acc: 0.8729 - val_loss: 1.6042 - val_acc: 0.6679
+Epoch 85/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.2254 - acc: 0.8917 - val_loss: 1.6213 - val_acc: 0.6736
+Epoch 86/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.2674 - acc: 0.8782 - val_loss: 1.6158 - val_acc: 0.6669
+Epoch 87/500
+32742/32742 [==============================] - 39s 1ms/step - loss: 0.2733 - acc: 0.8776 - val_loss: 1.6271 - val_acc: 0.6668
+Epoch 88/500
+32742/32742 [==============================] - 37s 1ms/step - loss: 0.2154 - acc: 0.8970 - val_loss: 1.6251 - val_acc: 0.6723
+Epoch 89/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.2094 - acc: 0.9002 - val_loss: 1.6773 - val_acc: 0.6684
+Epoch 90/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.2336 - acc: 0.8903 - val_loss: 1.6574 - val_acc: 0.6712
+Epoch 91/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.2123 - acc: 0.8977 - val_loss: 1.7019 - val_acc: 0.6668
+Epoch 92/500
+32742/32742 [==============================] - 38s 1ms/step - loss: 0.2171 - acc: 0.8986 - val_loss: 1.8130 - val_acc: 0.6473
+
+
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.832981  0.746212  0.787213      1056
+                                               Virus Diseases   0.241026  0.505376  0.326389        93
+                                           Parasitic Diseases   0.816377  0.868074  0.841432       379
+                                                    Neoplasms   0.573290  0.679537  0.621908       518
+                                     Musculoskeletal Diseases   0.227723  0.338235  0.272189        68
+                                    Digestive System Diseases   0.800000  0.732601  0.764818      1092
+                                      Stomatognathic Diseases   0.711538  0.836683  0.769053       398
+                                   Respiratory Tract Diseases   0.543340  0.751462  0.630675       342
+                                Otorhinolaryngologic Diseases   0.630996  0.766816  0.692308       223
+                                      Nervous System Diseases   0.394495  0.405660  0.400000       106
+                                                 Eye Diseases   0.760355  0.771772  0.766021       333
+                                     Male Urogenital Diseases   0.834197  0.781553  0.807018       824
+       Female Urogenital Diseases and Pregnancy Complications   0.400000  0.568627  0.469636       102
+                                      Cardiovascular Diseases   0.395745  0.567073  0.466165       164
+                                 Hemic and Lymphatic Diseases   0.680713  0.688525  0.684597       610
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.656294  0.599483  0.626604       774
+                          Skin and Connective Tissue Diseases   0.120000  0.166667  0.139535        36
+                           Nutritional and Metabolic Diseases   0.353488  0.469136  0.403183       162
+                                    Endocrine System Diseases   0.793716  0.753567  0.773120       771
+                                       Immune System Diseases   0.312500  0.441176  0.365854        34
+                            Disorders of Environmental Origin   0.333333  0.250000  0.285714         4
+                                              Animal Diseases   0.589286  0.433735  0.499685       913
+               Pathological Conditions and Signs and Symptoms   0.176471  0.235955  0.201923       267
+                                        Occupational Diseases   0.549451  0.581395  0.564972        86
+                                 Chemically-Induced Disorders   0.793991  0.689013  0.737787       537
+                                          Wounds and Injuries   0.816234  0.707722  0.758115      1023
+
+                                                     accuracy                       0.674393     10915
+                                                    macro avg   0.551444  0.589848  0.563689     10915
+                                                 weighted avg   0.696088  0.674393  0.680936     10915
