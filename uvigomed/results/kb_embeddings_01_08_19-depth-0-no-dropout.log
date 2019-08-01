@@ -1,0 +1,41 @@
+32742/32742 [==============================] - 13s 389us/step - loss: 1.1319 - acc: 0.5620 - val_loss: 1.9867 - val_acc: 0.4705
+Epoch 209/500
+32742/32742 [==============================] - 13s 392us/step - loss: 1.1379 - acc: 0.5605 - val_loss: 1.9929 - val_acc: 0.4700
+Epoch 210/500
+32742/32742 [==============================] - 13s 390us/step - loss: 1.1245 - acc: 0.5642 - val_loss: 1.9962 - val_acc: 0.4689
+Epoch 211/500
+32742/32742 [==============================] - 13s 382us/step - loss: 1.1366 - acc: 0.5608 - val_loss: 1.9920 - val_acc: 0.4679
+Epoch 212/500
+32742/32742 [==============================] - 13s 384us/step - loss: 1.1664 - acc: 0.5540 - val_loss: 2.0547 - val_acc: 0.4608
+                                                               precision    recall  f1-score   support
+
+                             Bacterial Infections and Mycoses   0.787529  0.645833  0.709677      1056
+                                               Virus Diseases   0.190476  0.645161  0.294118        93
+                                           Parasitic Diseases   0.666667  0.722955  0.693671       379
+                                                    Neoplasms   0.387292  0.494208  0.434266       518
+                                     Musculoskeletal Diseases   0.080214  0.220588  0.117647        68
+                                    Digestive System Diseases   0.591486  0.597985  0.594718      1092
+                                      Stomatognathic Diseases   0.711268  0.507538  0.592375       398
+                                   Respiratory Tract Diseases   0.474114  0.508772  0.490832       342
+                                Otorhinolaryngologic Diseases   0.240964  0.448430  0.313480       223
+                                      Nervous System Diseases   0.182965  0.547170  0.274232       106
+                                                 Eye Diseases   0.554318  0.597598  0.575145       333
+                                     Male Urogenital Diseases   0.783522  0.588592  0.672211       824
+       Female Urogenital Diseases and Pregnancy Complications   0.182692  0.558824  0.275362       102
+                                      Cardiovascular Diseases   0.159132  0.536585  0.245467       164
+                                 Hemic and Lymphatic Diseases   0.640562  0.522951  0.575812       610
+Congenital Hereditary and Neonatal Diseases and Abnormalities   0.378151  0.174419  0.238727       774
+                          Skin and Connective Tissue Diseases   0.047393  0.277778  0.080972        36
+                           Nutritional and Metabolic Diseases   0.232416  0.469136  0.310838       162
+                                    Endocrine System Diseases   0.553009  0.250324  0.344643       771
+                                       Immune System Diseases   0.115385  0.352941  0.173913        34
+                            Disorders of Environmental Origin   0.000000  0.000000  0.000000         4
+                                              Animal Diseases   0.515038  0.300110  0.379239       913
+               Pathological Conditions and Signs and Symptoms   0.079167  0.071161  0.074951       267
+                                        Occupational Diseases   0.155340  0.372093  0.219178        86
+                                 Chemically-Induced Disorders   0.439201  0.450652  0.444853       537
+                                          Wounds and Injuries   0.751397  0.525904  0.618746      1023
+
+                                                     accuracy                       0.472103     10915
+                                                    macro avg   0.380758  0.437989  0.374810     10915
+                                                 weighted avg   0.550584  0.472103  0.490730     10915
