@@ -290,6 +290,10 @@ class EmbeddingAlgorithm:
         :param depth: the depth level of the tree to return, depth 0 is the root topics.
         :returns: a dict of topic to probability, probabilities sum to 1.
         """
+        # Cover case where no phrase matches occurred
+        if not self.traversed_nodes:
+            return {}
+        
         depths = sorted(self.traversed_nodes.keys(), reverse=True)
         depth_to_return = None
         if depth == -1:
