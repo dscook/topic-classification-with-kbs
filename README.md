@@ -177,7 +177,7 @@ generated earlier.
 
 1. Follow the instructions in the RCV1 or UVigoMED experiment sections to obtain the dataset word embeddings are to
 be generated for.
-1. If you wish to run the baseline embeddings for RCV1 (word2vec) then download the 300 dimensions Google News
+1. If you wish to use the baseline embeddings for RCV1 (word2vec) then download the 300 dimensions Google News
 embeddings from https://code.google.com/archive/p/word2vec/.
 
 
@@ -194,14 +194,14 @@ are correct.  Comments are provided to assist you.
 
 ### Running the Experiments
 
-For the baseline classifiers:
+For the baseline embeddings:
 
 1. Edit `experiment-runners/run_lstm_phrase_embeddings.py` so the configurable variables at the top of the file
 are correct.  Comments are provided to assist you.
 1. `cd experiment-runners`.
 1. Run `python run_lstm_phrase_embeddings.py`.
 
-For the knowledge base classifier:
+For the knowledge base embeddings:
 
 1. Edit `experiment-runners/run_lstm_kb_phrase_embeddings.py` so the configurable variables at the top of the file
 are correct.  Comments are provided to assist you.
