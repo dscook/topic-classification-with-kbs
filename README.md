@@ -169,3 +169,41 @@ For the knowledge base classifier:
 generated earlier.
 1. `cd uvigomed`.
 1. Run `python run_kb_experiments.py`.
+
+
+## Word Embedding Experiments
+
+### Obtaining the Data
+
+1. Follow the instructions in the RCV1 or UVigoMED experiment sections to obtain the dataset word embeddings are to
+be generated for.
+1. If you wish to run the baseline embeddings for RCV1 (word2vec) then download the 300 dimensions Google News
+embeddings from https://code.google.com/archive/p/word2vec/.
+
+
+### Generating the Knowledge Base Word Embeddings
+
+1. Ensure Apache Jena Fuseki is still running.
+1. Ensure the RCV1 or UVigoMED data has been preprocessed for the knowledge base classifier as documented in the
+RCV1/UVigoMED experiment section.
+1. Edit `kb-classifier/kb_common.py` so that `dataset = 'rcv1_wiki'` or `dataset = 'uvigomed_mesh'`.
+1. Edit `embedding-scripts/generate_phrase_embeddings.py` so the configurable variables at the top of the file
+are correct.  Comments are provided to assist you.
+1. Generate the word embeddings, this can take several hours: `cd embedding-scripts` followed by
+`python generate_phrase_embeddings.py`.
+
+### Running the Experiments
+
+For the baseline classifiers:
+
+1. Edit `experiment-runners/run_lstm_phrase_embeddings.py` so the configurable variables at the top of the file
+are correct.  Comments are provided to assist you.
+1. `cd experiment-runners`.
+1. Run `python run_lstm_phrase_embeddings.py`.
+
+For the knowledge base classifier:
+
+1. Edit `experiment-runners/run_lstm_kb_phrase_embeddings.py` so the configurable variables at the top of the file
+are correct.  Comments are provided to assist you.
+1. `cd experiment-runners`.
+1. Run `python run_lstm_kb_phrase_embeddings.py`.

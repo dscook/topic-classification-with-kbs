@@ -20,13 +20,24 @@ from sklearn.utils.class_weight import compute_class_weight
 ###
 ### VARIABLES (update as necessary)
 ###
+
+# Set below to ../rcv1/ or ../uvigomed/
 classification_problem_path = '../rcv1/'
+
+# Path to the knowledge base preprocessed data (RCV1 or UVigoMED)
 train_data_path = '../rcv1/data/rcv1_kb.csv'
+
+# Additional data path.  Only required for UVigoMED (point to the test set), set to None for RCV1
 test_data_path = None
+
+# The previously generated phrase embeddings
 phrase_embedding_path = '../rcv1/embeddings/phrase_embeddings.avro'
+
+# The previously generated human understandable label for each dimension of the embedding
 phrase_topic_id_mapping_path = '../rcv1/embeddings/phrase_topic_id_mapping.csv'
 
 # Set below to True to remove phrase embedding features that occur in less than 0.1% of the phrases.
+# Always set to False.
 reduce_phrase_embedding_dimensions = False
 
 

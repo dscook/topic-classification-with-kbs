@@ -132,9 +132,9 @@ class LstmPredictor():
         y_val_cat = to_categorical(y_val)
         
         callbacks_list = [
-                EarlyStopping(monitor='val_loss', patience=50),
+                EarlyStopping(monitor='val_loss', patience=100),
                 ModelCheckpoint(filepath=self.weights_path, monitor='val_loss', save_best_only=True)]
-        self.model.fit(x, y_cat, epochs=100, callbacks=callbacks_list, 
+        self.model.fit(x, y_cat, epochs=500, callbacks=callbacks_list, 
                        batch_size=512, validation_data=(x_val, y_val_cat), class_weight=class_weight)
    
     

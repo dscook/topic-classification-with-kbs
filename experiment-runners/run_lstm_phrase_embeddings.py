@@ -20,11 +20,21 @@ from lstm_word import LstmPredictor
 ###
 ### VARIABLES (update as necessary)
 ###
+
+# Set below to ../rcv1/ or ../uvigomed/
 classification_problem_path = '../rcv1/'
+
+# Path to the knowledge base preprocessed data (RCV1 or UVigoMED)
 train_data_path = '../rcv1/data/rcv1_kb.csv'
+
+# Additional data path.  Only required for UVigoMED (point to the test set), set to None for RCV1
 test_data_path = None
 
-use_word2vec = True    # Set to False to use GloVe embeddings
+# Set to False to use GloVe embeddings for UVigoMED, True for word2vec embeddings for RCV1
+use_word2vec = True
+
+# Location where the word2vec embeddings were downloaded to
+word2vec_download_path = 'embeddings/GoogleNews-vectors-negative300.bin.gz'
 
 ###
 ### CLASSIFICATION PROBLEM SPECIFIC IMPORTS
@@ -45,7 +55,7 @@ word_embedding_dim = 300
 embedding_model = None
 
 if use_word2vec:
-    embedding_model = KeyedVectors.load_word2vec_format('embeddings/GoogleNews-vectors-negative300.bin.gz',
+    embedding_model = KeyedVectors.load_word2vec_format(word2vec_download_path,
                                                         binary=True)
 else:
     embedding_model = api.load("glove-wiki-gigaword-300")
