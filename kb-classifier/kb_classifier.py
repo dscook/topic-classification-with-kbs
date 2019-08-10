@@ -122,7 +122,7 @@ class KnowledgeBaseClassifier():
         
         wiki_prob_matrix = np.zeros(shape=(len(x), self.number_of_features))
         
-        print('Wiki topic probabilies shape: {}'.format(wiki_prob_matrix.shape))    # DEBUGGING
+        print('Wiki topic probabilities shape: {}'.format(wiki_prob_matrix.shape))    # DEBUGGING
         
         for i in range(self.number_of_features):
             for j in range(len(x)):
